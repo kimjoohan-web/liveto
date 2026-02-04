@@ -40,8 +40,8 @@ ALLOWED_HOSTS = ['43.201.107.113','ec2-43-201-107-113.ap-northeast-2.compute.ama
 # Application definition
 
 INSTALLED_APPS = [  
-    'daphne',
     'corsheaders',
+    'daphne',    
     'channels',   
     'common.apps.CommonConfig',         
     'django.contrib.admin',
