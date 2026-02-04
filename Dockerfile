@@ -6,4 +6,4 @@ COPY requirements.txt /app/
 RUN pip install --upgrade pip && pip install -r requirements.txt
 COPY . /app/
 # Channels 실행을 위해 daphne 사용 권장
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "config.asgi:application"]
+CMD ["daphne", "-b", "0.0.0.0", "-p", "80", "config.asgi:application"]
