@@ -12,10 +12,10 @@ daphne
 Django
 django-cors-headers
 djangorestframework
-hyperlink=
-idna=
+hyperlink
+idna
 Incremental
-msgpack=
+msgpack
 packaging
 py-ubjson
 pyasn1
