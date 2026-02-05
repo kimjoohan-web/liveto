@@ -10,6 +10,7 @@ services:
       - 443:443
     depends_on:
       - web
+
   web:
     build: .
     image: chatting_web:latest
@@ -37,3 +38,8 @@ services:
     image: redis:7
     ports:
       - "6379:6379"
+
+
+volumes:
+    postgres_data:
+    static_volume:
