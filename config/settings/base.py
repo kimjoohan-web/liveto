@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',        
     'rest_framework',  
     'chat.apps.ChatConfig',
+    'mysite.apps.MysiteConfig',
 ]
 
 ROOT_URLCONF = 'config.urls'
