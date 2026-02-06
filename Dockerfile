@@ -1,10 +1,13 @@
+# Dockerfile
+
 FROM python:3.11.4
+
+WORKDIR /usr/src/app
+
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-WORKDIR /app
-COPY requirements.txt /app/
+
+COPY . /usr/src/app/
+
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
-COPY . /app/
-# Channels 실행을 위해 daphne 사용 권장
-CMD ["daphne", "-b", "0.0.0.0", "-p", "8000", "config.asgi:application"]
