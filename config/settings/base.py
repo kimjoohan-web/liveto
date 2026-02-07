@@ -32,9 +32,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = 'django-insecure-^%p06xa*y^w=(&!lki!cn_*js-q0-h)%dckd+lm4*#ypqqv3^@'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = int(os.environ.get('DEBUG', 1))
 
-ALLOWED_HOSTS = ['43.201.107.113','ec2-43-201-107-113.ap-northeast-2.compute.amazonaws.com','localhost']
+# ALLOWED_HOSTS = ['43.201.107.113','ec2-43-201-107-113.ap-northeast-2.compute.amazonaws.com','localhost']
+if os.environ.get('DJANGO_ALLOWED_HOSTS'):
+    ALLOWED_HOSTS = os.environ.get('DJANGO_ALLOWED_HOSTS').split(' ')
+else:
+    ALLOWED_HOSTS = []
+
 
 
 # Application definition
@@ -51,7 +56,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.messages',        
     'rest_framework',  
-    'chat.apps.ChatConfig',
+    'chat.apps.ChatConfig',    
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -101,6 +106,7 @@ DATABASES = {
 }
 
 
+
 # Password validation
 # https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
@@ -137,7 +143,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
-   BASE_DIR / 'static/',  
+   BASE_DIR /'static/',  
    
 ]
 
@@ -164,7 +170,7 @@ CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
         'CONFIG': {
-            "hosts": [(os.environ.get('REDIS_HOST', '127.0.0.1'), 6379)],
+            "hosts": [(os.environ.get('REDIS_HOST', '127.0.0.1'), int(os.environ.get('REDIS_PORT', 6379)))],
         },
     },
 }
