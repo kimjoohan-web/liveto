@@ -1,23 +1,64 @@
 {% extends "olive_base.html" %}
 {% load static %}
-{% block content %}    
-    <aside class="glass chat-card" aria-label="Chat panel">
+{% block content %}
+
+
+  <header class="topbar">
+    <div class="container bar">
+      <div class="brand">
+        <img src="{% static 'oliveyoung/assets/images/logo.svg' %}" alt="VISION DAY" />
+        <div class="name">OLIVE YOUNG VISION DAY</div>
+      </div>
+
+      <div class="right">
+        <span class="badge"><span class="live-dot"><i></i>LIVE</span></span>
+        <button class="btn secondary" id="logoutBtn" type="button">로그아웃</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container layout">
+    <section class="grid">
+      <article class="glass video-card">
+        <div class="video-head">
+          <div class="leftpack">
+            <div class="h">LIVE STREAM</div>
+            <div class="s">샘플 영상으로 구성된 UI 템플릿입니다. (개발자가 스트림 URL로 교체)</div>
+          </div>
+          <span class="badge">HD · 16:9</span>
+        </div>
+
+        <div class="video-wrap">
+          <video id="player" controls preload="metadata" poster="./assets/images/video-poster.jpg">
+            <source src="./assets/video/sample.mp4" type="video/mp4" />
+            브라우저가 video 태그를 지원하지 않습니다.
+          </video>
+        </div>
+      </article>
+
+ <aside class="glass chat-card" aria-label="Chat panel">
     <div id ="chat-log" class="chat-body" ></div>
     </div>
     <div class="chat-foot">
-    <input id="chat-message-input"  class="input" type="text" size="100"><br>
-    <input id="chat-message-submit" class="sendbtn" type="button" value="Send">
-    <input type="hidden" id="current-user-email" value="{{ email }}">
+        <div class="chat-form">
+            <input id="chat-message-input"  class="input" type="text" size="100">    
+            <button id="chat-message-submit" class="btn sendbtn" type="submit" aria-label="send">
+                    <img src="{% static 'oliveyoung/assets/icons/send.svg' %}" alt="" />
+            </button>    
+            <input type="hidden" id="current-user-email" value="{{ email }}">
+        </div>
     </div>
     </aside>
+    </main>
     {{ room_name|json_script:"room-name" }}
+    
     <script>
         const roomName = JSON.parse(document.getElementById('room-name').textContent);
         const chatMessages = document.getElementById('chat-log');
         const chatSocket = new WebSocket(
             'ws://'
             + window.location.host            
-            + '/ws/chat/'
+            + '/ws/livechat/'
             + roomName  
             + '/'
         );

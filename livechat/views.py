@@ -12,13 +12,13 @@ from chat.serializers import MessageSerializer
 # @login_required(login_url='common:login')
 @login_required(login_url='oliveyoung:login')
 def index(request):
-    return render(request, 'chat/index.html')
+    return render(request, 'livechat/index.html')
 
 @login_required(login_url='oliveyoung:login')
 def room(request, room_name):
     # MessageListView.as_view()(request, roomname=room_name)
 
-    return render(request, 'chat/room.html', {
+    return render(request, 'livechat/room.html', {
         'room_name': room_name,
         'email': request.user.email if request.user.is_authenticated else '',   
     })

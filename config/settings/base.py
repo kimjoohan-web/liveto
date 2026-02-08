@@ -57,6 +57,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',        
     'rest_framework',  
     'chat.apps.ChatConfig',    
+    'oliveyoung.apps.OliveyoungConfig',
 ]
 
 ROOT_URLCONF = 'config.urls'

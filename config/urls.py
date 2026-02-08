@@ -21,4 +21,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('chat/', include('chat.urls')),
     path('common/', include('common.urls')),   
+    path('oliveyoung/', include('oliveyoung.urls')),   
+    path('livechat/', include('livechat.urls')),   
 ]
