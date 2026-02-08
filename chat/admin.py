@@ -4,8 +4,8 @@ from django.utils.html import format_html
 
 # Register your models here.
 from .models import ChatRoom, Message # 모델 가져오기
-
-
+@admin.register(ChatRoom)
+@admin.register(Message)
 
 
 class ChatRoomAdmin(admin.ModelAdmin):
