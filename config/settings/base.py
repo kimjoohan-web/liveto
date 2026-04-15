@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'rest_framework',  
     'chat.apps.ChatConfig',    
     'oliveyoung.apps.OliveyoungConfig',
+    'waitboard.apps.WaitboardConfig',
 ]
 
 ROOT_URLCONF = 'config.urls'
@@ -165,8 +166,8 @@ LOGIN_REDIRECT_URL = '/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
-WSGI_APPLICATION = 'config.wsgi.application'
 ASGI_APPLICATION = 'config.asgi.application'
+WSGI_APPLICATION = 'config.wsgi.application'
 CHANNEL_LAYERS = {
     'default': {
         'BACKEND': 'channels_redis.core.RedisChannelLayer',
