@@ -1,22 +1,22 @@
 # waiting/consumers.py
 import json
-from channels.generic.websocket import WebsocketConsumer
-# from channels.generic.websocket import AsyncWebsocketConsumer
+
+from channels.generic.websocket import AsyncWebsocketConsumer
 from asgiref.sync import sync_to_async
 from .models import Waitboard
 
-class WaitingListConsumer(WebsocketConsumer):
+class WaitingListConsumer(AsyncWebsocketConsumer):
     group_name = "wait_list"
 
-    def connect(self):
-        self.channel_layer.group_add(self.group_name, self.channel_name)
-        self.accept()
-        self.send_waiting_list()
+    async def connect(self):
+        await self.channel_layer.group_add(self.group_name, self.channel_name)
+        await self.accept()
+        await self.send_waiting_list()
 
-    def disconnect(self, close_code):
-        self.channel_layer.group_discard(self.group_name, self.channel_name)
+    async def disconnect(self, close_code):
+        await self.channel_layer.group_discard(self.group_name, self.channel_name)
 
-    def receive(self, text_data):
+    async def receive(self, text_data):
         data = json.loads(text_data)
         action = data.get("action")
 
@@ -25,25 +25,25 @@ class WaitingListConsumer(WebsocketConsumer):
             phone = data.get("phone", "").strip()
 
             if name and phone:
-                self.create_waiting_user(name, phone)
-                self.broadcast_waiting_list()
+                await self.create_waiting_user(name, phone)
+                await self.broadcast_waiting_list()
 
         elif action == "delete":
             waiter_id = data.get("w_id")
             if waiter_id:
-                self.delete_waiting_user(waiter_id)
-                self.broadcast_waiting_list()
+                await self.delete_waiting_user(waiter_id)
+                await self.broadcast_waiting_list()
 
-    def send_waiting_list(self):
-        waiters = self.get_waiting_users()
-        self.send(text_data=json.dumps({
+    async def send_waiting_list(self):
+        waiters = await self.get_waiting_users()
+        await self.send(text_data=json.dumps({
             "type": "wait_list",
             "waiters": waiters
         }))
 
-    def broadcast_waiting_list(self):
-        waiters = self.get_waiting_users()
-        self.channel_layer.group_send(
+    async def broadcast_waiting_list(self):
+        waiters = await self.get_waiting_users()
+        await self.channel_layer.group_send(
             self.group_name,
             {
                 "type": "wait_list_message",
@@ -51,8 +51,8 @@ class WaitingListConsumer(WebsocketConsumer):
             }
         )
 
-    def wait_list_message(self, event):
-        self.send(text_data=json.dumps({
+    async def wait_list_message(self, event):
+        await self.send(text_data=json.dumps({
             "type": "wait_list",
             "waiters": event["waiters"]
         }))
