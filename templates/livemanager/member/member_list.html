@@ -1,0 +1,147 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>회원 목록</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" type="text/css" href="{% static 'css/livemanager.css' %}">
+  <style>
+    
+  </style>
+</head>
+<body>
+<div class="container">
+
+  <!-- Django 템플릿 사용법 힌트 -->
+  <div class="django-comment">
+    
+  </div>
+
+  <!-- 페이지 헤더 -->
+  <div class="page-header">
+    <h1 class="page-title">회원 관리 <span>/ 목록</span></h1>
+    <div class="header-actions">
+      <div class="search-box">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input type="text" id="btn_search" placeholder="이름, 아이디 검색..."/> 
+      </div>
+      <button class="btn-add">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        회원 추가
+      </button>
+    </div>
+  </div>
+
+  <!-- 테이블 카드 -->
+  <div class="card">
+    <div class="card-body">
+      <table>
+        <thead>
+          <tr>
+            <th>아이디</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>이메일</th>
+            <th>병원명</th>
+            <th>가입일</th>
+            <th>상태</th>
+            <th>관리</th>
+          </tr>
+        </thead>
+        <tbody>          
+           {%if members %}
+            {%for member in members %}
+              <tr>
+                <td><span class="member-id">{{ member.mem_id }}</span></td>
+                <td>
+                  <div class="member-name">
+                    <div class="avatar">{{ member.mem_name|slice:":1" }}</div>{{ member.mem_name }}
+                  </div>
+                </td>
+                <td class="muted">{{ member.mem_HP }}</td>
+                <td class="muted">{{ member.mem_email1 }}@{{ member.mem_email2 }}</td>
+                <td><span class="badge-hospital">{{ member.mem_hospital }}</span></td>
+                <td class="muted">{{ member.mem_input_date }}</td>
+                <td><span class="badge-status badge-active">{{ member.status }}</span></td>
+                <td>
+                  <div class="action-btns">
+                    <button class="btn-icon" title="수정">✏️</button>
+                    <button class="btn-icon del" title="삭제">🗑</button>
+                  </div>
+                </td>
+              </tr>
+            {% endfor %}
+          {% else %}
+            <tr>
+              <td colspan="8" class="empty-row">회원 데이터가 없습니다.</td>
+            </tr>
+          {% endif %}         
+        </tbody>
+      </table>
+    </div>
+
+    <!-- 푸터 (페이지네이션) -->
+    <div class="card-footer">
+      
+
+      
+      <div class="pagination">
+        <!-- 이전페이지 -->
+         {% if members.has_previous %}
+          <a data-page="{{ members.previous_page_number }}" href="javascript:void(0)" class="page-btn page-link">‹</a>
+        {% else %}
+          <button class="page-btn page-link" disabled>‹</button>
+        {% endif %}
+        <!-- 이전페이지 -->
+        <!-- 페이지리스트 -->
+         {% for page_number in members.paginator.page_range %}
+          {% if page_number >= members.number|add:-5 and page_number <= members.number|add:5 %}
+              {% if page_number == members.number %}
+                  <button class="page-btn active page-link" disabled>{{ page_number }}</button>
+              {% else %}
+                  <a data-page="{{ page_number }}" href="javascript:void(0)" class="page-btn page-link">{{ page_number }}</a>
+              {% endif %} 
+          {% endif %}    
+        {% endfor %}       
+        <!-- 페이지리스트 -->
+        <!-- 다음페이지 -->
+         {% if members.has_next %}
+          <a data-page="{{ members.next_page_number }}" href="javascript:void(0)" class="page-btn page-link">›</a>
+        {% else %}
+          <button class="page-btn page-link" disabled>›</button>
+        {% endif %}
+         
+        <!-- 다음페이지 -->
+      </div>
+    </div>
+  </div>
+
+</div>
+<form id="searchForm" method="get" action="{% url 'livemanager:index' %}">
+    <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
+    <input type="hidden" id="page" name="page" value="{{ page }}">
+    
+</form>
+</body>
+</html>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+const page_elements = document.getElementsByClassName("page-link");
+Array.from(page_elements).forEach(function(element) {
+    element.addEventListener('click', function() {
+        document.getElementById('page').value = this.dataset.page;
+        document.getElementById('searchForm').submit();
+    });
+});
+const btn_search = document.getElementById("btn_search");
+btn_search.addEventListener('click', function() {
+    document.getElementById('kw').value = document.getElementById('btn_search').value;
+    document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    document.getElementById('searchForm').submit();
+});
+</script>
+{% endblock %}

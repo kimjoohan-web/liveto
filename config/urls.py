@@ -25,4 +25,7 @@ urlpatterns = [
     path('oliveyoung/', include('oliveyoung.urls')),   
     path('livechat/', include('livechat.urls')),   
     path('wait/', include('waitboard.urls')),
+    path('member/', include('member.urls')),
+    path('livemanager/', include('livemanager.urls')),
+
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
