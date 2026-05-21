@@ -12,7 +12,7 @@ from django.db import connection
 import pyodbc
 
 
-mssql_str = f"DRIVER={settings.DATABASES['mssql_db']['OPTIONS']['driver']};SERVER={settings.DATABASES['mssql_db']['HOST']};DATABASE={settings.DATABASES['mssql_db']['NAME']};UID={settings.DATABASES['mssql_db']['USER']};PWD={settings.DATABASES['mssql_db']['PASSWORD']};Encrypt=no;TrustServerCertificate=False;"
+mssql_str = f"DRIVER={settings.DATABASES['mssql_db']['OPTIONS']['driver']};SERVER={settings.DATABASES['mssql_db']['HOST']};DATABASE={settings.DATABASES['mssql_db']['NAME']};UID={settings.DATABASES['mssql_db']['USER']};PWD={settings.DATABASES['mssql_db']['PASSWORD']};Encrypt=no;TrustServerCertificate=no;"
        
     
 # Create your views here.
