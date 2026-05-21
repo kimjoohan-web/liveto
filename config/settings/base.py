@@ -118,6 +118,8 @@ DATABASES = {
         'PORT': '1433',                  # MSSQL 기본 포트
         'OPTIONS': {
             'driver': 'ODBC Driver 17 for SQL Server', # 설치된 ODBC 버전에 맞게 수정 (예: 18 등)
+            'trust_server_certificate': 'yes',  # SSL 인증서 검증 비활성화 (개발 환경에서만 사용)
+            'encrypt': 'no',  # SSL 암호화 비활성화 (개발 환경에서만 사용)
         },
     },
 
