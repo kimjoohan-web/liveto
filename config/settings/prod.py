@@ -11,11 +11,6 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 
 
-INSTALLED_APPS = [  
-    'django.contrib.auth',
-    'django.contrib.contenttypes', 
-]
-
 
 # STATIC_ROOT = BASE_DIR / 'static/'
 
