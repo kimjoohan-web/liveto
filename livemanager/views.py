@@ -38,5 +38,5 @@ def index(request):
     # paginator_1 = Paginator(rows,int(10))  # 페이지당 10개씩 보여주기  
     # page_obj = paginator_1.get_page(page)  
     # context ={'members':page_obj,'page':page,'kw':kw}
-    
+    context={}
     return render(request, 'livemanager/member/member_list.html', context)
