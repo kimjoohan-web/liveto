@@ -52,7 +52,7 @@ else:
 INSTALLED_APPS = [  
     'daphne', 
     'corsheaders',       
-    'channels',   
+    'channels',       
     'common.apps.CommonConfig',         
     'django.contrib.admin',
     'django.contrib.auth',
