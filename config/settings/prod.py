@@ -1,7 +1,7 @@
 
 import environ
 from .base import *
-
+BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # ALLOWED_HOSTS = ['43.201.107.113','127.0.0.1','localhost']
 ALLOWED_HOSTS = ['*']
 
@@ -26,6 +26,13 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
+
+# STATIC_URL = 'static/'
+# STATICFILES_DIRS = [
+#    BASE_DIR /'static/',  
+   
+# ]
+
 
 STATIC_URL = 'static/'
 STATICFILES_DIRS = [
