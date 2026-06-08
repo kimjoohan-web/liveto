@@ -12,7 +12,7 @@ environ.Env.read_env(BASE_DIR / '.env')
 
 
 
-STATIC_ROOT = BASE_DIR / 'static/'
+# STATIC_ROOT = BASE_DIR / 'static/'
 
 
 # STATICFILES_DIRS = []
@@ -40,8 +40,8 @@ STATICFILES_DIRS = [
    
 ]
 
-# STATIC_ROOT = 'static/'
-STATIC_ROOT=os.path.join(BASE_DIR,'/static/')
+STATIC_ROOT = 'static/'
+# STATIC_ROOT=os.path.join(BASE_DIR,'/static/')
 
 
 DATABASES = {
