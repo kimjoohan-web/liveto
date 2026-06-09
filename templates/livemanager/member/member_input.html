@@ -1,0 +1,198 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>회원 가입</title>
+    
+ <style>
+  .signup-wrap { max-width: 540px; margin: 2rem auto; padding: 0 1rem; }
+  .form-header { margin-bottom: 2rem; }
+  .form-header p { font-size: 13px; color: var(--color-text-secondary); margin: 4px 0 0; }
+  .field-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 12px; }
+  .field-group.single { grid-template-columns: 1fr; }
+  .field { display: flex; flex-direction: column; gap: 5px; }
+  .field label { font-size: 12px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.03em; }
+  .field label span { color: #D85A30; margin-left: 2px; }
+  .field input, .field select {
+    height: 40px; padding: 0 12px;
+    border: 0.5px solid var(--color-border-secondary);
+    border-radius: var(--border-radius-md);
+    background: var(--color-background-primary);
+    color: var(--color-text-primary);
+    font-size: 14px;
+    outline: none;
+    transition: border-color 0.15s;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .field input:focus, .field select:focus {
+    border-color: #7F77DD;
+    box-shadow: 0 0 0 2.5px rgba(127,119,221,0.15);
+  }
+  .field input::placeholder { color: var(--color-text-tertiary); }
+  .divider { height: 0.5px; background: var(--color-border-tertiary); margin: 20px 0; }
+  .section-label { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 12px; }
+  .submit-btn {
+    width: 100%; height: 44px; margin-top: 20px;
+    background: #534AB7; color: #fff;
+    border: none; border-radius: var(--border-radius-md);
+    font-size: 14px; font-weight: 500; cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .submit-btn:hover { background: #3C3489; }
+  .submit-btn:active { transform: scale(0.98); }
+  .login-link { text-align: center; margin-top: 14px; font-size: 13px; color: var(--color-text-secondary); }
+  .login-link a { color: #534AB7; text-decoration: none; font-weight: 500; }
+</style>
+</head>
+<body>
+
+
+<div class="signup-wrap">
+  <div class="form-header">
+    <h2 style="margin:0; font-size:22px; font-weight:500; color:var(--color-text-primary);">회원 가입</h2>
+    <p>의료진 전용 서비스입니다. 정확한 정보를 입력해 주세요.</p>
+  </div>
+   <form method="post" name="memberForm" action="{% url 'livemanager:member_input' %}">
+    {% csrf_token %}
+  <div class="section-label">기본 정보</div>
+
+  <div class="field-group">
+    <div class="field">
+      <label>이름 <span>*</span></label>
+      <input type="text" name="mem_name" placeholder="홍길동" />
+    </div>
+    <div class="field">
+      <label>핸드폰 번호 <span>*</span></label>
+      <input type="tel" name="mem_HP" placeholder="010-0000-0000" />
+    </div>
+  </div>
+
+  <div class="field-group single">
+    <div class="field">
+      <label>이메일 <span>*</span></label>
+      <input type="email" name="mem_email" placeholder="example@hospital.com" />
+    </div>
+  </div>
+
+  <div class="divider"></div>
+  <div class="section-label">소속 정보</div>
+
+  <div class="field-group">
+    <div class="field">
+      <label>병원명 <span>*</span></label>
+      <input type="text" name="mem_hospital" placeholder="서울대학교병원" />
+    </div>
+    <div class="field">
+      <label>진료과 <span>*</span></label>
+      <select name="mem_dept">
+        <option value="" disabled selected>선택해 주세요</option>
+        <option>내과</option>
+        <option>외과</option>
+        <option>소아청소년과</option>
+        <option>산부인과</option>
+        <option>정형외과</option>
+        <option>신경과</option>
+        <option>정신건강의학과</option>
+        <option>피부과</option>
+        <option>안과</option>
+        <option>이비인후과</option>
+        <option>비뇨의학과</option>
+        <option>재활의학과</option>
+        <option>응급의학과</option>
+        <option>마취통증의학과</option>
+        <option>영상의학과</option>
+        <option>기타</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="field-group single">
+    <div class="field">
+      <label>국가 <span>*</span></label>
+      <select name="Country">
+        <option value="" disabled selected>국가를 선택해 주세요</option>
+        <option value="KR">🇰🇷 대한민국</option>
+        <option value="US">🇺🇸 미국</option>
+        <option value="JP">🇯🇵 일본</option>
+        <option value="CN">🇨🇳 중국</option>
+        <option value="GB">🇬🇧 영국</option>
+        <option value="DE">🇩🇪 독일</option>
+        <option value="FR">🇫🇷 프랑스</option>
+        <option value="CA">🇨🇦 캐나다</option>
+        <option value="AU">🇦🇺 호주</option>
+        <option value="SG">🇸🇬 싱가포르</option>
+        <option value="OTHER">기타</option>
+      </select>
+    </div>
+  </div>
+
+  <button  class="submit-btn btn-add" type="button">가입 완료</button>
+
+  <div class="login-link">이미 계정이 있으신가요? <a href="{% url 'livemanager:mem_login' %}">로그인</a></div>
+  </form>   
+</div>
+</body>
+</html>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+
+const btn_add = document.querySelector(".btn-add");
+btn_add.addEventListener('click', function() {
+    
+    const suc = "0";
+    const mem_name = document.memberForm.mem_name.value;
+    const mem_HP = document.memberForm.mem_HP.value;
+    const mem_email = document.memberForm.mem_email.value;
+    const mem_hospital = document.memberForm.mem_hospital.value;
+    const mem_dept = document.memberForm.mem_dept.value;
+    const Country = document.memberForm.Country.value;
+    if (mem_name == ""){
+        alert("이름을 입력해 주세요.");
+        document.memberForm.mem_name.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_HP == ""){
+        alert("핸드폰 번호를 입력해 주세요.");
+        document.memberForm.mem_HP.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_email == ""){
+        alert("이메일을 입력해 주세요.");
+        document.memberForm.mem_email.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_hospital == ""){
+        alert("병원명을 입력해 주세요.");
+        document.memberForm.mem_hospital.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_dept == ""){
+        alert("진료과를 선택해 주세요.");
+        document.memberForm.mem_dept.focus();
+        suc = "1";
+        return;
+    }
+    if (Country == ""){
+        alert("국가를 선택해 주세요.");
+        document.memberForm.Country.focus();
+        suc = "1";
+        return;
+    }
+    if (suc == "0"){
+        document.memberForm.submit();
+    }else 
+        return;
+
+    
+});
+</script>
+{% endblock %}

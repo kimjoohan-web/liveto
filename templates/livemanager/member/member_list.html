@@ -143,5 +143,10 @@ btn_search.addEventListener('click', function() {
     document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
     document.getElementById('searchForm').submit();
 });
+const btn_add = document.querySelector(".btn-add");
+btn_add.addEventListener('click', function() {
+    alert("회원 추가 페이지로 이동합니다.");
+    window.location.href = "{% url 'livemanager:member_input' %}";
+});
 </script>
 {% endblock %}
