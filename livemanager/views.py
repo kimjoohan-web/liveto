@@ -24,7 +24,7 @@ def index(request):
     kw = request.GET.get('kw', '')  # 검색어, 기본값은 빈 문자열
     
     page_obj = None
-      
+    data=[]
     # mssql_conn = pyodbc.connect(mssql_str)
     # cursor = mssql_conn.cursor()
     # # SQL 쿼리 실행
