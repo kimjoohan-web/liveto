@@ -17,20 +17,39 @@
 
   <!-- Django 템플릿 사용법 힌트 -->
   <div class="django-comment">
-    
+    {% if error %}
+      <p style="color: red;">{{ error }}</p>
+    {% endif %}
   </div>
-
+  
   <!-- 페이지 헤더 -->
   <div class="page-header">
     <h1 class="page-title">회원 관리 <span>/ 목록</span></h1>
     <div class="header-actions">
       <div class="search-box">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-        <input type="text" id="btn_search" placeholder="이름, 아이디 검색..."/> 
+        <input type="text"   class="search-input" placeholder="이름, 아이디 검색..."/> 
+        
       </div>
-      <button class="btn-add">
+       <button class="btn-add" id="btn_search">
+         <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>          
+        검색
+      </button>
+      <button class="btn-add" id="btn_add">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         회원 추가
+      </button>
+      <button class="btn-add" id="btn_download">
+         <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>          
+        엑셀 다운로드
+      </button>
+      <button class="btn-add" id="btn_upload">
+         <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>          
+        엑셀 회원추가
+      </button>
+      <button class="btn-add" id="btn_select_delete">
+         <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>          
+        선택 회원 삭제
       </button>
     </div>
   </div>
@@ -41,6 +60,9 @@
       <table>
         <thead>
           <tr>
+            <th>선택<br><input type="checkbox" id="selectAll"></th>
+            <th>번호</th>
+            <th>Event_NUM</th>
             <th>아이디</th>
             <th>이름</th>
             <th>전화번호</th>
@@ -55,6 +77,9 @@
            {%if members %}
             {%for member in members %}
               <tr>
+                <td><input type="checkbox" class="member-select" value="{{ member.mem_idx }}"></td>
+                <td><span class="member-idx" >{{ member.mem_idx }}</span></td>
+                <td><span class="member-event-num">{{ member.mem_event }}</span></td>
                 <td><span class="member-id">{{ member.mem_id }}</span></td>
                 <td>
                   <div class="member-name">
@@ -68,7 +93,7 @@
                 <td><span class="badge-status badge-active">{{ member.status }}</span></td>
                 <td>
                   <div class="action-btns">
-                    <button class="btn-icon" title="수정">✏️</button>
+                    <button class="btn-icon modify" title="수정">✏️</button>
                     <button class="btn-icon del" title="삭제">🗑</button>
                   </div>
                 </td>
@@ -76,7 +101,7 @@
             {% endfor %}
           {% else %}
             <tr>
-              <td colspan="8" class="empty-row">회원 데이터가 없습니다.</td>
+              <td colspan="12" class="empty-row">회원 데이터가 없습니다.</td>
             </tr>
           {% endif %}         
         </tbody>
@@ -85,9 +110,6 @@
 
     <!-- 푸터 (페이지네이션) -->
     <div class="card-footer">
-      
-
-      
       <div class="pagination">
         <!-- 이전페이지 -->
          {% if members.has_previous %}
@@ -116,6 +138,9 @@
          
         <!-- 다음페이지 -->
       </div>
+     
+      <div class="pagination-info">
+        <span>총 {{ members.paginator.count }}명</span>
     </div>
   </div>
 
@@ -139,14 +164,83 @@ Array.from(page_elements).forEach(function(element) {
 });
 const btn_search = document.getElementById("btn_search");
 btn_search.addEventListener('click', function() {
-    document.getElementById('kw').value = document.getElementById('btn_search').value;
+    document.getElementById('kw').value = document.getElementsByClassName('search-input')[0].value;
+    if (document.getElementById('kw').value == ""){
+        alert("검색어를 입력해 주세요.");
+        document.getElementsByClassName('search-input')[0].focus();
+        return;
+    }
     document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
     document.getElementById('searchForm').submit();
 });
-const btn_add = document.querySelector(".btn-add");
+const btn_add = document.getElementById("btn_add");
 btn_add.addEventListener('click', function() {
     alert("회원 추가 페이지로 이동합니다.");
     window.location.href = "{% url 'livemanager:member_input' %}";
+});
+
+const btn_modify = document.getElementsByClassName("modify");
+Array.from(btn_modify).forEach(function(element) {
+    element.addEventListener('click', function() {
+        const mem_idx = this.closest('tr').querySelector('.member-idx').textContent;
+        // alert(mem_idx + " 회원 수정 페이지로 이동합니다.");
+        window.location.href = "{% url 'livemanager:member_modify' 'MEM_IDX_PLACEHOLDER' %}".replace('MEM_IDX_PLACEHOLDER', mem_idx);
+    });
+});
+
+const btn_del = document.getElementsByClassName("del");
+Array.from(btn_del).forEach(function(element) {
+    element.addEventListener('click', function() {
+        const mem_idx = this.closest('tr').querySelector('.member-idx').textContent;        
+        const mem_name_arr = this.closest('tr').querySelector('.member-name').textContent.trim(); // 이름에서 첫 글자(이니셜) 제거 및 공백 제거       
+        const mem_name = mem_name_arr.substring(1).trim(); // 이름에서 첫 글자(이니셜) 제거 및 공백 제거
+        
+        if (confirm(mem_name + " 회원을 삭제하시겠습니까?") == true){
+            window.location.href = "{% url 'livemanager:member_delete' 'MEM_IDX_PLACEHOLDER' %}".replace('MEM_IDX_PLACEHOLDER', mem_idx);
+        }
+    });
+});
+
+const btn_download = document.getElementById("btn_download");
+btn_download.addEventListener('click', function() {
+    alert("검색한 회원 목록을 엑셀로 다운로드합니다.");
+    const kw = document.getElementsByClassName('search-input')[0].value;
+    if (kw != ""){
+        document.getElementById('kw').value = kw;
+    } else {
+        document.getElementById('kw').value = "";
+    }    
+    document.getElementById('page').value = 1;  // 검색버튼을 클릭할 경우 1페이지부터 조회한다.
+    document.getElementById('searchForm').action = "{% url 'livemanager:member_excel_download' %}";
+    document.getElementById('searchForm').submit();
+});
+
+const btn_upload = document.getElementById("btn_upload");
+btn_upload.addEventListener('click', function() {
+    
+    alert("회원 추가 엑셀 업로드 페이지로 이동합니다.");
+    window.location.href = "{% url 'livemanager:member_excel_upload' %}";
+});
+
+const selectAllCheckbox = document.getElementById('selectAll');
+selectAllCheckbox.addEventListener('change', function() {
+    const memberCheckboxes = document.querySelectorAll('.member-select');
+    memberCheckboxes.forEach(checkbox => {
+        checkbox.checked = selectAllCheckbox.checked;
+    });
+});
+
+const btn_select_delete = document.getElementById("btn_select_delete");
+btn_select_delete.addEventListener('click', function() {
+    const selectedCheckboxes = document.querySelectorAll('.member-select:checked');
+    if (selectedCheckboxes.length === 0) {
+        alert("삭제할 회원을 선택해 주세요.");
+        return;
+    }
+    if (confirm(selectedCheckboxes.length + "명의 회원을 삭제하시겠습니까?") == true){
+        const mem_idx_list = Array.from(selectedCheckboxes).map(checkbox => checkbox.value).join(',');
+        window.location.href = "{% url 'livemanager:member_bulk_delete' %}?mem_idx_list=" + mem_idx_list;
+    }
 });
 </script>
 {% endblock %}

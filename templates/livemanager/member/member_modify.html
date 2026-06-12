@@ -5,7 +5,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>회원 가입</title>
+  <title>회원 수정</title>
     
  <style>
   .signup-wrap { max-width: 540px; margin: 2rem auto; padding: 0 1rem; }
@@ -53,31 +53,31 @@
  
 <div class="signup-wrap">
   <div class="form-header">
-    <h2 style="margin:0; font-size:22px; font-weight:500; color:var(--color-text-primary);">회원 가입</h2>
+    <h2 style="margin:0; font-size:22px; font-weight:500; color:var(--color-text-primary);">회원 수정</h2>
     <p>의료진 전용 서비스입니다. 정확한 정보를 입력해 주세요.</p>
  {%if error %}
     <p style="color: red;">{{ error }}</p>
  {% endif %}
   </div>
-   <form method="post" name="memberForm" action="{% url 'livemanager:member_input' %}">
+   <form method="post" name="memberForm" action="{% url 'livemanager:member_modify' member.mem_idx %}">
     {% csrf_token %}
   <div class="section-label">기본 정보</div>
 
   <div class="field-group">
     <div class="field">
       <label>이름 <span>*</span></label>
-      <input type="text" name="mem_name" placeholder="홍길동" />
+      <input type="text" name="mem_name" placeholder="홍길동"  value="{{ member.mem_name|default_if_none:'' }}" />
     </div>
     <div class="field">
       <label>핸드폰 번호 <span>*</span></label>
-      <input type="tel" name="mem_HP" placeholder="010-0000-0000" />
+      <input type="tel" name="mem_HP" placeholder="010-0000-0000" value="{{ member.mem_hp|default_if_none:'' }}" />
     </div>
   </div>
 
   <div class="field-group single">
     <div class="field">
       <label>이메일 <span>*</span></label>
-      <input type="email" name="mem_email" placeholder="example@hospital.com" />
+      <input type="email" name="mem_email" placeholder="example@hospital.com" value="{{ member.mem_email|default_if_none:'' }}" />
     </div>
   </div>
 
@@ -87,28 +87,28 @@
   <div class="field-group">
     <div class="field">
       <label>병원명 <span>*</span></label>
-      <input type="text" name="mem_hospital" placeholder="서울대학교병원" />
+      <input type="text" name="mem_hospital" placeholder="서울대학교병원" value="{{ member.mem_hospital|default_if_none:'' }}" />
     </div>
     <div class="field">
       <label>진료과 <span>*</span></label>
       <select name="mem_dept">
         <option value="" disabled selected>선택해 주세요</option>
-        <option>내과</option>
-        <option>외과</option>
-        <option>소아청소년과</option>
-        <option>산부인과</option>
-        <option>정형외과</option>
-        <option>신경과</option>
-        <option>정신건강의학과</option>
-        <option>피부과</option>
-        <option>안과</option>
-        <option>이비인후과</option>
-        <option>비뇨의학과</option>
-        <option>재활의학과</option>
-        <option>응급의학과</option>
-        <option>마취통증의학과</option>
-        <option>영상의학과</option>
-        <option>기타</option>
+        <option {% if member.mem_dept == "내과" %}selected{% endif %}>내과</option>
+        <option {% if member.mem_dept == "외과" %}selected{% endif %}>외과</option>
+        <option {% if member.mem_dept == "소아청소년과" %}selected{% endif %}>소아청소년과</option>
+        <option {% if member.mem_dept == "산부인과" %}selected{% endif %}>산부인과</option>
+        <option {% if member.mem_dept == "정형외과" %}selected{% endif %}>정형외과</option>
+        <option {% if member.mem_dept == "신경과" %}selected{% endif %}>신경과</option>
+        <option {% if member.mem_dept == "정신건강의학과" %}selected{% endif %}>정신건강의학과</option>
+        <option {% if member.mem_dept == "피부과" %}selected{% endif %}>피부과</option>
+        <option {% if member.mem_dept == "안과" %}selected{% endif %}>안과</option>
+        <option {% if member.mem_dept == "이비인후과" %}selected{% endif %}>이비인후과</option>
+        <option {% if member.mem_dept == "비뇨의학과" %}selected{% endif %}>비뇨의학과</option>
+        <option {% if member.mem_dept == "재활의학과" %}selected{% endif %}>재활의학과</option>
+        <option {% if member.mem_dept == "응급의학과" %}selected{% endif %}>응급의학과</option>
+        <option {% if member.mem_dept == "마취통증의학과" %}selected{% endif %}>마취통증의학과</option>
+        <option {% if member.mem_dept == "영상의학과" %}selected{% endif %}>영상의학과</option>
+        <option {% if member.mem_dept == "기타" %}selected{% endif %}>기타</option>
       </select>
     </div>
   </div>
@@ -118,24 +118,23 @@
       <label>국가 <span>*</span></label>
       <select name="Country">
         <option value="" disabled selected>국가를 선택해 주세요</option>
-        <option value="KR">🇰🇷 대한민국</option>
-        <option value="US">🇺🇸 미국</option>
-        <option value="JP">🇯🇵 일본</option>
-        <option value="CN">🇨🇳 중국</option>
-        <option value="GB">🇬🇧 영국</option>
-        <option value="DE">🇩🇪 독일</option>
-        <option value="FR">🇫🇷 프랑스</option>
-        <option value="CA">🇨🇦 캐나다</option>
-        <option value="AU">🇦🇺 호주</option>
-        <option value="SG">🇸🇬 싱가포르</option>
-        <option value="OTHER">기타</option>
+        <option value="KR" {% if member.country == "KR" %}selected{% endif %}>🇰🇷 대한민국</option>
+        <option value="US" {% if member.country == "US" %}selected{% endif %}>🇺🇸 미국</option>
+        <option value="JP" {% if member.country == "JP" %}selected{% endif %}>🇯🇵 일본</option>
+        <option value="CN" {% if member.country == "CN" %}selected{% endif %}>🇨🇳 중국</option>
+        <option value="GB" {% if member.country == "GB" %}selected{% endif %}>🇬🇧 영국</option>
+        <option value="DE" {% if member.country == "DE" %}selected{% endif %}>🇩🇪 독일</option>
+        <option value="FR" {% if member.country == "FR" %}selected{% endif %}>🇫🇷 프랑스</option>
+        <option value="CA" {% if member.country == "CA" %}selected{% endif %}>🇨🇦 캐나다</option>
+        <option value="AU" {% if member.country == "AU" %}selected{% endif %}>🇦🇺 호주</option>
+        <option value="SG" {% if member.country == "SG" %}selected{% endif %}>🇸🇬 싱가포르</option>
+        <option value="OTHER" {% if member.country == "OTHER" %}selected{% endif %}>기타</option>
       </select>
     </div>
   </div>
 
-  <button  class="submit-btn btn-add" type="button">가입 완료</button>
-
-  <div class="login-link">이미 계정이 있으신가요? <a href="{% url 'livemanager:mem_login' %}">로그인</a></div>
+  <button  class="submit-btn btn-add" type="button">수정 하기</button>
+  <button  class="submit-btn" type="button" onclick=window.location.href="{% url 'livemanager:index' %}">목록</button>
   </form>   
 </div>
 </body>
