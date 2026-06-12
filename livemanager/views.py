@@ -53,7 +53,11 @@ def index(request):
         cursor.execute(sql_str)  # 실제 테이블 이름으로 변경
         rows = cursor.fetchall()
 
-    data = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
+
+    if rows:
+        data = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
+
+
     paginator_1 = Paginator(data,int(10))  # 페이지당 10개씩 보여주기  
     page_obj = paginator_1.get_page(page)
 
