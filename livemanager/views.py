@@ -191,9 +191,9 @@ def member_modify(request, mem_idx):
         if row is None:
             raise Http404("회원이 존재하지 않습니다.")
 
-        member_data = dict(zip([column[0] for column in cursor.description], row))
-        context = {'member': member_data}
-        return render(request, 'livemanager/member/member_modify.html', context)    
+    member_data = dict(zip([column[0] for column in cursor.description], row))
+    context = {'member': member_data}
+    return render(request, 'livemanager/member/member_modify.html', context)    
     
 
 def member_delete(request, mem_idx):
