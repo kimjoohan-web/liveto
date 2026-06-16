@@ -43,7 +43,7 @@ def index(request):
 
     # 
     
-    sql_str = "SELECT case when mem_yn='N' then '승인안됨' else '승인됨' end as status,    * FROM Event_Member  "  # 실제 테이블 이름으로 변
+    sql_str = "SELECT case when mem_yn='N' then '승인안됨' else '승인됨' end as status,    * FROM event_Member  "  # 실제 테이블 이름으로 변
     if kw:
         sql_str += f"WHERE mem_name LIKE '%{kw}%' OR mem_id LIKE '%{kw}%' "   # 검색어가 있는 경우에만 WHERE 절 추가
     else:
@@ -56,7 +56,7 @@ def index(request):
         rows = cursor.fetchall()
 
 
-    # if rows:
+  
         data = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
 
 
@@ -87,7 +87,7 @@ def member_input(request):
 
         
         
-        sql_str = f"INSERT INTO Event_Member ("
+        sql_str = f"INSERT INTO event_Member ("
         sql_str += f" mem_id"
         sql_str += f" ,mem_name"
         sql_str += f", mem_HP "
@@ -181,7 +181,7 @@ def member_modify(request, mem_idx):
 
     else:    
         
-        sql_str = f"SELECT concat(mem_email1,'@',mem_email2) as mem_email, * FROM Event_Member WHERE mem_idx={mem_idx}"  # 실제 테이블 이름으로 변경
+        sql_str = f"SELECT concat(mem_email1,'@',mem_email2) as mem_email, * FROM event_Member WHERE mem_idx={mem_idx}"  # 실제 테이블 이름으로 변경
 
         with connection.cursor() as cursor:
             cursor.execute(sql_str)  # 실제 테이블 이름으로 변경
