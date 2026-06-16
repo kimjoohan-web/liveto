@@ -28,7 +28,7 @@ def index(request):
     # mssql_conn = pyodbc.connect(mssql_str)
     # cursor = mssql_conn.cursor()
     # # SQL 쿼리 실행
-    # sql_str = "SELECT top 100 * FROM Event_Member order by mem_idx desc"  # 실제 테이블 이름으로 변경
+    # sql_str = "SELECT top 100 * FROM event_member order by mem_idx desc"  # 실제 테이블 이름으로 변경
     # cursor.execute(sql_str)  # 실제 테이블 이름으로 변경
     # rows = cursor.fetchall()
 
@@ -43,7 +43,7 @@ def index(request):
 
     # 
     
-    sql_str = "SELECT case when mem_yn='N' then '승인안됨' else '승인됨' end as status,    * FROM event_Member  "  # 실제 테이블 이름으로 변
+    sql_str = "SELECT case when mem_yn='N' then '승인안됨' else '승인됨' end as status,    * FROM event_member  "  # 실제 테이블 이름으로 변
     if kw:
         sql_str += f"WHERE mem_name LIKE '%{kw}%' OR mem_id LIKE '%{kw}%' "   # 검색어가 있는 경우에만 WHERE 절 추가
     else:
@@ -87,7 +87,7 @@ def member_input(request):
 
         
         
-        sql_str = f"INSERT INTO event_Member ("
+        sql_str = f"INSERT INTO event_member ("
         sql_str += f" mem_id"
         sql_str += f" ,mem_name"
         sql_str += f", mem_HP "
@@ -138,6 +138,7 @@ def mem_login(request):
 
 
 def member_modify(request, mem_idx):   
+    mem_idx = int(mem_idx)  # mem_idx를 정수로 변환
     if request.method == 'POST':
         # 폼에서 입력된 데이터 처리
         mem_Event = '0'
@@ -157,7 +158,7 @@ def member_modify(request, mem_idx):
 
         
         
-        sql_str = f"UPDATE Event_Member SET "
+        sql_str = f"UPDATE event_member SET "
         sql_str += f" mem_name='{mem_name}'"
         sql_str += f", mem_HP='{mem_HP}'"
         sql_str += f", mem_email1='{mem_email1}'"
@@ -182,7 +183,7 @@ def member_modify(request, mem_idx):
     else:    
         
         
-        sql_str = f"SELECT concat(mem_email1,'@',mem_email2) as mem_email, * FROM event_Member WHERE mem_idx={mem_idx}"  # 실제 테이블 이름으로 변경
+        sql_str = f"SELECT concat(mem_email1,'@',mem_email2) as mem_email, * FROM event_member WHERE mem_idx={mem_idx}"  # 실제 테이블 이름으로 변경
 
         with connection.cursor() as cursor:
             cursor.execute(sql_str)  # 실제 테이블 이름으로 변경
@@ -197,7 +198,8 @@ def member_modify(request, mem_idx):
     
 
 def member_delete(request, mem_idx):
-    sql_str = f"DELETE FROM Event_Member WHERE mem_idx={mem_idx}"
+    mem_idx = int(mem_idx)  # mem_idx를 정수로 변환
+    sql_str = f"DELETE FROM event_member WHERE mem_idx={mem_idx}"
     
     try:
         with connection.cursor() as cursor:
@@ -223,7 +225,7 @@ def member_excel_download(request):
     sql_str += " ,mem_email2"
     sql_str += " ,mem_hospital"
     sql_str += " ,mem_input_date"
-    sql_str += " ,status FROM Event_Member  "  # 실제 테이블 이름으로 변
+    sql_str += " ,status FROM event_member  "  # 실제 테이블 이름으로 변
     
     if kw:
         sql_str += f"WHERE mem_name LIKE '%{kw}%' OR mem_id LIKE '%{kw}%' "   # 검색어가 있는 경우에만 WHERE 절 추가
@@ -285,14 +287,14 @@ def member_excel_upload(request):
                 Country =""
                
                 #엑셀 입력전에  중복체크
-                sql_str_exit = f"SELECT mem_idx FROM Event_Member WHERE mem_HP='{mem_HP}' and mem_event='{mem_Event}'"
+                sql_str_exit = f"SELECT mem_idx FROM event_member WHERE mem_HP='{mem_HP}' and mem_event='{mem_Event}'"
                 with connection.cursor() as cursor:
                     cursor.execute(sql_str_exit)  # 실제 테이블 이름으로 변경
                     row = cursor.fetchone()
                     
                 if row is None: # 중복된 데이터가 없는 경우에만 삽입
                         
-                        sql_str = f"INSERT INTO Event_Member ("
+                        sql_str = f"INSERT INTO event_member ("
                         sql_str += f" mem_id"
                         sql_str += f" ,mem_name"
                         sql_str += f", mem_HP "
@@ -354,7 +356,7 @@ def member_bulk_delete(request):
         mem_idx_list = request.GET.getlist('mem_idx_list')  # 선택된 회원의 mem_idx 리스트 가져오기
         if mem_idx_list:
             mem_idx_str = ','.join(mem_idx_list)  # mem_idx 리스트를 문자열로 변환
-            sql_str = f"DELETE FROM Event_Member WHERE mem_idx IN ({mem_idx_str})"
+            sql_str = f"DELETE FROM event_member WHERE mem_idx IN ({mem_idx_str})"
             try:
                 with connection.cursor() as cursor:
                     cursor.execute(sql_str)
