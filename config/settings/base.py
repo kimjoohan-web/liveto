@@ -67,8 +67,7 @@ INSTALLED_APPS = [
     'livechat.apps.LivechatConfig',
     'member.apps.MemberConfig',
     'livemanager.apps.LivemanagerConfig',
-    'import_export',
-    'event_member.apps.EventMemberConfig',
+    'import_export',    
  
 ]
 
