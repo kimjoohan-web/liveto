@@ -58,7 +58,7 @@ def index(request):
         data = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
 
 
-    paginator_1 = Paginator(rows,int(10))  # 페이지당 10개씩 보여주기  
+    paginator_1 = Paginator(data,int(10))  # 페이지당 10개씩 보여주기  
     page_obj = paginator_1.get_page(page)
 
     context ={'members':page_obj,'page':page,'kw':kw}
