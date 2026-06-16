@@ -183,10 +183,10 @@ def member_modify(request, mem_idx):
     else:    
         
         
-        sql_str = f"SELECT concat(mem_email1,'@',mem_email2) as mem_email, * FROM event_member WHERE mem_idx={mem_idx}"  # 실제 테이블 이름으로 변경
+        sql_str = f"SELECT concat(mem_email1,'@',mem_email2) as mem_email, * FROM event_member WHERE mem_idx=s"  # 실제 테이블 이름으로 변경
 
         with connection.cursor() as cursor:
-            cursor.execute(sql_str)  # 실제 테이블 이름으로 변경
+            cursor.execute(sql_str, [mem_idx])  # 실제 테이블 이름으로 변경
             row = cursor.fetchone()
 
         if row is None:
