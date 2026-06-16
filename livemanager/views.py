@@ -25,6 +25,7 @@ def index(request):
     
     page_obj = None
     data=[]
+    rows = []   
     # mssql_conn = pyodbc.connect(mssql_str)
     # cursor = mssql_conn.cursor()
     # # SQL 쿼리 실행
