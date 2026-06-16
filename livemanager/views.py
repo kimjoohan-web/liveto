@@ -24,8 +24,7 @@ def index(request):
     kw = request.GET.get('kw', '')  # 검색어, 기본값은 빈 문자열
     
     page_obj = None
-    data=[]
-    rows = []   
+
     # mssql_conn = pyodbc.connect(mssql_str)
     # cursor = mssql_conn.cursor()
     # # SQL 쿼리 실행
@@ -41,6 +40,8 @@ def index(request):
     # paginator_1 = Paginator(rows,int(10))  # 페이지당 10개씩 보여주기  
     # page_obj = paginator_1.get_page(page)  
     # context ={'members':page_obj,'page':page,'kw':kw}
+
+    # 
     
     sql_str = "SELECT case when mem_yn='N' then '승인안됨' else '승인됨' end as status,    * FROM Event_Member  "  # 실제 테이블 이름으로 변
     if kw:
@@ -55,7 +56,7 @@ def index(request):
         rows = cursor.fetchall()
 
 
-    if rows:
+    # if rows:
         data = [dict(zip([column[0] for column in cursor.description], row)) for row in rows]
 
 
