@@ -189,13 +189,8 @@ def member_modify(request, mem_idx):
         with connection.cursor() as cursor:
             cursor.execute(sql_str, [mem_idx])  # 실제 테이블 이름으로 변경
             row = cursor.fetchone()
-
-        for idx, data in enumerate(row):
-            if data is None:
-                row = row[:idx] + ('',) + row[idx+1:]  # None 값을 빈 문자열로 변환
-
-
-        member_data = dict(zip([column[0] for column in cursor.description], row))
+            if row is not None:
+                member_data = dict(zip([column[0] for column in cursor.description], row))
        
 
         context = {'member': member_data}
