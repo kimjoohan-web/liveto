@@ -192,7 +192,12 @@ def member_modify(request, mem_idx):
         if row is None:
             raise Http404("회원이 존재하지 않습니다.")
 
+        # member_data = dict(zip([column[0] for column in cursor.description], row))
+        for idx, column in enumerate(cursor.description):
+            if row[idx] is None:
+                row = row[:idx] + ('',) + row[idx+1:]
         member_data = dict(zip([column[0] for column in cursor.description], row))
+
         context = {'member': member_data}
         return render(request, 'livemanager/member/member_modify.html', context)    
     
