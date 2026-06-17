@@ -8,6 +8,8 @@ from django.http import Http404, HttpResponse
 from django.http import JsonResponse
 from django.conf import settings
 from django.db import connection
+from django.contrib.auth.decorators import login_required
+
 
 import pandas as pd
 #mssql 연결문자
@@ -18,7 +20,19 @@ import pandas as pd
        
     
 # Create your views here.
-def index(request):
+
+def login_required_view(view_func):# 로그인 여부 확인 데코레이터
+    def wrapper(request, *args, **kwargs):
+        if not request.session.get('mem_name'):
+            return redirect('livemanager:mem_login', next=request.path)  # 로그인 페이지로 리다이렉트
+        return view_func(request, *args, **kwargs)
+    return wrapper
+
+
+
+def index(request):    
+    if not request.session.get('mem_name'):
+        return redirect('livemanager:mem_login')  # 로그인 페이지로 리다이렉트
     # mssql 연결
     page = request.GET.get('page', '1')  # 페이지   # 페이지 번호, 기본값은 1
     kw = request.GET.get('kw', '')  # 검색어, 기본값은 빈 문자열
@@ -133,11 +147,38 @@ def member_input(request):
     else:    
         return render(request, 'livemanager/member/member_input.html')
     
-def mem_login(request):
-    return render(request, 'livemanager/member/login.html') 
+def mem_login(request, next=None):
+    if request.method == 'POST':
+        mem_name = request.POST.get('mem_name')
+        mem_HP = request.POST.get('mem_HP')
+        
+        sql_str = f"SELECT mem_idx,mem_name,mem_HP,concat(mem_email1,'@',mem_email2) as mem_email  FROM event_member WHERE mem_name='{mem_name}' and mem_HP='{mem_HP}'"
+        with connection.cursor() as cursor:
+            cursor.execute(sql_str)  # 실제 테이블 이름으로 변경
+            row = cursor.fetchone()
+            
+        if row is not None:
+            request.session['mem_name'] = row[1]  # 세션에 mem_name 저장
+            request.session['mem_HP'] = row[2]  # 세션에 mem_HP 저장
+            request.session['mem_email'] = row[3]  # 세션에 mem_email 저장
+            # 로그인 성공
+            if next:
+                return redirect(next)  # 로그인 후 원래 요청한 URL로 리다이렉트
+            return redirect('livemanager:index')  # 로그인 후 리다이렉트할 URL 이름
+        else:
+            # 로그인 실패
+            return render(request, 'livemanager/member/login.html', {'messages': '로그인 정보가 올바르지 않습니다.'})
+    else:
+        return render(request, 'livemanager/member/login.html') 
 
 
 def member_modify(request, mem_idx):   
+
+    if not request.session.get('mem_name'):
+        return redirect('livemanager:mem_login')  # 로그인 페이지로 리다이렉트
+    
+
+    
     mem_idx = int(mem_idx)  # mem_idx를 정수로 변환
     member_data = None  # 초기화
     if request.method == 'POST':
