@@ -139,6 +139,7 @@ def mem_login(request):
 
 def member_modify(request, mem_idx):   
     mem_idx = int(mem_idx)  # mem_idx를 정수로 변환
+    member_data = None  # 초기화
     if request.method == 'POST':
         # 폼에서 입력된 데이터 처리
         mem_Event = '0'
