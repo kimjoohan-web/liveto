@@ -31,10 +31,7 @@
                 {% if request.session.mem_name %}
                 <li class="nav-item">                    
                     <a class="nav-link" href="{% url 'member:member_logout' %}">{{ request.session.mem_name }} (로그아웃)</a>
-                </li>
-                <li class="nav-item">                    
-                    <a class="nav-link" href="{% url 'member:member_modify' request.session.mem_idx %}">수정하기</a>
-                </li>
+                </li>               
                 <!-- <li>
                     <a class="nav-link" href="{% url 'common:pwd_change' %}">비번변경</a>                    
                 </li> -->
