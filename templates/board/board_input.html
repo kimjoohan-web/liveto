@@ -1,0 +1,242 @@
+{% extends 'base.html' %}
+{% block title %}{% if object %}행사 수정{% else %}새 행사 등록{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-wrap">
+
+  <div class="form-header">
+    <a href="{% url 'board:index' %}" class="back-link">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      목록으로
+    </a>
+    <h1 class="form-title">{% if object %}행사 수정{% else %}새 행사 등록{% endif %}</h1>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" enctype="multipart/form-data" novalidate action="{% url 'board:board_create' %}">
+    {% csrf_token %}
+
+    <div class="card">
+      <div class="card-section-label">기본 정보</div>
+
+      <!-- 행사명 -->
+      <div class="field">
+        <label for="car_name" class="field-label">행사명 <span class="required">*</span></label>
+        <input type="text" id="car_name" name="car_name"
+               value="{{ form.car_name.value|default:'' }}"
+               placeholder="행사명을 입력하세요"
+               class="field-input {% if form.car_name.errors %}is-error{% endif %}"
+               maxlength="200" required>
+        {% if form.car_name.errors %}
+          <p class="field-error">{{ form.car_name.errors.0 }}</p>
+        {% endif %}
+      </div>
+      <!-- 발주처 -->
+      <div class="field">
+        <label for="car_order" class="field-label">발주처 <span class="required">*</span></label>
+        <input type="text" id="car_order" name="car_order"
+                value="{{ form.car_order.value|default:'' }}"
+                placeholder="발주처명을 입력하세요"
+                class="field-input {% if form.car_order.errors %}is-error{% endif %}"
+                maxlength="100" required>
+        {% if form.car_order.errors %}
+          <p class="field-error">{{ form.car_order.errors.0 }}</p>
+        {% endif %}
+      </div>
+     <!-- 행사일 -->
+    
+      <div class="field">
+        <label for="car_year" class="field-label">행사일 <span class="required">*</span></label>
+        <div class="field-row">
+        
+        <input type="text" id="car_year" name="car_year"
+                value="{{ form.car_year.value|default:'' }}"
+                class="field-input {% if form.car_year.errors %}is-error{% endif %}"
+                required placeholder="YYYY">
+        <input type="text" id="car_day" name="car_day"
+                value="{{ form.car_day.value|default:'' }}"
+                class="field-input {% if form.car_day.errors %}is-error{% endif %}"
+                required placeholder="MM.DD">
+        {% if form.car_year.errors %}
+          <p class="field-error">{{ form.car_year.errors.0 }}</p>
+        {% endif %}
+        {% if form.car_day.errors %}
+          <p class="field-error">{{ form.car_day.errors.0 }}</p>
+        {% endif %}
+        </div>
+      </div>
+
+      <!-- VOD URL -->
+      <div class="field">
+        <label for="car_url" class="field-label">
+          VOD
+          <span class="field-hint">YouTube, Vimeo 등 영상 링크</span>
+        </label>
+        <div class="input-prefix-wrap">
+          <span class="input-prefix">
+            <svg width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          </span>
+          <input type="url" id="car_url" name="car_url"
+                 value="{{ form.car_url.value|default:'' }}"
+                 placeholder="https://youtube.com/..."
+                 class="field-input has-prefix {% if form.car_url.errors %}is-error{% endif %}">
+        </div>
+        {% if form.car_url.errors %}
+          <p class="field-error">{{ form.car_url.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- 내용 -->
+      <div class="field">
+        <label for="car_content" class="field-label">내용</label>
+        <textarea id="car_content" name="car_content"
+                  placeholder="행사 내용을 입력하세요"
+                  class="field-textarea {% if form.car_content.errors %}is-error{% endif %}"
+                  rows="5">{{ form.car_content.value|default:'' }}</textarea>
+        {% if form.car_content.errors %}
+          <p class="field-error">{{ form.car_content.errors.0 }}</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- 파일 첨부 -->
+    <div class="card">
+      <div class="card-section-label">파일 첨부</div>
+      <!-- 이미지 첨부 -->
+       <input type="file" id="car_image" name="car_image" accept="image/*" class="" aria-label="이미지 첨부">
+    </div>
+
+    <!-- 버튼 -->
+    <div class="form-actions">
+      <a href="{% url 'board:index' %}" class="btn-cancel">취소</a>
+      <button type="submit" class="btn-submit">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        등록하기
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<style>
+:root{--indigo-50:#eef2ff;--indigo-100:#e0e7ff;--indigo-200:#c7d2fe;--indigo-500:#6366f1;--indigo-600:#4f46e5;--indigo-700:#4338ca;--r:8px}
+.form-wrap{max-width:780px;margin:2rem auto;padding:0 1.25rem;font-size:14px;color:#374151}
+.form-header{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem}
+.back-link{display:inline-flex;align-items:center;gap:4px;color:#6b7280;text-decoration:none;font-size:13px;padding:6px 10px;border:1px solid #e5e7eb;border-radius:var(--r);transition:all .15s;white-space:nowrap}
+.back-link:hover{border-color:var(--indigo-200);color:var(--indigo-600);background:var(--indigo-50)}
+.form-title{font-size:20px;font-weight:600;color:#1e1b4b;margin:0}
+.alert{padding:10px 14px;border-radius:var(--r);margin-bottom:1rem;font-size:13px}
+.alert-success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.alert-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.card{background:#fff;border:1px solid var(--indigo-100);border-radius:10px;padding:1.5rem;margin-bottom:1.25rem}
+.card-section-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--indigo-600);margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:1px solid var(--indigo-100)}
+.field{margin-bottom:1.1rem}
+.field:last-child{margin-bottom:0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
+.required{color:#ef4444}
+.field-hint{font-size:11px;color:#9ca3af;font-weight:400;margin-left:6px}
+.field-input,.field-textarea{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:var(--r);font-size:13px;color:#1f2937;background:#fff;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;font-family:inherit}
+.field-input:focus,.field-textarea:focus{outline:none;border-color:var(--indigo-500);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.field-input.is-error,.field-textarea.is-error{border-color:#ef4444}
+.field-input.is-error:focus,.field-textarea.is-error:focus{box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+.field-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.field-error{font-size:12px;color:#ef4444;margin-top:4px}
+.input-prefix-wrap{position:relative}
+.input-prefix{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;display:flex;pointer-events:none}
+.field-input.has-prefix{padding-left:34px}
+/* 업로드 영역 */
+.upload-zone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:1.5px dashed var(--indigo-200);border-radius:var(--r);padding:28px 20px;cursor:pointer;transition:all .15s;background:#fafbff;text-align:center}
+.upload-zone:hover,.upload-zone.drag-over{border-color:var(--indigo-500);background:var(--indigo-50)}
+.upload-zone--img{border-color:#fbcfe8;background:#fff7fb}
+.upload-zone--img:hover,.upload-zone--img.drag-over{border-color:#ec4899;background:#fdf2f8}
+.upload-icon{color:#a5b4fc;flex-shrink:0}
+.upload-zone--img .upload-icon{color:#f9a8d4}
+.upload-text{font-size:13px;font-weight:500;color:#4b5563}
+.upload-sub{font-size:11px;color:#9ca3af}
+.upload-input{display:none}
+/* 첨부 목록 */
+.attach-list{list-style:none;padding:0;margin:8px 0 0}
+.attach-list li{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f9fafb;border:1px solid #f3f4f6;border-radius:6px;margin-bottom:4px;font-size:12px;color:#374151}
+.attach-list li svg{color:#a5b4fc;flex-shrink:0}
+.attach-list .remove-btn{margin-left:auto;background:none;border:none;cursor:pointer;color:#9ca3af;padding:2px;display:flex;border-radius:4px;transition:color .15s}
+.attach-list .remove-btn:hover{color:#ef4444}
+/* 이미지 프리뷰 */
+.img-preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:10px}
+.img-preview-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb}
+.img-preview-item img{width:100%;height:100%;object-fit:cover}
+.img-preview-item .remove-img{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;line-height:1;transition:background .15s}
+.img-preview-item .remove-img:hover{background:rgba(239,68,68,.85)}
+/* 기존 첨부 */
+.existing-files{margin-top:12px}
+.existing-label{font-size:11px;font-weight:600;color:#6b7280;margin:0 0 8px;text-transform:uppercase;letter-spacing:.04em}
+.existing-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f9fafb;border:1px solid #f3f4f6;border-radius:6px;margin-bottom:4px;font-size:12px;color:#374151}
+.existing-item svg{color:#a5b4fc;flex-shrink:0}
+.del-check{margin-left:auto;display:flex;align-items:center;gap:4px;font-size:11px;color:#9ca3af;cursor:pointer}
+.del-check input{accent-color:#ef4444}
+.del-check input:checked+span{color:#ef4444}
+.existing-img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+.existing-img-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb}
+.existing-img-item img{width:100%;height:100%;object-fit:cover}
+.del-check--img{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);justify-content:center;padding:4px 0;margin:0;border-radius:0;color:#fff;font-size:11px}
+.del-check--img input:checked+span{color:#fca5a5}
+/* 액션 버튼 */
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:.5rem}
+.btn-cancel{display:inline-flex;align-items:center;padding:10px 20px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--r);font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;transition:all .15s}
+.btn-cancel:hover{background:#f9fafb;border-color:#9ca3af}
+.btn-submit{display:inline-flex;align-items:center;gap:7px;padding:10px 24px;background:var(--indigo-600);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-submit:hover{background:var(--indigo-700)}
+@media(max-width:560px){.field-row{grid-template-columns:1fr}.form-actions{flex-direction:column-reverse}.btn-cancel,.btn-submit{width:100%;justify-content:center}}
+</style>
+
+<script>
+// (function(){
+//   // 파일 첨부
+ 
+
+//   // 이미지 첨부
+//   const imgInput   = document.getElementById('car_image');
+//   const imgPreview = document.getElementById('img-preview');
+//   const imgZone    = document.getElementById('img-zone');
+//   let selectedImgs = [];
+
+//   function renderImgPreview(){
+//     imgPreview.innerHTML = '';
+//     selectedImgs.forEach((f,i)=>{
+//       const url = URL.createObjectURL(f);
+//       const div = document.createElement('div');
+//       div.className = 'img-preview-item';
+//       div.innerHTML = `<img src="${url}" alt="${f.name}"><button type="button" class="remove-img" data-i="${i}" aria-label="이미지 삭제">✕</button>`;
+//       imgPreview.appendChild(div);
+//     });
+//     imgPreview.querySelectorAll('.remove-img').forEach(btn=>{
+//       btn.addEventListener('click',()=>{URL.revokeObjectURL(imgPreview.querySelectorAll('img')[+btn.dataset.i].src);selectedImgs.splice(+btn.dataset.i,1);syncImgInput();renderImgPreview();});
+//     });
+//   }
+
+//   function syncImgInput(){
+//     const dt = new DataTransfer();
+//     selectedImgs.forEach(f=>dt.items.add(f));
+//     imgInput.files = dt.files;
+//   }
+
+//   imgInput.addEventListener('change',()=>{
+//     Array.from(imgInput.files).forEach(f=>selectedImgs.push(f));
+//     syncImgInput(); renderImgPreview();
+//   });
+
+//   ['dragover','dragenter'].forEach(ev=>imgZone.addEventListener(ev,e=>{e.preventDefault();imgZone.classList.add('drag-over');}));
+//   ['dragleave','drop'].forEach(ev=>imgZone.addEventListener(ev,e=>{e.preventDefault();imgZone.classList.remove('drag-over');}));
+//   imgZone.addEventListener('drop',e=>{
+//     Array.from(e.dataTransfer.files).filter(f=>f.type.startsWith('image/')).forEach(f=>selectedImgs.push(f));
+//     syncImgInput(); renderImgPreview();
+//   });
+// })();
+
+</script>
+{% endblock %}

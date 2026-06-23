@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% block title %}{% if object %}행사 수정{% else %}새 행사 등록{% endif %}{% endblock %}
+
+{% block content %}
+<div class="form-wrap">
+
+  <div class="form-header">
+    <a href="{% url 'board:index' %}" class="back-link">
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="15 18 9 12 15 6"/></svg>
+      목록으로
+    </a>
+    <h1 class="form-title">회원 수정</h1>
+  </div>
+
+  {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+    {% endfor %}
+  {% endif %}
+
+  <form method="post" name="memberForm" action="{% url 'member:member_modify' mem_idx=mem_idx %}">
+    {% csrf_token %}
+    <input type="hidden" name="mem_idx" value="{{ mem_idx }}">  
+    <div class="card">
+      <div class="card-section-label">기본 정보</div>
+
+      <!-- 행사명 -->
+      <div class="field">
+        <label for="mem_name" class="field-label">이름 <span class="required">*</span></label>
+        <input type="text" id="mem_name" name="mem_name"
+               value="{{ member.mem_name|default:'' }}"
+               placeholder="이름을 입력하세요"
+               class="field-input {% if form.mem_name.errors %}is-error{% endif %}"
+               maxlength="200" required>
+        {% if form.mem_name.errors %}
+          <p class="field-error">{{ form.mem_name.errors.0 }}</p>
+        {% endif %}
+      </div>
+      <div class="field">
+        <label for="mem_HP" class="field-label">핸드폰 번호  <span class="required">*</span></label>
+        <input type="text" id="mem_HP" name="mem_HP"
+               value="{{ member.mem_HP|default:'' }}"
+               placeholder="핸드폰 번호를 입력하세요"
+               class="field-input {% if form.mem_HP.errors %}is-error{% endif %}"
+               maxlength="200" required>
+        {% if form.mem_HP.errors %}
+          <p class="field-error">{{ form.mem_HP.errors.0 }}</p>
+        {% endif %}
+      </div>
+      <div class="field">
+        <label for="mem_email" class="field-label">이메일 <span class="required">*</span></label>
+        <input type="email" id="mem_email" name="mem_email"
+               value="{{ member.mem_email|default:'' }}"
+               placeholder="이메일을 입력하세요"
+               class="field-input {% if form.mem_email.errors %}is-error{% endif %}"
+               maxlength="200" required>
+        {% if form.mem_email.errors %}
+          <p class="field-error">{{ form.mem_email.errors.0 }}</p>
+        {% endif %}
+      </div>
+      <!-- 발주처 -->
+      <div class="field">
+        <label for="mem_hospital" class="field-label">소속 정보 <span class="required">*</span></label>
+        <input type="text" id="mem_hospital" name="mem_hospital"
+                value="{{ member.mem_hospital|default:'' }}"
+                placeholder="발주처명을 입력하세요"
+                class="field-input {% if form.mem_hospital.errors %}is-error{% endif %}"
+                maxlength="100" required>
+        {% if form.mem_hospital.errors %}
+          <p class="field-error">{{ form.mem_hospital.errors.0 }}</p>
+        {% endif %}
+      </div>
+     <!-- 행사일 -->
+    
+      <div class="field">
+        <label for="mem_dept" class="field-label">진료과 <span class="required">*</span></label>
+            <select name="mem_dept" class="form-select">
+                <option value="" disabled selected>선택해 주세요</option>
+                <option {% if member.mem_dept == "내과" %}selected{% endif %}>내과</option>
+                <option {% if member.mem_dept == "외과" %}selected{% endif %}>외과</option>
+                <option {% if member.mem_dept == "소아청소년과" %}selected{% endif %}>소아청소년과</option>
+                <option {% if member.mem_dept == "산부인과" %}selected{% endif %}>산부인과</option>
+                <option {% if member.mem_dept == "정형외과" %}selected{% endif %}>정형외과</option>
+                <option {% if member.mem_dept == "신경과" %}selected{% endif %}>신경과</option>
+                <option {% if member.mem_dept == "정신건강의학과" %}selected{% endif %}>정신건강의학과</option>
+                <option {% if member.mem_dept == "피부과" %}selected{% endif %}>피부과</option>
+                <option {% if member.mem_dept == "안과" %}selected{% endif %}>안과</option>
+                <option {% if member.mem_dept == "이비인후과" %}selected{% endif %}>이비인후과</option>
+                <option {% if member.mem_dept == "비뇨의학과" %}selected{% endif %}>비뇨의학과</option>
+                <option {% if member.mem_dept == "재활의학과" %}selected{% endif %}>재활의학과</option>
+                <option {% if member.mem_dept == "응급의학과" %}selected{% endif %}>응급의학과</option>
+                <option {% if member.mem_dept == "마취통증의학과" %}selected{% endif %}>마취통증의학과</option>
+                <option {% if member.mem_dept == "영상의학과" %}selected{% endif %}>영상의학과</option>
+                <option {% if member.mem_dept == "기타" %}selected{% endif %}>기타</option>
+            </select>
+        {% if form.mem_dept.errors %}
+          <p class="field-error">{{ form.mem_dept.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- VOD URL -->
+      <div class="field">
+        <label for="Country" class="field-label">
+          국가 <span class="required">*</span>
+          
+        </label>
+        <div class="input-prefix-wrap">
+          
+            <select name="Country" id="Country" class="form-select">
+                <option value="" disabled selected>국가를 선택해 주세요</option>
+                <option value="KR" {% if member.Country == "KR" %}selected{% endif %}>🇰🇷 대한민국</option>
+                <option value="US" {% if member.Country == "US" %}selected{% endif %}>🇺🇸 미국</option>
+                <option value="JP" {% if member.Country == "JP" %}selected{% endif %}>🇯🇵 일본</option>
+                <option value="CN" {% if member.Country == "CN" %}selected{% endif %}>🇨🇳 중국</option>
+                <option value="GB" {% if member.Country == "GB" %}selected{% endif %}>🇬🇧 영국</option>
+                <option value="DE" {% if member.Country == "DE" %}selected{% endif %}>🇩🇪 독일</option>
+                <option value="FR" {% if member.Country == "FR" %}selected{% endif %}>🇫🇷 프랑스</option>
+                <option value="CA" {% if member.Country == "CA" %}selected{% endif %}>🇨🇦 캐나다</option>
+                <option value="AU" {% if member.Country == "AU" %}selected{% endif %}>🇦🇺 호주</option>
+                <option value="SG" {% if member.Country == "SG" %}selected{% endif %}>🇸🇬 싱가포르</option>
+                <option value="OTHER" {% if member.Country == "OTHER" %}selected{% endif %}>기타</option>
+            </select>
+        </div>
+        {% if form.Country.errors %}
+          <p class="field-error">{{ form.Country.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- 내용 -->
+      
+    </div>
+    <!-- 버튼 -->
+    <div class="form-actions">
+      <a href="{% url 'member:index' %}" class="btn-cancel">취소</a>
+      <button type="button" class="btn-submit">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+        수정하기
+      </button>
+    </div>
+
+  </form>
+</div>
+
+<style>
+:root{--indigo-50:#eef2ff;--indigo-100:#e0e7ff;--indigo-200:#c7d2fe;--indigo-500:#6366f1;--indigo-600:#4f46e5;--indigo-700:#4338ca;--r:8px}
+.form-wrap{max-width:780px;margin:2rem auto;padding:0 1.25rem;font-size:14px;color:#374151}
+.form-header{display:flex;align-items:center;gap:14px;margin-bottom:1.5rem}
+.back-link{display:inline-flex;align-items:center;gap:4px;color:#6b7280;text-decoration:none;font-size:13px;padding:6px 10px;border:1px solid #e5e7eb;border-radius:var(--r);transition:all .15s;white-space:nowrap}
+.back-link:hover{border-color:var(--indigo-200);color:var(--indigo-600);background:var(--indigo-50)}
+.form-title{font-size:20px;font-weight:600;color:#1e1b4b;margin:0}
+.alert{padding:10px 14px;border-radius:var(--r);margin-bottom:1rem;font-size:13px}
+.alert-success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.alert-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+.card{background:#fff;border:1px solid var(--indigo-100);border-radius:10px;padding:1.5rem;margin-bottom:1.25rem}
+.card-section-label{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--indigo-600);margin-bottom:1.25rem;padding-bottom:.6rem;border-bottom:1px solid var(--indigo-100)}
+.field{margin-bottom:1.1rem}
+.field:last-child{margin-bottom:0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-label{display:block;font-size:13px;font-weight:500;color:#374151;margin-bottom:6px}
+.required{color:#ef4444}
+.field-hint{font-size:11px;color:#9ca3af;font-weight:400;margin-left:6px}
+.field-input,.field-textarea{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:var(--r);font-size:13px;color:#1f2937;background:#fff;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;font-family:inherit}
+.field-input:focus,.field-textarea:focus{outline:none;border-color:var(--indigo-500);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.field-input.is-error,.field-textarea.is-error{border-color:#ef4444}
+.field-input.is-error:focus,.field-textarea.is-error:focus{box-shadow:0 0 0 3px rgba(239,68,68,.12)}
+.field-textarea{resize:vertical;min-height:100px;line-height:1.6}
+.field-error{font-size:12px;color:#ef4444;margin-top:4px}
+.input-prefix-wrap{position:relative}
+.input-prefix{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;display:flex;pointer-events:none}
+.field-input.has-prefix{padding-left:34px}
+/* 업로드 영역 */
+.upload-zone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:1.5px dashed var(--indigo-200);border-radius:var(--r);padding:28px 20px;cursor:pointer;transition:all .15s;background:#fafbff;text-align:center}
+.upload-zone:hover,.upload-zone.drag-over{border-color:var(--indigo-500);background:var(--indigo-50)}
+.upload-zone--img{border-color:#fbcfe8;background:#fff7fb}
+.upload-zone--img:hover,.upload-zone--img.drag-over{border-color:#ec4899;background:#fdf2f8}
+.upload-icon{color:#a5b4fc;flex-shrink:0}
+.upload-zone--img .upload-icon{color:#f9a8d4}
+.upload-text{font-size:13px;font-weight:500;color:#4b5563}
+.upload-sub{font-size:11px;color:#9ca3af}
+.upload-input{display:none}
+/* 첨부 목록 */
+.attach-list{list-style:none;padding:0;margin:8px 0 0}
+.attach-list li{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f9fafb;border:1px solid #f3f4f6;border-radius:6px;margin-bottom:4px;font-size:12px;color:#374151}
+.attach-list li svg{color:#a5b4fc;flex-shrink:0}
+.attach-list .remove-btn{margin-left:auto;background:none;border:none;cursor:pointer;color:#9ca3af;padding:2px;display:flex;border-radius:4px;transition:color .15s}
+.attach-list .remove-btn:hover{color:#ef4444}
+/* 이미지 프리뷰 */
+.img-preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:10px}
+.img-preview-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb}
+.img-preview-item img{width:100%;height:100%;object-fit:cover}
+.img-preview-item .remove-img{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px;line-height:1;transition:background .15s}
+.img-preview-item .remove-img:hover{background:rgba(239,68,68,.85)}
+/* 기존 첨부 */
+.existing-files{margin-top:12px}
+.existing-label{font-size:11px;font-weight:600;color:#6b7280;margin:0 0 8px;text-transform:uppercase;letter-spacing:.04em}
+.existing-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f9fafb;border:1px solid #f3f4f6;border-radius:6px;margin-bottom:4px;font-size:12px;color:#374151}
+.existing-item svg{color:#a5b4fc;flex-shrink:0}
+.del-check{margin-left:auto;display:flex;align-items:center;gap:4px;font-size:11px;color:#9ca3af;cursor:pointer}
+.del-check input{accent-color:#ef4444}
+.del-check input:checked+span{color:#ef4444}
+.existing-img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+.existing-img-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb}
+.existing-img-item img{width:100%;height:100%;object-fit:cover}
+.del-check--img{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);justify-content:center;padding:4px 0;margin:0;border-radius:0;color:#fff;font-size:11px}
+.del-check--img input:checked+span{color:#fca5a5}
+/* 액션 버튼 */
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:.5rem}
+.btn-cancel{display:inline-flex;align-items:center;padding:10px 20px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--r);font-size:14px;font-weight:500;text-decoration:none;cursor:pointer;transition:all .15s}
+.btn-cancel:hover{background:#f9fafb;border-color:#9ca3af}
+.btn-submit{display:inline-flex;align-items:center;gap:7px;padding:10px 24px;background:var(--indigo-600);color:#fff;border:none;border-radius:var(--r);font-size:14px;font-weight:500;cursor:pointer;transition:background .15s}
+.btn-submit:hover{background:var(--indigo-700)}
+@media(max-width:560px){.field-row{grid-template-columns:1fr}.form-actions{flex-direction:column-reverse}.btn-cancel,.btn-submit{width:100%;justify-content:center}}
+</style>
+
+<script>
+
+const submitBtn = document.querySelector('.btn-submit');
+submitBtn.addEventListener('click', function() {
+  const form = document.forms['memberForm'];
+  if (form.checkValidity()) {
+    form.submit();
+  } else {
+    form.reportValidity();
+  }
+});
+
+</script>
+{% endblock %}

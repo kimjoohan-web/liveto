@@ -1,0 +1,346 @@
+{% load static %}
+{% block content %}
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
+            background-color: #f5f6fa;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            color: #1a1a2e;
+        }
+
+        .login-wrapper {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+
+        .login-card {
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 48px 40px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+        }
+
+        .logo-area {
+            text-align: center;
+            margin-bottom: 36px;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: #4f46e5;
+            border-radius: 12px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 16px;
+        }
+
+        .logo-icon svg {
+            width: 24px;
+            height: 24px;
+            fill: white;
+        }
+
+        .logo-area h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #1a1a2e;
+            letter-spacing: -0.3px;
+        }
+
+        .logo-area p {
+            font-size: 14px;
+            color: #8b8fa8;
+            margin-top: 6px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #4a4a6a;
+            margin-bottom: 8px;
+            letter-spacing: 0.2px;
+        }
+
+        input[type="text"],
+        input[type="tel"] {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1.5px solid #e4e6f0;
+            border-radius: 10px;
+            font-size: 15px;
+            color: #1a1a2e;
+            background: #fafbff;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+
+        input[type="text"]:focus,
+        input[type="tel"]:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+            background: #ffffff;
+        }
+
+        input::placeholder {
+            color: #c0c2d4;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: #4f46e5;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: background 0.2s, transform 0.1s;
+            letter-spacing: 0.2px;
+        }
+
+        .login-btn:hover {
+            background: #4338ca;
+        }
+
+        .login-btn:active {
+            transform: scale(0.99);
+        }
+
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin: 24px 0;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e4e6f0;
+        }
+
+        .divider span {
+            font-size: 12px;
+            color: #b0b3c8;
+        }
+
+        .register-link {
+            text-align: center;
+            font-size: 14px;
+            color: #8b8fa8;
+        }
+
+        .register-link a {
+            color: #4f46e5;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .register-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Django 에러 메시지 */
+        .errorlist {
+            list-style: none;
+            margin-top: 6px;
+        }
+
+        .errorlist li {
+            font-size: 12px;
+            color: #ef4444;
+        }
+
+        .messages {
+            margin-bottom: 20px;
+        }
+
+        .alert {
+            padding: 12px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+        }
+
+        .alert-error {
+            background: #fef2f2;
+            color: #dc2626;
+            border: 1px solid #fecaca;
+        }
+
+        .alert-success {
+            background: #f0fdf4;
+            color: #16a34a;
+            border: 1px solid #bbf7d0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-wrapper">
+    <div class="login-card">
+
+        <!-- 로고 -->
+        <div class="logo-area">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 12c2.7 0 4.8-2.1 4.8-4.8S14.7 2.4 12 2.4 7.2 4.5 7.2 7.2 9.3 12 12 12zm0 2.4c-3.2 0-9.6 1.6-9.6 4.8v2.4h19.2v-2.4c0-3.2-6.4-4.8-9.6-4.8z"/>
+                </svg>
+            </div>
+            <h1>로그인</h1>
+            <p>이름과 전화번호를 입력해 주세요</p>
+        </div>
+
+        <!-- Django 메시지 -->
+        {% if error_message %}
+        <div class="messages">
+          
+            <div class="alert alert-error">{{ error_message }}</div>
+          
+        </div>
+        {% endif %}
+
+        <!-- 로그인 폼 -->
+        
+        <form method="POST" action="{% url 'member:mem_login' %}">
+            {% csrf_token %}
+            <input type="hidden" name="next" value="{{ next }}">
+            <div class="form-group">
+                <label for="name">이름</label>
+                <input
+                    type="text"
+                    id="mem_name"
+                    name="mem_name"
+                    placeholder="홍길동"
+                    value="{{ form.mem_name.value|default:'' }}"
+                    autocomplete="name"
+                    required
+                >
+                {% if form.mem_name.errors %}
+                <ul class="errorlist">
+                    {% for error in form.mem_name.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="phone">전화번호</label>
+                <input
+                    type="tel"
+                    id="mem_HP"
+                    name="mem_HP"
+                    placeholder="010-0000-0000"
+                    value="{{ form.mem_HP.value|default:'' }}"
+                    autocomplete="tel"
+                    required
+                >
+                {% if form.mem_HP.errors %}
+                <ul class="errorlist">
+                    {% for error in form.mem_HP.errors %}
+                    <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+            </div>
+
+            <button type="submit" class="login-btn">로그인</button>
+        </form>
+
+        <div class="divider"><span>또는</span></div>
+
+        <div class="register-link">
+            계정이 없으신가요? <a href="{% url 'livemanager:member_input' %}">회원가입</a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>
+{% endblock %}
+{% block script %}
+<script type='text/javascript'>
+
+const btn_add = document.querySelector(".btn-add");
+btn_add.addEventListener('click', function() {
+    
+    const suc = "0";
+    const mem_name = document.memberForm.mem_name.value;
+    const mem_HP = document.memberForm.mem_HP.value;
+    const mem_email = document.memberForm.mem_email.value;
+    const mem_hospital = document.memberForm.mem_hospital.value;
+    const mem_dept = document.memberForm.mem_dept.value;
+    const Country = document.memberForm.Country.value;
+    if (mem_name == ""){
+        alert("이름을 입력해 주세요.");
+        document.memberForm.mem_name.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_HP == ""){
+        alert("핸드폰 번호를 입력해 주세요.");
+        document.memberForm.mem_HP.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_email == ""){
+        alert("이메일을 입력해 주세요.");
+        document.memberForm.mem_email.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_hospital == ""){
+        alert("병원명을 입력해 주세요.");
+        document.memberForm.mem_hospital.focus();
+        suc = "1";
+        return;
+    }
+    if (mem_dept == ""){
+        alert("진료과를 선택해 주세요.");
+        document.memberForm.mem_dept.focus();
+        suc = "1";
+        return;
+    }
+    if (Country == ""){
+        alert("국가를 선택해 주세요.");
+        document.memberForm.Country.focus();
+        suc = "1";
+        return;
+    }
+    if (suc == "0"){
+        document.memberForm.submit();
+    }else 
+        return;
+
+    
+});
+</script>
+{% endblock %}

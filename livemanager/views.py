@@ -9,6 +9,7 @@ from django.http import JsonResponse
 from django.conf import settings
 from django.db import connection
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 
 
 import pandas as pd
@@ -120,14 +121,15 @@ def member_input(request):
         sql_str += f", '{mem_hospital}'"
         sql_str += f", '{mem_dept}'"
         sql_str += f", '{mem_Event}'"
-        sql_str += f", NOW()"
+        sql_str += f", '{timezone.now()}'"
         sql_str += f", '{Country}')"
         
         try:
             with connection.cursor() as cursor:
                 cursor.execute(sql_str)
                 connection.commit()
-            return redirect('livemanager:index')  # 회원 가입 후 리다이렉트할 URL 이름
+            # return redirect('livemanager:index')  # 회원 가입 후 리다이렉트할 URL 이름
+            return redirect('board:index')  # 회원 가입 후 리다이렉트할 URL 이름
         except Exception as e:
             print(f"Error executing SQL: {e}")
             # 에러 처리 (예: 사용자에게 에러 메시지 표시)
@@ -372,7 +374,8 @@ def member_excel_upload(request):
                         sql_str += f", '{mem_duty}'"
                         sql_str += f", '{mem_teamName}'"
                         sql_str += f", '{mem_SalesName}'"
-                        sql_str += f", NOW()"
+                        # sql_str += f", NOW()"
+                        sql_str += f", '{timezone.now()}'"
                         sql_str += f", '{Country}')"
                         try:
                             with connection.cursor() as cursor:
@@ -409,3 +412,7 @@ def member_bulk_delete(request):
         else:
             return redirect('livemanager:index',{'error': '선택된 회원이 없습니다.'})  # 회원 삭제 후 리다이렉트할 URL 이름
    
+
+def member_logout(request):
+    request.session.flush()  # 세션 데이터 삭제
+    return redirect('livemanager:index')  # 로그아웃 후 리다이렉트할 URL 이름

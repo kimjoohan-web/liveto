@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'member.apps.MemberConfig',
     'livemanager.apps.LivemanagerConfig',
     'import_export',    
+    'board.apps.BoardConfig',
  
 ]
 

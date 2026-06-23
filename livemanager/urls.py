@@ -12,4 +12,5 @@ urlpatterns = [
     path('member_excel_download/', views.member_excel_download, name='member_excel_download'),
     path('member_excel_upload/', views.member_excel_upload, name='member_excel_upload'),    
     path('member_bulk_delete/', views.member_bulk_delete, name='member_bulk_delete'),
+    path('member_logout/', views.member_logout, name='member_logout'),
 ]
