@@ -16,7 +16,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="{% url 'works:index' %}" {% if current_page == 'works' %}class="is-active"{% endif %}>사업실적</a>
+        <a href="#" {% if current_page == 'works' %}class="is-active"{% endif %}>사업실적</a>
         <div class="nav-dropdown">
           <a href="{% url 'works:index' %}">연도별 실적</a>
           <a href="{% url 'works:index' %}?type=industry">산업분야별 실적</a>
