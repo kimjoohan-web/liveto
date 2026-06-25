@@ -64,7 +64,7 @@ def index(request):
     sql_str+=" FROM board WHERE 1 =1 "
     sql_str+=" AND car_field = %s"  
     if selected_year:
-        sql_str+=" AND car_year = %s"  # 선택된 연도 필터링    
+        sql_str+=" AND car_year ='{}'".format(selected_year)  # 선택된 연도 필터링    
     if  kw:
         sql_str+=" AND  car_name LIKE %s or car_order LIKE %s or car_day LIKE %s" 
 
@@ -72,16 +72,11 @@ def index(request):
 
     with connection.cursor() as cursor:
         if kw:
-            if selected_year:
-                cursor.execute(sql_str, [stype, selected_year, f'%{kw}%', f'%{kw}%', f'%{kw}%'])
-            else:
-                cursor.execute(sql_str, [stype, f'%{kw}%', f'%{kw}%', f'%{kw}%'])
+            cursor.execute(sql_str, [stype, f'%{kw}%', f'%{kw}%', f'%{kw}%'])
             board_lists = cursor.fetchall()
         else:
-            if selected_year:
-                cursor.execute(sql_str, [stype, selected_year])
-            else:
-                cursor.execute(sql_str, [stype])    
+            
+            cursor.execute(sql_str, [stype])    
             board_lists = cursor.fetchall() 
 
    
