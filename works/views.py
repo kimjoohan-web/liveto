@@ -34,9 +34,9 @@ def index(request):
     if stype == "인터넷중계방송":
         selected_title="인터넷중계방송"
         if year_s=='':  # 연도가 선택되지 않은 경우
-            selected_year = int(year_list[0])  # 가장 최근 연도로 설정
+            selected_year = year_list[0]  # 가장 최근 연도로 설정
         else:
-            selected_year = int(year_s)
+            selected_year = year_s
 
     else:
         selected_year = None
