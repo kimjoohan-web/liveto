@@ -20,6 +20,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    path('', include('main.urls')),
     path('admin/', admin.site.urls),
     path('chat/', include('chat.urls')),
     path('common/', include('common.urls')),   
@@ -29,5 +30,10 @@ urlpatterns = [
     path('member/', include('member.urls')),
     path('livemanager/', include('livemanager.urls')),
     path('board/', include('board.urls')),
+    path('company/', include('company.urls')),
+    path('works/', include('works.urls')),
+    path('dbupload/', include('dbupload.urls')),
+    
+    
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

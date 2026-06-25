@@ -1,0 +1,189 @@
+{% extends 'base_main.html' %}
+{% block title %}오시는길{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+  <!-- 헤더 -->
+    {% include "main_header.html" with current_page='location' %}
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-grid"></div>
+      <div class="sv-monitor sv-monitor--1"></div>
+      <div class="sv-monitor sv-monitor--2"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">About us</span></p>
+      <p class="sv-desc">
+        라이브투닷컴은 다년간의 인터넷 방송의 경험으로<br>
+        국내·외에서 생방송 및 VOD 방송을 제작하고 있으며<br>
+        자체 컨텐츠 개발로 다각적인 방향으로 발전하고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+        {% include "company/company_left.html" with current_page='location' %}
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        <h1 class="content-title">오시는길</h1>
+      </div>
+
+      <section class="loc-block">
+        <h2 class="loc-label"><i class="ti ti-bus" aria-hidden="true"></i> 교통수단</h2>
+        <ul class="loc-transit">
+          <li><span class="transit-badge transit-badge--subway">지하철</span> {{ location_subway|default:"8호선 문정역 2번 출구 도보 5분" }}</li>
+          <li><span class="transit-badge transit-badge--bus">버스</span> {{ location_bus|default:"문정역, 문정중학교 정류장 하차" }}</li>
+          <li><span class="transit-badge transit-badge--car">자가용</span> {{ location_car|default:"송파유통테크밸리 지하주차장 이용 (방문 등록 시 무료)" }}</li>
+        </ul>
+      </section>
+
+      <section class="loc-block">
+        <h2 class="loc-label"><i class="ti ti-map-pin" aria-hidden="true"></i> 주소</h2>
+        <p class="loc-address">
+          {{ company_zipcode|default:"(05855)" }} {{ company_address|default:"서울 송파구 법원로6길 7 송파유통테크밸리 503호 (주) 라이브투닷컴" }}<br>
+          Tel: {{ company_tel|default:"02-538-3258" }} / e-Mail: {{ company_email|default:"liveto@liveto.com" }}
+        </p>
+      </section>
+
+      <section class="loc-block">
+        <h2 class="loc-label"><i class="ti ti-map-2" aria-hidden="true"></i> 약도</h2>
+
+        <!-- 실제 운영 시: 카카오맵/네이버맵 iframe 임베드 영역 -->
+        <div class="map-frame">
+          {% if kakao_map_embed_url %}
+            <iframe src="{{ kakao_map_embed_url }}" class="map-iframe" loading="lazy" referrerpolicy="no-referrer-when-downgrade" title="회사 위치 지도"></iframe>
+          {% else %}
+            <div class="map-placeholder">
+              <i class="ti ti-map-2" aria-hidden="true"></i>
+              <!-- * 카카오맵 - 지도퍼가기 -->
+                <!-- 1. 지도 노드 -->
+                <div id="daumRoughmapContainer1782362676650" class="root_daum_roughmap root_daum_roughmap_landing"></div>
+
+                <!--
+                    2. 설치 스크립트
+                    * 지도 퍼가기 서비스를 2개 이상 넣을 경우, 설치 스크립트는 하나만 삽입합니다.
+                -->
+                <script charset="UTF-8" class="daum_roughmap_loader_script" src="https://ssl.daumcdn.net/dmaps/map_js_init/roughmapLoader.js"></script>
+
+                <!-- 3. 실행 스크립트 -->
+                <script charset="UTF-8">
+                    new daum.roughmap.Lander({
+                        "timestamp" : "1782362676650",
+                        "key" : "q5cx6zvdckf",
+                        "mapWidth" : "900",
+                        "mapHeight" : "530"
+                    }).render();
+                </script>
+            </div>
+          {% endif %}
+        </div>
+
+        <div class="map-legend">
+          <span class="legend-item"><span class="legend-swatch legend-swatch--walk"></span> 도보경로</span>
+          <span class="legend-item"><span class="legend-swatch legend-swatch--car"></span> 차량경로</span>
+          <span class="legend-item"><span class="legend-swatch legend-swatch--park"></span> 주차장 (P)</span>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  
+
+</div>
+
+<style>
+:root{--indigo-50:#eef2ff;--indigo-100:#e0e7ff;--indigo-200:#c7d2fe;--indigo-500:#6366f1;--indigo-600:#4f46e5;--indigo-700:#4338ca;--ink:#1e1b4b;--r:8px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:14px;color:#374151}
+
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--indigo-600);border-color:var(--indigo-600)}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:180px;background:#fff;border:1px solid var(--indigo-100);border-radius:8px;box-shadow:0 8px 24px rgba(30,27,75,.12);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--indigo-50);color:var(--indigo-600)}
+
+.sub-visual{position:relative;border-radius:12px;overflow:hidden;min-height:170px;display:flex;align-items:center;margin-bottom:2rem;background:linear-gradient(120deg,#1e1b4b 0%,#312e81 50%,#4338ca 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px}
+.sv-monitor{position:absolute;border:1.5px solid rgba(165,180,252,.3);border-radius:4px;background:rgba(99,102,241,.07)}
+.sv-monitor--1{width:120px;height:78px;left:5%;top:20%;transform:rotate(-3deg)}
+.sv-monitor--2{width:90px;height:60px;left:14%;top:55%;transform:rotate(2deg)}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(30,27,75,.65) 0%,rgba(67,56,202,.3) 60%,rgba(67,56,202,.05) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:26px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
+.sv-title-dot{color:#c7d2fe;font-weight:400}
+.sv-title-sub{font-size:14px;color:#a5b4fc;font-weight:400;margin-left:6px}
+.sv-desc{color:#e0e7ff;font-size:12.5px;line-height:1.8;margin:0}
+
+.content-row{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:2.5rem}
+
+.side-nav-current{background:linear-gradient(135deg,var(--indigo-600),var(--indigo-700));color:#fff;font-size:15px;font-weight:600;text-align:center;padding:14px 0;border-radius:8px 8px 0 0}
+.side-nav-list{list-style:none;margin:0;padding:0;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
+.side-nav-list li{border-bottom:1px dashed #e5e7eb}
+.side-nav-list li:last-child{border-bottom:none}
+.side-nav-list a{display:flex;align-items:center;gap:6px;padding:12px 16px;font-size:13px;color:#4b5563;text-decoration:none;transition:all .15s}
+.side-nav-list a i{font-size:11px;color:#c7d2fe}
+.side-nav-list a:hover{background:var(--indigo-50);color:var(--indigo-600)}
+.side-nav-list a.is-active{background:var(--indigo-50);color:var(--indigo-700);font-weight:600}
+.side-nav-list a.is-active i{color:var(--indigo-500)}
+
+.main-content{min-width:0}
+.content-head{margin-bottom:1.25rem;padding-bottom:.9rem;border-bottom:2px solid var(--indigo-100)}
+.content-title{font-size:21px;font-weight:700;color:var(--ink);margin:0}
+
+/* 오시는길 블록 */
+.loc-block{margin-bottom:1.75rem}
+.loc-label{display:flex;align-items:center;gap:7px;font-size:14px;font-weight:700;color:var(--indigo-700);margin:0 0 .8rem;padding-bottom:.5rem;border-bottom:1px solid var(--indigo-100)}
+.loc-label i{font-size:15px;color:var(--indigo-500)}
+
+.loc-transit{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.loc-transit li{display:flex;align-items:center;gap:10px;font-size:13.5px;color:#374151}
+.transit-badge{flex-shrink:0;font-size:11px;font-weight:700;color:#fff;padding:4px 10px;border-radius:12px;min-width:48px;text-align:center}
+.transit-badge--subway{background:#0ea5e9}
+.transit-badge--bus{background:#22c55e}
+.transit-badge--car{background:#f59e0b}
+
+.loc-address{font-size:13.5px;color:#374151;line-height:1.8;margin:0;padding:14px 16px;background:#fafbff;border:1px solid #f0f0f5;border-radius:8px}
+
+/* 지도 */
+.map-frame{border:1px solid #e5e7eb;border-radius:10px;overflow:hidden;aspect-ratio:16/10;background:#f3f4f6}
+.map-iframe{width:100%;height:100%;border:0;display:block}
+.map-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;color:#9ca3af;background:linear-gradient(135deg,var(--indigo-50),#f3f4f6)}
+.map-placeholder i{font-size:40px;color:var(--indigo-300,#a5b4fc)}
+.map-placeholder p{margin:0;font-size:13px}
+.map-placeholder-sub{font-size:11px;color:#c1c1cb}
+
+.map-legend{display:flex;gap:18px;margin-top:.9rem;flex-wrap:wrap}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:12px;color:#6b7280}
+.legend-swatch{width:14px;height:4px;border-radius:2px;display:inline-block}
+.legend-swatch--walk{background:#dc2626}
+.legend-swatch--car{background:#4338ca}
+.legend-swatch--park{background:#0ea5e9}
+
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-list{display:none}
+  .side-nav-current{border-radius:8px}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .main-nav{gap:16px}
+}
+</style>
+{% endblock %}

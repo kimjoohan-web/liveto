@@ -1,0 +1,10 @@
+ <aside class="side-nav">
+      <div class="side-nav-current">회사소개</div>
+      <ul class="side-nav-list">
+        <li><a href="{% url 'company:about' %}"{% if current_page == 'about' %} class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 회사소개</a></li>
+        <li><a href="{% url 'company:business' %}"{% if current_page == 'business' %} class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 사업분야</a></li>
+        <li><a href="{% url 'company:clients' %}"{% if current_page == 'clients' %} class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 고 객 사</a></li>
+        <li><a href="{% url 'company:works' %}"{% if current_page == 'works' %} class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 사업실적</a></li>
+        <li><a href="{% url 'company:location' %}"{% if current_page == 'location' %} class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 오시는길</a></li>
+      </ul>
+    </aside>

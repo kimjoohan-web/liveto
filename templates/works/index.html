@@ -1,0 +1,262 @@
+{% extends 'base_main.html' %}
+{% block title %}사업실적{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+  {% include "main_header.html" with current_page='works' %}
+
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-grid"></div>
+      <div class="sv-lens sv-lens--1"></div>
+      <div class="sv-lens sv-lens--2"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">Careers</span></p>
+      <p class="sv-desc">
+        국내/해외 3회 포함하여 600여회 6500시간<br>
+        생중계 경험 및 5,000시간의 VOD 컨텐츠 제작경험으로<br>
+        다채널, 다국어로 각종 컨텐츠 제작대행하고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+    <aside class="side-nav">
+      <div class="side-nav-current">사업실적</div>
+
+      <div class="side-section">
+        <p class="side-section-title"><i class="ti ti-chevron-right" aria-hidden="true"></i> 연도별 실적</p>
+        <ul class="year-list">
+          {% for y in year_list %}
+          <li>
+            <a href="?year={{ y }}" class="{% if y == selected_year %}is-active{% endif %}">{{ y }}</a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="side-section">
+        <p class="side-section-title"><i class="ti ti-chevron-right" aria-hidden="true"></i> 사업분야별 실적</p>
+        <ul class="sub-list">
+          <li><a href="?category=webcasting"><i class="ti ti-chevron-right" aria-hidden="true"></i> 인터넷 생방송</a></li>
+          <li><a href="?category=relay"><i class="ti ti-chevron-right" aria-hidden="true"></i> 중계방송</a></li>
+          <li><a href="?category=video"><i class="ti ti-chevron-right" aria-hidden="true"></i> 영상물 제작</a></li>
+          <li><a href="?category=elearning"><i class="ti ti-chevron-right" aria-hidden="true"></i> e러닝 제작</a></li>
+        </ul>
+      </div>
+
+      <div class="side-section side-section--plain">
+        <a href="{% url 'works:index' %}?category=portfolio" class="side-plain-link"><i class="ti ti-chevron-right" aria-hidden="true"></i> 포트폴리오</a>
+      </div>
+    </aside>
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        {% if selected_year == None %}
+            <h1 class="content-title">{{ selected_title }}</h1>
+        {% else %}
+            <h1 class="content-title">{{ selected_year|default:"2026" }}년 연 도 별 실 적</h1>
+        {% endif %}
+      </div>
+
+      <!-- 검색 -->
+      <form method="get" class="search-bar">
+        {% if selected_year %}<input type="hidden" name="year" value="{{ selected_year }}">{% endif %}
+        <span class="search-label">게시물 검색</span>
+        <input type="text" name="kw" value="{{ query|default:'' }}" placeholder="검색어를 입력하세요" class="search-input">
+        <button type="submit" class="btn-search">
+          <i class="ti ti-search" aria-hidden="true"></i> SEARCH
+        </button>
+      </form>
+
+      <!-- 테이블 -->
+      <div class="table-wrap">
+        <table class="works-table">
+          <colgroup>
+            <col style="width:60px"><col><col style="width:140px">
+            <col style="width:110px"><col style="width:70px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>no</th><th>행사명</th><th>발주처</th><th>행사일</th><th>VOD</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in page_obj %}
+            <tr>
+              <td class="td-num">{{ page_obj.start_index|add:forloop.counter0 }}</td>
+              <td class="td-title"><a href="#">{{ item.car_name|truncatechars:40 }}</a></td>
+              <td class="td-client">{{ item.car_order|default:"0" }}</td>
+              <td class="td-date">{{ item.car_day|date:"Y.m.d" }}</td>
+              <td class="td-center">
+                {% if item.car_url %}
+                  <a href="{{ item.car_url }}" target="_blank" class="vod-icon" title="VOD 보기" aria-label="VOD 보기">
+                    <i class="ti ti-player-play-filled" aria-hidden="true"></i>
+                  </a>
+                {% else %}<span class="td-empty">&nbsp;</span>{% endif %}
+              </td>
+            </tr>
+            {% empty %}
+            <tr>
+              <td colspan="5" class="td-empty-row">등록된 실적이 없습니다.</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 페이지네이션 -->
+      <nav class="pagination" aria-label="페이지 탐색">
+        {% if page_obj.has_previous %}
+          <a href="?page={{ page_obj.previous_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-prev">◂PREV</a>
+        {% else %}
+          <span class="page-prev is-disabled">◂PREV</span>
+        {% endif %}
+
+        <span class="page-numbers">
+          [
+          {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+              <strong>{{ num }}</strong>
+            {% else %}
+              <a href="?page={{ num }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
+            {% endif %}
+          {% empty %}<strong>1</strong>{% endfor %}
+          ]
+        </span>
+
+        {% if page_obj.has_next %}
+          <a href="?page={{ page_obj.next_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-next">NEXT▸</a>
+        {% else %}
+          <span class="page-next is-disabled">NEXT▸</span>
+        {% endif %}
+      </nav>
+
+    </main>
+  </div>
+
+</div>
+
+<style>
+:root{--teal-50:#ecfeff;--teal-100:#cffafe;--teal-500:#14b8a6;--teal-600:#0d9488;--teal-700:#0f766e;--ink:#1e1b4b;--r:6px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:13px;color:#374151}
+
+/* 헤더 */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--teal-600);border-color:var(--teal-600);font-weight:700}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:180px;background:#fff;border:1px solid var(--teal-100);border-radius:8px;box-shadow:0 8px 24px rgba(15,118,110,.12);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--teal-50);color:var(--teal-600)}
+
+/* 상단 breadcrumb */
+.top-crumb{display:flex;gap:20px;padding:.5rem 0 .9rem;flex-wrap:wrap}
+.top-crumb a{display:flex;align-items:center;gap:3px;font-size:12px;color:#6b7280;text-decoration:none}
+.top-crumb a i{font-size:9px;color:#5eead4}
+.top-crumb a:hover,.top-crumb a.is-active{color:var(--teal-700);font-weight:600}
+
+/* 서브 비주얼 */
+.sub-visual{position:relative;border-radius:8px;overflow:hidden;min-height:160px;display:flex;align-items:center;margin-bottom:1.5rem;background:linear-gradient(115deg,#134e4a 0%,#0f766e 45%,#14b8a6 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.06) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.06) 1px,transparent 1px);background-size:30px 30px}
+.sv-lens{position:absolute;border-radius:50%;border:2px solid rgba(204,251,241,.3)}
+.sv-lens--1{width:90px;height:90px;left:6%;top:15%}
+.sv-lens--2{width:60px;height:60px;left:13%;top:55%}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(19,78,74,.55) 0%,rgba(15,118,110,.25) 55%,rgba(15,118,110,.05) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:25px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+.sv-title-dot{color:#ccfbf1;font-weight:400}
+.sv-title-sub{font-size:14px;color:#99f6e4;font-weight:400;font-style:italic;margin-left:6px}
+.sv-desc{color:#ecfeff;font-size:12px;line-height:1.75;margin:0}
+
+/* 본문 영역 */
+.content-row{display:grid;grid-template-columns:170px 1fr;gap:28px;margin-bottom:2.25rem}
+
+/* 사이드바 */
+.side-nav-current{background:linear-gradient(135deg,var(--teal-600),var(--teal-700));color:#fff;font-size:14px;font-weight:600;text-align:center;padding:12px 0;border-radius:6px 6px 0 0}
+.side-section{border:1px solid #e5e7eb;border-top:none;padding:10px 0}
+.side-section:first-of-type{}
+.side-section--plain{padding:10px 14px;border-radius:0 0 6px 6px}
+.side-section-title{display:flex;align-items:center;gap:4px;font-size:12px;font-weight:600;color:#4b5563;margin:0 0 6px;padding:0 14px}
+.side-section-title i{font-size:9px;color:#5eead4}
+
+.year-list{list-style:none;margin:0;padding:0;max-height:260px;overflow-y:auto}
+.year-list li a{display:block;padding:4px 18px;font-size:13px;color:#374151;text-decoration:none}
+.year-list li a:hover{background:var(--teal-50);color:var(--teal-700)}
+.year-list li a.is-active{background:var(--teal-600);color:#fff;font-weight:700}
+
+.sub-list{list-style:none;margin:0;padding:0}
+.sub-list li a{display:flex;align-items:center;gap:4px;padding:5px 18px;font-size:12px;color:#6b7280;text-decoration:none}
+.sub-list li a i{font-size:9px;color:#9ca3af}
+.sub-list li a:hover{background:var(--teal-50);color:var(--teal-700)}
+
+.side-plain-link{display:flex;align-items:center;gap:4px;font-size:13px;font-weight:600;color:#374151;text-decoration:none}
+.side-plain-link i{font-size:9px;color:#5eead4}
+.side-plain-link:hover{color:var(--teal-700)}
+
+/* 본문 */
+.main-content{min-width:0}
+.content-head{margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid #e5e7eb}
+.content-title{font-size:19px;font-weight:600;color:var(--ink);margin:0;letter-spacing:.02em}
+
+/* 검색바 */
+.search-bar{display:flex;align-items:center;gap:0;margin-bottom:1.1rem;border:1px solid var(--teal-100);border-radius:var(--r);overflow:hidden}
+.search-label{background:linear-gradient(180deg,var(--teal-600),var(--teal-700));color:#fff;font-size:12px;font-weight:600;padding:9px 16px;flex-shrink:0;white-space:nowrap}
+.search-input{flex:1;border:none;padding:9px 12px;font-size:12.5px;outline:none;background:var(--teal-50)}
+.btn-search{background:var(--teal-50);border:none;border-left:1px solid var(--teal-100);padding:9px 16px;font-size:11px;font-weight:700;color:var(--teal-700);cursor:pointer;display:flex;align-items:center;gap:4px;white-space:nowrap}
+.btn-search:hover{background:var(--teal-100)}
+
+/* 테이블 */
+.table-wrap{border:1px solid #e5e7eb;border-radius:var(--r);overflow:hidden;margin-bottom:1rem}
+.works-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.works-table thead tr{background:linear-gradient(180deg,#f0fdfa,var(--teal-50))}
+.works-table th{padding:9px 12px;font-weight:600;text-align:center;color:var(--teal-700);border-bottom:1px solid var(--teal-100)}
+.works-table td{padding:9px 12px;border-bottom:1px solid #f3f4f6}
+.works-table tbody tr:last-child td{border-bottom:none}
+.works-table tbody tr:hover{background:#fafffe}
+.td-num,.td-center,.td-date{text-align:center;color:#9ca3af}
+.td-title a{color:#374151;text-decoration:none}
+.td-title a:hover{color:var(--teal-600);text-decoration:underline}
+.td-client{text-align:center;color:#9ca3af}
+.td-empty{color:#d1d5db}
+.td-empty-row{text-align:center;color:#9ca3af;padding:36px}
+.vod-icon{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--teal-50);color:var(--teal-600)}
+.vod-icon:hover{background:var(--teal-100)}
+
+/* 페이지네이션 */
+.pagination{display:flex;align-items:center;justify-content:center;gap:14px;font-size:12px}
+.page-prev,.page-next{color:#6b7280;text-decoration:none;font-weight:600;background:#f3f4f6;padding:5px 12px;border-radius:4px}
+.page-prev:hover,.page-next:hover{background:var(--teal-50);color:var(--teal-700)}
+.page-prev.is-disabled,.page-next.is-disabled{color:#d1d5db;cursor:default}
+.page-numbers{color:#9ca3af}
+.page-numbers a{color:#6b7280;text-decoration:none;padding:0 4px}
+.page-numbers a:hover{color:var(--teal-600)}
+.page-numbers strong{color:#fff;background:var(--teal-600);padding:2px 7px;border-radius:3px;font-weight:700}
+
+/* 푸터 */
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-current,.side-section{display:none}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .main-nav{gap:16px}
+  .works-table th:nth-child(3),.works-table td:nth-child(3){display:none}
+}
+</style>
+{% endblock %}

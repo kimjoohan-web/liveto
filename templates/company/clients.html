@@ -1,0 +1,281 @@
+{% extends 'base_main.html' %}
+{% block title %}고객사{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+    <!-- 헤더 -->
+    {% include "main_header.html" with current_page='clients' %}
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-grid"></div>
+      <div class="sv-monitor sv-monitor--1"></div>
+      <div class="sv-monitor sv-monitor--2"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">About us</span></p>
+      <p class="sv-desc">
+        라이브투닷컴은 다년간의 인터넷 방송의 경험으로<br>
+        국내·외에서 생방송 및 VOD 방송을 제작하고 있으며<br>
+        자체 컨텐츠 개발로 다각적인 방향으로 발전하고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+    {% include "company/company_left.html" with current_page='clients' %}
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        <h1 class="content-title">고 객 사</h1>
+      </div>
+
+      <!-- 서비스 배너 -->
+      <div class="service-banner">
+        <div class="service-banner-text">
+          <p class="service-banner-title">방송컨설팅 / 인터넷 생방송 / 콘텐츠 제작 <span class="service-banner-sub">사이트 운영</span></p>
+          <div class="service-banner-cols">
+            <ul>
+              <li>인터넷 방송 구축</li>
+              <li>인터넷 방송국 운영 대행</li>
+              <li>콘텐츠 제작 대행</li>
+              <li>운영 기획 및 실무</li>
+              <li>인터넷 방송 마케팅</li>
+            </ul>
+            <ul>
+              <li>세미나 중계</li>
+              <li>정부기관, 기업 공청회</li>
+              <li>국제회의 및 포럼</li>
+              <li>기업 사업 설명회</li>
+              <li>기업 온라인 세미나</li>
+            </ul>
+            <ul>
+              <li>홍보 영상물 제작</li>
+              <li>인터넷 동영상 제작</li>
+              <li>홍보 CD - Title</li>
+              <li>사이버 및 원 교육용 콘텐츠</li>
+            </ul>
+          </div>
+          <div class="service-banner-tags">
+            <span>방송컨설팅</span><span>인터넷 생방송</span><span>콘텐츠 제작</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="clients-lead">
+        (주)라이브투닷컴은 "<strong class="hl">국내 최고의 기관 및 업체</strong>와 함께하고 있습니다.
+      </p>
+
+      <!-- 고객사 카테고리 -->
+      <div class="clients-list">
+
+        <section class="clients-group">
+          <p class="clients-quote">"인터넷 방송은 시청자가 참여하는 방송입니다."</p>
+          <h2 class="clients-heading">
+            <span class="clients-num">01.</span>
+            <span class="clients-kr">정부기관</span>
+            <span class="clients-en">customer GOVERNMENT · OPERATED</span>
+          </h2>
+          <div class="clients-grid">
+            <div class="client-card">
+              <p class="client-name">외교통상부</p>
+              <div class="client-thumb"><i class="ti ti-building-bank" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">마포구청</p>
+              <div class="client-thumb"><i class="ti ti-building-community" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">우정사업본부</p>
+              <div class="client-thumb"><i class="ti ti-mailbox" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">보험연수원</p>
+              <div class="client-thumb"><i class="ti ti-shield-check" aria-hidden="true"></i></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="clients-group">
+          <p class="clients-quote">"현장의 살아있는 화면을 생생하게 전달합니다."</p>
+          <h2 class="clients-heading">
+            <span class="clients-num">02.</span>
+            <span class="clients-kr">대학/학원</span>
+            <span class="clients-en">customer UNIV / ACADEMY</span>
+          </h2>
+          <div class="clients-grid">
+            <div class="client-card">
+              <p class="client-name">세종사이버대학</p>
+              <div class="client-thumb"><i class="ti ti-school" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">에듀조선</p>
+              <div class="client-thumb"><i class="ti ti-book-2" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">공평학원</p>
+              <div class="client-thumb"><i class="ti ti-chalkboard" aria-hidden="true"></i></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="clients-group">
+          <p class="clients-quote">"기업 및 단체의 이미지 업그레이드를 위한 영상물 제작"</p>
+          <h2 class="clients-heading">
+            <span class="clients-num">03.</span>
+            <span class="clients-kr">일반기업</span>
+            <span class="clients-en">customer ENTERPRISE</span>
+          </h2>
+          <div class="clients-grid">
+            <div class="client-card">
+              <p class="client-name">크레듀</p>
+              <div class="client-thumb"><i class="ti ti-briefcase" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">매경인터넷</p>
+              <div class="client-thumb"><i class="ti ti-news" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">캠퍼스 21</p>
+              <div class="client-thumb"><i class="ti ti-building-skyscraper" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">메디파크</p>
+              <div class="client-thumb"><i class="ti ti-stethoscope" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">진학사</p>
+              <div class="client-thumb"><i class="ti ti-certificate" aria-hidden="true"></i></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="clients-group">
+          <p class="clients-quote">"국내 최고의 품질을 자랑하는 콘텐츠 제작"</p>
+          <h2 class="clients-heading">
+            <span class="clients-num">04.</span>
+            <span class="clients-kr">협회 및 기타</span>
+            <span class="clients-en">customer ASSOCIATION</span>
+          </h2>
+          <div class="clients-grid">
+            <div class="client-card">
+              <p class="client-name">한국기자협회</p>
+              <div class="client-thumb"><i class="ti ti-microphone-2" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">한국능률협회</p>
+              <div class="client-thumb"><i class="ti ti-chart-bar" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">대한의사협회</p>
+              <div class="client-thumb"><i class="ti ti-vaccine" aria-hidden="true"></i></div>
+            </div>
+            <div class="client-card">
+              <p class="client-name">대한의학회</p>
+              <div class="client-thumb"><i class="ti ti-report-medical" aria-hidden="true"></i></div>
+            </div>
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+
+
+</div>
+
+<style>
+:root{--indigo-50:#eef2ff;--indigo-100:#e0e7ff;--indigo-200:#c7d2fe;--indigo-500:#6366f1;--indigo-600:#4f46e5;--indigo-700:#4338ca;--ink:#1e1b4b;--r:8px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:14px;color:#374151}
+
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--indigo-600);border-color:var(--indigo-600)}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:180px;background:#fff;border:1px solid var(--indigo-100);border-radius:8px;box-shadow:0 8px 24px rgba(30,27,75,.12);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--indigo-50);color:var(--indigo-600)}
+
+.sub-visual{position:relative;border-radius:12px;overflow:hidden;min-height:170px;display:flex;align-items:center;margin-bottom:2rem;background:linear-gradient(120deg,#1e1b4b 0%,#312e81 50%,#4338ca 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px}
+.sv-monitor{position:absolute;border:1.5px solid rgba(165,180,252,.3);border-radius:4px;background:rgba(99,102,241,.07)}
+.sv-monitor--1{width:120px;height:78px;left:5%;top:20%;transform:rotate(-3deg)}
+.sv-monitor--2{width:90px;height:60px;left:14%;top:55%;transform:rotate(2deg)}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(30,27,75,.65) 0%,rgba(67,56,202,.3) 60%,rgba(67,56,202,.05) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:26px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
+.sv-title-dot{color:#c7d2fe;font-weight:400}
+.sv-title-sub{font-size:14px;color:#a5b4fc;font-weight:400;margin-left:6px}
+.sv-desc{color:#e0e7ff;font-size:12.5px;line-height:1.8;margin:0}
+
+.content-row{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:2.5rem}
+
+.side-nav-current{background:linear-gradient(135deg,var(--indigo-600),var(--indigo-700));color:#fff;font-size:15px;font-weight:600;text-align:center;padding:14px 0;border-radius:8px 8px 0 0}
+.side-nav-list{list-style:none;margin:0;padding:0;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
+.side-nav-list li{border-bottom:1px dashed #e5e7eb}
+.side-nav-list li:last-child{border-bottom:none}
+.side-nav-list a{display:flex;align-items:center;gap:6px;padding:12px 16px;font-size:13px;color:#4b5563;text-decoration:none;transition:all .15s}
+.side-nav-list a i{font-size:11px;color:#c7d2fe}
+.side-nav-list a:hover{background:var(--indigo-50);color:var(--indigo-600)}
+.side-nav-list a.is-active{background:var(--indigo-50);color:var(--indigo-700);font-weight:600}
+.side-nav-list a.is-active i{color:var(--indigo-500)}
+
+.main-content{min-width:0}
+.content-head{margin-bottom:1.25rem;padding-bottom:.9rem;border-bottom:2px solid var(--indigo-100)}
+.content-title{font-size:21px;font-weight:700;color:var(--ink);margin:0}
+
+/* 서비스 배너 */
+.service-banner{background:linear-gradient(120deg,#0ea5e9,#38bdf8);border-radius:10px;padding:1.5rem 1.75rem;margin-bottom:1.75rem;color:#fff}
+.service-banner-title{font-size:15px;font-weight:700;margin:0 0 1rem}
+.service-banner-sub{font-weight:400;opacity:.85;font-size:13px}
+.service-banner-cols{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-bottom:1rem}
+.service-banner-cols ul{list-style:none;margin:0;padding:0}
+.service-banner-cols li{font-size:12px;padding:3px 0;opacity:.95}
+.service-banner-tags{display:flex;gap:8px;flex-wrap:wrap;border-top:1px solid rgba(255,255,255,.3);padding-top:.75rem}
+.service-banner-tags span{background:rgba(0,0,0,.18);padding:4px 12px;border-radius:14px;font-size:11.5px;font-weight:600}
+
+.clients-lead{font-size:14px;color:#374151;margin:0 0 2.25rem}
+.hl{color:#dc2626}
+
+/* 고객사 카테고리 */
+.clients-list{display:flex;flex-direction:column}
+.clients-group{padding:1.75rem 0;border-bottom:1px dashed #e5e7eb}
+.clients-group:last-child{border-bottom:none}
+.clients-quote{font-size:12px;color:#dc2626;margin:0 0 .4rem;font-weight:500}
+.clients-heading{display:flex;align-items:baseline;gap:10px;margin:0 0 1.1rem;flex-wrap:wrap}
+.clients-num{font-size:24px;font-weight:700;color:var(--ink);font-family:Georgia,serif}
+.clients-kr{font-size:18px;font-weight:700;color:var(--ink)}
+.clients-en{font-size:13px;color:#9ca3af;font-weight:400;letter-spacing:.02em}
+
+.clients-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.client-card{display:flex;flex-direction:column;gap:8px}
+.client-name{font-size:13px;font-weight:700;color:var(--indigo-700);margin:0}
+.client-thumb{aspect-ratio:4/3;border-radius:8px;background:linear-gradient(135deg,var(--indigo-50),var(--indigo-100));display:flex;align-items:center;justify-content:center;color:var(--indigo-500);font-size:28px;border:1px solid var(--indigo-100)}
+
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-list{display:none}
+  .side-nav-current{border-radius:8px}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .clients-grid{grid-template-columns:repeat(2,1fr)}
+  .service-banner-cols{grid-template-columns:1fr}
+  .main-nav{gap:16px}
+}
+</style>
+{% endblock %}

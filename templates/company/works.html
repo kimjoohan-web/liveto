@@ -1,0 +1,286 @@
+{% extends 'base_main.html' %}
+{% block title %}사업실적{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+  <!-- 헤더 -->
+  {% include "main_header.html" with current_page='works' %}
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-grid"></div>
+      <div class="sv-monitor sv-monitor--1"></div>
+      <div class="sv-monitor sv-monitor--2"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">About us</span></p>
+      <p class="sv-desc">
+        라이브투닷컴은 다년간의 인터넷 방송의 경험으로<br>
+        국내·외에서 생방송 및 VOD 방송을 제작하고 있으며<br>
+        자체 컨텐츠 개발로 다각적인 방향으로 발전하고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+        {% include "company/company_left.html" with current_page='works' %}
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        <h1 class="content-title">사업실적</h1>
+      </div>
+
+      <p class="works-lead">
+        (주)라이브투닷컴은 <strong class="hl">"다양한 실무경험으로 쌓은 특별한 노하우를 가지고 있습니다.."</strong>
+      </p>
+      <p class="works-summary">
+        버츄얼 스튜디오 플랫폼을 국내최초로 도입하여 세종사이버대학에서 교육용으로 운영중에 있으며 대통령 관련 행사(생중계) 21회 등 인터넷 생방송 6000시간과 VOD 제작 6000시간, 원격교육 및 사이버대학 콘텐츠 제작 2000강의 등 국내 최고의 콘텐츠 제작 경험으로 최고 품질의 영상물을 제작하고 있습니다.
+      </p>
+
+      <!-- 실적 항목 리스트 -->
+      <div class="works-list">
+
+        <section class="works-item">
+          <p class="works-quote">인터넷 방송은 시청자가 참여하는 방송입니다.</p>
+          <h2 class="works-heading">
+            <span class="works-num">01</span><span class="works-dot">●</span>
+            <span class="works-kr">인터넷 생중계</span>
+            <span class="works-en">InternetBroadcast</span>
+          </h2>
+          <div class="works-body">
+            <div class="works-thumb">
+              <div class="works-thumb-screen"></div>
+              <i class="ti ti-device-desktop-analytics works-thumb-icon" aria-hidden="true"></i>
+            </div>
+            <ul class="works-records">
+              <li><span class="works-date">2005.12</span><span class="works-desc">APEC CEO Summit - 멕시코 대통령 연설 생방송</span></li>
+              <li><span class="works-date">2005.11</span><span class="works-desc">아태심방세동포지움</span></li>
+              <li><span class="works-date">2004.11</span><span class="works-desc">제2차 동아시아 기자포럼 생방송</span></li>
+              <li><span class="works-date">2004.11</span><span class="works-desc">금호건설 월례조회 생방송</span></li>
+              <li><span class="works-date">2004.08</span><span class="works-desc">한국기자협회 40주년 기념식 생중계</span></li>
+              <li><span class="works-date">2004.06</span><span class="works-desc">장애인 정보검색 대회 생방송</span></li>
+              <li><span class="works-date">2004.04</span><span class="works-desc">제 17대 총선 개표 현황 생중계</span></li>
+              <li><span class="works-date">2003.12</span><span class="works-desc">현대모비스 종무식 생중계</span></li>
+              <li><span class="works-date">2003.10</span><span class="works-desc">인터넷 소설 영화 내 사랑 일진녀 공개오디션</span></li>
+              <li><span class="works-date">2003.10</span><span class="works-desc">IOSCO 세계대회 생중계</span></li>
+              <li><span class="works-date">2003.08</span><span class="works-desc">국내최초 도지사 인터넷 조회 생중계 (이의근 경북 도지사)</span></li>
+              <li><span class="works-date">2003.06</span><span class="works-desc">제 1회 정치개혁 포럼 생중계</span></li>
+              <li><span class="works-date">2003.06</span><span class="works-desc">세계최초 노무현 대통령 인터넷 조회 생중계</span></li>
+              <li><span class="works-date">2003.06</span><span class="works-desc">개혁국민정당 신당관련 당내 끝장토론</span></li>
+              <li><span class="works-date">2003.02</span><span class="works-desc">이승환&채림 결혼식 생중계</span></li>
+              <li><span class="works-date">2003.02</span><span class="works-desc">제 16대 노무현 대통령 취임식 생중계</span></li>
+              <li><span class="works-date">2003.01</span><span class="works-desc">국민참여시스템을 위한 공청회</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="works-item">
+          <p class="works-quote">기업(단체) 및 제품의 이미지 업그레이드를 위한 영상물을 제작</p>
+          <h2 class="works-heading">
+            <span class="works-num">02.</span>
+            <span class="works-kr">영상물 제작</span>
+            <span class="works-en">VOD/Advertisement/DVD</span>
+          </h2>
+          <div class="works-body">
+            <div class="works-thumb works-thumb--iso">
+              <i class="ti ti-device-tv-old works-thumb-icon" aria-hidden="true"></i>
+            </div>
+            <ul class="works-records">
+              <li><span class="works-date">2006.01</span><span class="works-desc">인제대학교 의과대학 졸업생 발표회</span></li>
+              <li><span class="works-date">2005.12</span><span class="works-desc">제 1 회 부정맥 연수강좌 CD 제작</span></li>
+              <li><span class="works-date">2005.12</span><span class="works-desc">아태심방세동심포지움 -DVD 제작</span></li>
+              <li><span class="works-date">2005.12</span><span class="works-desc">2005대한민국 특허기술대전 영상제작</span></li>
+              <li><span class="works-date">2004.12</span><span class="works-desc">Is.Mo - ZEN 홍보영상을 제작</span></li>
+              <li><span class="works-date">2004.09</span><span class="works-desc">한국전기안전공사 홍보영상물제작</span></li>
+              <li><span class="works-date">2003.12</span><span class="works-desc">외교통상부 종무식 제작</span></li>
+              <li><span class="works-date">2003.12</span><span class="works-desc">한림정보대학 홍보 동영상 제작</span></li>
+              <li><span class="works-date">2003.11</span><span class="works-desc">어린이 경제교육제작</span></li>
+              <li><span class="works-date">2003.11</span><span class="works-desc">전문대 입시 박람회 제작</span></li>
+              <li><span class="works-date">2003.10</span><span class="works-desc">세계지식포럼 VOD 제작</span></li>
+              <li><span class="works-date">2003.09</span><span class="works-desc">Broadband IT Korea 추진전략</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="works-item">
+          <p class="works-quote">현장의 살아있는 화면을 생생하게 전달 합니다.</p>
+          <h2 class="works-heading">
+            <span class="works-num">03.</span>
+            <span class="works-kr">영상중계</span>
+            <span class="works-en">Relay BroadCast</span>
+          </h2>
+          <div class="works-body">
+            <div class="works-thumb works-thumb--iso">
+              <i class="ti ti-device-tv-old works-thumb-icon" aria-hidden="true"></i>
+            </div>
+            <ul class="works-records">
+              <li><span class="works-date">2006.01</span><span class="works-desc">CI 선포식 영상중계</span></li>
+              <li><span class="works-date">2005.12</span><span class="works-desc">시상식영상중계</span></li>
+              <li><span class="works-date">2005.11</span><span class="works-desc">APEC CEO Summit 영상중계</span></li>
+              <li><span class="works-date">2004.10</span><span class="works-desc">개선스킬 경진대회 중계</span></li>
+              <li><span class="works-date">2004.10</span><span class="works-desc">어바이어 로드세미나 중계</span></li>
+              <li><span class="works-date">2004.07</span><span class="works-desc">NATE 夏&U 페스티벌 영상중계 7일간</span></li>
+              <li><span class="works-date">2004.06</span><span class="works-desc">제 49회 현충일 중계</span></li>
+              <li><span class="works-date">2004.05</span><span class="works-desc">5.18광주민주화운동 기념식 중계</span></li>
+              <li><span class="works-date">2004.04</span><span class="works-desc">NATE 사진 컨테스트 중계</span></li>
+              <li><span class="works-date">2004.03</span><span class="works-desc">가수신화 일본공연 현장중계</span></li>
+              <li><span class="works-date">2004.01</span><span class="works-desc">2004년도 중앙선관위 시무식중계</span></li>
+              <li><span class="works-date">2004.01</span><span class="works-desc">외교통상부 시무식 중계</span></li>
+              <li><span class="works-date">2004.01</span><span class="works-desc">우정사업부 시무식 중계</span></li>
+              <li><span class="works-date">2002.05</span><span class="works-desc">민주당 경선주자 및 권영길 대표 녹화중계</span></li>
+              <li><span class="works-date">2002.03</span><span class="works-desc">경찰대학 졸업식 및 임관식 중계</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="works-item">
+          <p class="works-quote">국내최고의 품질을 자랑하는 컨텐츠를 제작해 드립니다.</p>
+          <h2 class="works-heading">
+            <span class="works-num">04.</span>
+            <span class="works-kr">E러닝 컨텐츠 제작</span>
+            <span class="works-en">E-LearningContents</span>
+          </h2>
+          <div class="works-body">
+            <div class="works-thumb works-thumb--desk">
+              <i class="ti ti-device-imac works-thumb-icon" aria-hidden="true"></i>
+            </div>
+            <ul class="works-records">
+              <li><span class="works-date">2006.01</span><span class="works-desc">보험전문인 과정 교육컨텐츠 제작</span></li>
+              <li><span class="works-date">2005.12</span><span class="works-desc">적십자대학 강의 컨텐츠 제작</span></li>
+              <li><span class="works-date">2004.09</span><span class="works-desc">프리젠테이션 교육컨텐츠 제작</span></li>
+              <li><span class="works-date">2004.05</span><span class="works-desc">공평학원 온라인 교육컨텐츠 제작 및 사이브 공동운영</span></li>
+              <li><span class="works-date">2003.07</span><span class="works-desc">대구예술대학교 온라인 입시설명회 제작</span></li>
+              <li><span class="works-date">2003.07</span><span class="works-desc">고려대학교 온라인 입시설명회 제작</span></li>
+              <li><span class="works-date">2003.05</span><span class="works-desc">동명대학교 온라인 입시설명회 제작</span></li>
+              <li><span class="works-date">2003.05</span><span class="works-desc">동국대학교 온라인 입시설명회 제작</span></li>
+              <li><span class="works-date">2003.04</span><span class="works-desc">한양대학교 온라인 입시설명회 제작</span></li>
+              <li><span class="works-date">2001.05</span><span class="works-desc">시스코시스템즈 온라인 교육컨텐츠 제작</span></li>
+              <li><span class="works-date">2001.02</span><span class="works-desc">세종사이버대학 온라인 세미나 컨텐츠 제작</span></li>
+              <li><span class="works-date">2000.11</span><span class="works-desc">메디파크 동영상 컨텐츠제작</span></li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="works-item">
+          <p class="works-quote">국내최고의 품질을 자랑하는 화상회의 환경을 제공해 드립니다.</p>
+          <h2 class="works-heading">
+            <span class="works-num">05.</span>
+            <span class="works-kr">화상회의</span>
+            <span class="works-en">Video Conference System</span>
+          </h2>
+          <div class="works-body">
+            <div class="works-thumb works-thumb--desk">
+              <i class="ti ti-device-imac works-thumb-icon" aria-hidden="true"></i>
+            </div>
+            <ul class="works-records">
+              <li><span class="works-date">2006.04</span><span class="works-desc">KMA - 와튼스쿨 최고경영자 과정 화상회의 진행(신라호텔)</span></li>
+              <li><span class="works-date">2006.03</span><span class="works-desc">KMA - 와튼스쿨 최고경영자 과정 유치를 위한 협상 화상회의</span></li>
+              <li><span class="works-date">2006.01</span><span class="works-desc">KMA - 와튼스쿨 최고경영자 과정 유치를 위한 협상 화상회의</span></li>
+              <li><span class="works-date">2005.11</span><span class="works-desc">KMA - 와튼스쿨 최고경영자 과정 유치를 위한 협상 화상회의</span></li>
+              <li><span class="works-date">2005.09</span><span class="works-desc">KMA - 와튼스쿨 최고경영자 과정 유치를 위한 협상 화상회의</span></li>
+              <li><span class="works-date">2005.08</span><span class="works-desc">KMA - 와튼스쿨 최고경영자 과정 유치를 위한 협상 화상회의</span></li>
+            </ul>
+          </div>
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<style>
+:root{--indigo-50:#eef2ff;--indigo-100:#e0e7ff;--indigo-200:#c7d2fe;--indigo-500:#6366f1;--indigo-600:#4f46e5;--indigo-700:#4338ca;--ink:#1e1b4b;--r:8px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:14px;color:#374151}
+
+/* 헤더 */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--indigo-600);border-color:var(--indigo-600)}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:180px;background:#fff;border:1px solid var(--indigo-100);border-radius:8px;box-shadow:0 8px 24px rgba(30,27,75,.12);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--indigo-50);color:var(--indigo-600)}
+
+/* 서브 비주얼 */
+.sub-visual{position:relative;border-radius:12px;overflow:hidden;min-height:170px;display:flex;align-items:center;margin-bottom:2rem;background:linear-gradient(120deg,#1e1b4b 0%,#312e81 50%,#4338ca 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);background-size:34px 34px}
+.sv-monitor{position:absolute;border:1.5px solid rgba(165,180,252,.3);border-radius:4px;background:rgba(99,102,241,.07)}
+.sv-monitor--1{width:120px;height:78px;left:5%;top:20%;transform:rotate(-3deg)}
+.sv-monitor--2{width:90px;height:60px;left:14%;top:55%;transform:rotate(2deg)}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(30,27,75,.65) 0%,rgba(67,56,202,.3) 60%,rgba(67,56,202,.05) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:26px;font-weight:700;margin:0 0 10px;letter-spacing:-.01em}
+.sv-title-dot{color:#c7d2fe;font-weight:400}
+.sv-title-sub{font-size:14px;color:#a5b4fc;font-weight:400;margin-left:6px}
+.sv-desc{color:#e0e7ff;font-size:12.5px;line-height:1.8;margin:0}
+
+/* 본문 영역 */
+.content-row{display:grid;grid-template-columns:200px 1fr;gap:32px;margin-bottom:2.5rem}
+
+/* 사이드바 */
+.side-nav-current{background:linear-gradient(135deg,var(--indigo-600),var(--indigo-700));color:#fff;font-size:15px;font-weight:600;text-align:center;padding:14px 0;border-radius:8px 8px 0 0}
+.side-nav-list{list-style:none;margin:0;padding:0;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 8px 8px;overflow:hidden}
+.side-nav-list li{border-bottom:1px dashed #e5e7eb}
+.side-nav-list li:last-child{border-bottom:none}
+.side-nav-list a{display:flex;align-items:center;gap:6px;padding:12px 16px;font-size:13px;color:#4b5563;text-decoration:none;transition:all .15s}
+.side-nav-list a i{font-size:11px;color:#c7d2fe}
+.side-nav-list a:hover{background:var(--indigo-50);color:var(--indigo-600)}
+.side-nav-list a.is-active{background:var(--indigo-50);color:var(--indigo-700);font-weight:600}
+.side-nav-list a.is-active i{color:var(--indigo-500)}
+
+/* 본문 */
+.main-content{min-width:0}
+.content-head{margin-bottom:1.25rem;padding-bottom:.9rem;border-bottom:2px solid var(--indigo-100)}
+.content-title{font-size:21px;font-weight:700;color:var(--ink);margin:0}
+
+.works-lead{font-size:14px;color:#374151;margin:0 0 .8rem}
+.hl{color:#dc2626}
+.works-summary{font-size:13px;color:#6b7280;line-height:1.85;margin:0 0 2.5rem;padding-bottom:1.5rem;border-bottom:1px solid #f0f0f5}
+
+/* 사업실적 항목 */
+.works-list{display:flex;flex-direction:column}
+.works-item{padding:2rem 0;border-bottom:1px dashed #e5e7eb}
+.works-item:last-child{border-bottom:none}
+.works-quote{text-align:center;font-size:12px;color:#dc2626;margin:0 0 .5rem;font-weight:500}
+.works-heading{display:flex;align-items:baseline;gap:10px;margin:0 0 1.25rem;flex-wrap:wrap}
+.works-num{font-size:24px;font-weight:700;color:var(--indigo-600);font-family:Georgia,serif}
+.works-dot{color:var(--indigo-400,#818cf8);font-size:10px;margin-left:-2px}
+.works-kr{font-size:18px;font-weight:700;color:var(--ink)}
+.works-en{font-size:14px;color:#9ca3af;font-weight:400;font-style:italic;margin-left:2px}
+.works-body{display:flex;gap:24px;align-items:flex-start}
+.works-thumb{flex-shrink:0;width:150px;height:150px;border-radius:8px;background:linear-gradient(135deg,var(--indigo-50),var(--indigo-100));display:flex;align-items:center;justify-content:center;color:var(--indigo-500);font-size:46px;border:1px solid var(--indigo-100);position:relative}
+.works-thumb-icon{position:relative;z-index:1}
+.works-records{list-style:none;margin:0;padding:0;flex:1;min-width:0;max-height:340px;overflow-y:auto}
+.works-records li{display:flex;gap:14px;padding:4px 0;font-size:12.5px;line-height:1.6}
+.works-date{flex-shrink:0;width:56px;color:#ea580c;font-weight:700}
+.works-desc{color:#4b5563}
+
+/* 푸터 */
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-list{display:none}
+  .side-nav-current{border-radius:8px}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .works-body{flex-direction:column}
+  .works-thumb{width:100%;height:120px}
+  .works-records{max-height:none}
+  .main-nav{gap:16px}
+}
+</style>
+{% endblock %}

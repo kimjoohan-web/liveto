@@ -1,0 +1,46 @@
+<!-- 헤더 -->
+ {% load static %}
+  <header class="site-header">
+    <a href="{% url 'main:index' %}" class="logo">
+      <img src="{% static 'images/liveto_logo.png' %}" alt="LiveTo.com" class="logo-img">
+    </a>
+    <nav class="main-nav">
+      <div class="nav-item">
+        <a href="{% url 'company:index' %}" {% if current_page == 'about' %}class="is-active"{% endif %}    >회사소개</a>
+        <div class="nav-dropdown">
+          <a href="{% url 'company:about' %}">회사소개</a>
+          <a href="{% url 'company:business' %}">사업분야</a>
+          <a href="{% url 'company:clients' %}">고객사</a>
+          <a href="{% url 'company:works' %}">사업실적</a>
+          <a href="{% url 'company:location' %}">오시는길</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="{% url 'works:index' %}" {% if current_page == 'works' %}class="is-active"{% endif %}>사업실적</a>
+        <div class="nav-dropdown">
+          <a href="{% url 'works:index' %}">연도별 실적</a>
+          <a href="{% url 'works:index' %}?type=industry">산업분야별 실적</a>
+          <a href="{% url 'works:index' %}?type=portfolio">포트폴리오</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="">사업분야</a>
+        <div class="nav-dropdown">
+          <a href="">인터넷 생방송</a>
+          <a href="">행사중계</a>
+          <a href="">영상물 제작</a>
+          <a href="">인터넷 방송국 구축/운영대행</a>
+          <a href="">e러닝 컨텐츠 제작</a>
+          <a href="">홈페이지 제작</a>
+          <a href="">e-세미나</a>
+        </div>
+      </div>
+      <div class="nav-item">
+        <a href="">고객게시판</a>
+        <div class="nav-dropdown">
+          <a href="">행사소개</a>
+          <a href="">제작문의</a>
+        </div>
+      </div>
+    </nav>
+  </header>

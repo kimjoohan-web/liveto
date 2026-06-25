@@ -29,7 +29,10 @@ def index(request):
     sql_str+="car_content "             
     sql_str+=" FROM board WHERE 1 =1 "
     if search_field and kw:
-        sql_str+=" AND " + search_field + " LIKE %s ORDER BY car_date DESC,car_idx DESC" 
+        sql_str+=" AND " + search_field + " LIKE %s" 
+
+
+    sql_str+=" ORDER BY car_date DESC,car_idx DESC"
 
     with connection.cursor() as cursor:
         if search_field and kw:
@@ -45,6 +48,8 @@ def index(request):
      
     paginator = Paginator(data, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
+
+    
 
     context = {'board_list': page_obj, 'page': page, 'kw': kw, 'search_field': search_field }
        
