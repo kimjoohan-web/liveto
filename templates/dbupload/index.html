@@ -79,17 +79,11 @@
 
 const btn_add = document.querySelector(".btn-add");
 btn_add.addEventListener('click', function() {
-    const table_name = document.getElementById("table_name").value;
+    
     const excel_file = document.getElementById("excel_file").value;
     let suc = "0";
     
-    if (table_name == ""){
-        alert("테이블 이름을 입력해 주세요.");
-        document.memberForm.table_name.focus();
-        suc = "1";
-        return;
-    }
-    
+
     if (excel_file == ""){
         alert("첨부파일을 선택해 주세요.");
         document.memberForm.excel_file.focus();
