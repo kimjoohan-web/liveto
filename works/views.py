@@ -13,34 +13,30 @@ def index(request):
     year_list = range(2026, 1998, -1)   # 1999~2026 내림차순
     page = request.GET.get('page', '1')  # 페이지
     kw = request.GET.get('kw', '')  # 검색어
-    year_s = request.GET.get('year', '')  # 연도
+    year_s = int(request.GET.get('year', '0')) if request.GET.get('year', '0').isdigit() else 0  # 연도
     stype= request.GET.get('category', '')  # car_check 필드 값
     category = request.GET.get('category', '')  # car_check 필드 값
-    if stype == '':
+    if category == '':
         stype ="인터넷중계방송"       
-    else:
-        if stype == "webcasting":
-            stype = "인터넷생방송"
-        elif stype == "relay":
-            stype = "영상중계"
-        elif stype == "video":
-            stype = "영상물제작"
-        elif stype == "elearning":
-            stype = "e러닝제작"
-        
-      
-    # 현재 년도 불러오기 
-    
-    if stype == "인터넷중계방송":
         selected_title="인터넷중계방송"
-        if year_s=='':  # 연도가 선택되지 않은 경우
+        if year_s==0:  # 연도가 선택되지 않은 경우
             selected_year = year_list[0]  # 가장 최근 연도로 설정
         else:
             selected_year = year_s
-
     else:
-        selected_year = None
-        selected_title=stype
+        selected_year = 0
+        if category == "webcasting":
+            stype = "인터넷생방송"
+            selected_title=stype
+        elif category == "relay":
+            stype = "영상중계"
+            selected_title=stype
+        elif category == "video":
+            stype = "영상물제작"
+            selected_title=stype
+        elif category == "elearning":
+            stype = "e러닝제작"
+            selected_title=stype
 
 
 
@@ -88,3 +84,63 @@ def index(request):
     paginator = Paginator(data, 10)  # 페이지당 10개씩 보여주기
     page_obj = paginator.get_page(page)
     return render(request, 'works/index.html', {'year_list': year_list, 'selected_year': selected_year, 'selected_title': selected_title, 'page_obj': page_obj, 'query': kw, 'category': category})
+
+
+
+def detail(request, car_idx,page=1, kw='', year_s=0,  category=''):
+
+    
+    year_list = range(2026, 1998, -1)   # 1999~2026 내림차순
+    year_s = int(request.GET.get('year_s', '0')) if request.GET.get('year_s', '0').isdigit() else 0  # 연도
+    category = request.GET.get('category', '')  # car_check 필드 값
+    if category == '':
+        stype ="인터넷중계방송"       
+        selected_title="인터넷중계방송"
+        if year_s==0:  # 연도가 선택되지 않은 경우
+            year_s = year_list[0]  # 가장 최근 연도로 설정
+        else:
+            year_s = year_s
+    else:
+        
+        if category == "webcasting":
+            stype = "인터넷생방송"
+            selected_title=stype
+            year_s = 0
+        elif category == "relay":
+            stype = "영상중계"
+            selected_title=stype
+            year_s = 0
+            
+        elif category == "video":
+            stype = "영상물제작"
+            selected_title=stype
+            year_s = 0
+        elif category == "elearning":
+            stype = "e러닝제작"
+            selected_title=stype
+            year_s = 0
+
+            
+    
+
+    sql_str="SELECT car_idx," 
+    sql_str+="car_name," 
+    sql_str+="car_order,"
+    sql_str+="car_field," 
+    sql_str+="car_year," 
+    sql_str+="car_day," 
+    sql_str+="car_date," 
+    sql_str+="car_url," 
+    sql_str+="car_size_h," 
+    sql_str+="car_size_w," 
+    sql_str+="car_check," 
+    sql_str+="car_readnum," 
+    sql_str+="car_content "             
+    sql_str+=" FROM board WHERE car_idx = %s"
+    
+    with connection.cursor() as cursor:
+        cursor.execute(sql_str, [car_idx])
+        board_detail = cursor.fetchone()
+        data = dict(zip([column[0] for column in cursor.description], board_detail)) if board_detail else None
+
+    return render(request, 'works/works_detail.html', {'data': data, 'year_list': year_list,'selected_year':year_s, 'selected_title': selected_title, 'page': page, 'query': kw, 'category': category})

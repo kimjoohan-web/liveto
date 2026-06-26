@@ -28,39 +28,11 @@
   <div class="content-row">
 
     <!-- 좌측 사이드바 -->
-    <aside class="side-nav">
-      <div class="side-nav-current">사업실적</div>
-
-      <div class="side-section">
-        <p class="side-section-title"><i class="ti ti-chevron-right" aria-hidden="true"></i> 연도별 실적</p>
-        <ul class="year-list">
-          {% for y in year_list %}
-          <li>
-            <a href="?year={{ y }}" class="{% if y == selected_year %}is-active{% endif %}">{{ y }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-
-      <div class="side-section">
-        <p class="side-section-title"><i class="ti ti-chevron-right" aria-hidden="true"></i> 사업분야별 실적</p>
-        <ul class="sub-list">
-          <li><a href="?category=webcasting"><i class="ti ti-chevron-right" aria-hidden="true"></i> 인터넷 생방송</a></li>
-          <li><a href="?category=relay"><i class="ti ti-chevron-right" aria-hidden="true"></i> 중계방송</a></li>
-          <li><a href="?category=video"><i class="ti ti-chevron-right" aria-hidden="true"></i> 영상물 제작</a></li>
-          <li><a href="?category=elearning"><i class="ti ti-chevron-right" aria-hidden="true"></i> e러닝 제작</a></li>
-        </ul>
-      </div>
-
-      <div class="side-section side-section--plain">
-        <a href="{% url 'works:index' %}?category=portfolio" class="side-plain-link"><i class="ti ti-chevron-right" aria-hidden="true"></i> 포트폴리오</a>
-      </div>
-    </aside>
-
+    {% include "works/works_left.html" %} 
     <!-- 본문 -->
     <main class="main-content">
       <div class="content-head">
-        {% if selected_year == None %}
+        {% if selected_year == 0 %}
             <h1 class="content-title">{{ selected_title }}</h1>
         {% else %}
             <h1 class="content-title">{{ selected_year|default:"2026" }}년 연 도 별 실 적</h1>
@@ -70,6 +42,7 @@
       <!-- 검색 -->
       <form method="get" class="search-bar">
         {% if selected_year %}<input type="hidden" name="year" value="{{ selected_year }}">{% endif %}
+        {% if category %}<input type="hidden" name="category" value="{{ category }}">{% endif %}
         <span class="search-label">게시물 검색</span>
         <input type="text" name="kw" value="{{ query|default:'' }}" placeholder="검색어를 입력하세요" class="search-input">
         <button type="submit" class="btn-search">
@@ -93,7 +66,7 @@
             {% for item in page_obj %}
             <tr>
               <td class="td-num">{{ page_obj.start_index|add:forloop.counter0 }}</td>
-              <td class="td-title"><a href="#">{{ item.car_name|truncatechars:40 }}</a></td>
+              <td class="td-title"><a href="{% url 'works:detail' item.car_idx %}?page={{ page_obj.number }}&year_s={{ selected_year }}&category={{ category }}">{{ item.car_name|truncatechars:40 }}</a></td>
               <td class="td-client">{{ item.car_order|default:"0" }}</td>
               <td class="td-date">{{ item.car_day|date:"Y.m.d" }}</td>
               <td class="td-center">
@@ -116,7 +89,7 @@
       <!-- 페이지네이션 -->
       <nav class="pagination" aria-label="페이지 탐색">
         {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-prev">◂PREV</a>
+          <a href="?page={{ page_obj.previous_page_number }}{% if selected_year %}&year_s={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-prev">◂PREV</a>
         {% else %}
           <span class="page-prev is-disabled">◂PREV</span>
         {% endif %}
@@ -127,14 +100,14 @@
             {% if page_obj.number == num %}
               <strong>{{ num }}</strong>
             {% else %}
-              <a href="?page={{ num }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
+              <a href="?page={{ num }}{% if selected_year %}&year_s={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
             {% endif %}
           {% empty %}<strong>1</strong>{% endfor %}
           ]
         </span>
 
         {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-next">NEXT▸</a>
+          <a href="?page={{ page_obj.next_page_number }}{% if selected_year %}&year_s={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-next">NEXT▸</a>
         {% else %}
           <span class="page-next is-disabled">NEXT▸</span>
         {% endif %}

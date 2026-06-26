@@ -1,0 +1,30 @@
+
+<aside class="side-nav">
+      <div class="side-nav-current">사업실적</div>
+
+      <div class="side-section">
+        <p class="side-section-title"><i class="ti ti-chevron-right" aria-hidden="true"></i> 연도별 실적</p>
+        <ul class="year-list">
+          {% for y in year_list%}                
+          <li>
+            <a href="{% url 'works:index' %}?year={{ y }}" class="{% if y == selected_year %}is-active{% endif %}">{{ y }}</a>
+          </li>
+               
+          {% endfor %}
+        </ul>
+      </div>
+
+      <div class="side-section">
+        <p class="side-section-title"><i class="ti ti-chevron-right" aria-hidden="true"></i> 사업분야별 실적</p>
+        <ul class="sub-list">
+          <li><a href="{% url 'works:index' %}?category=webcasting" class="{% if category == 'webcasting' %}is-active{% endif %}"><i class="ti ti-chevron-right" aria-hidden="true"></i> 인터넷 생방송</a></li>
+          <li><a href="{% url 'works:index' %}?category=relay" class="{% if category == 'relay' %}is-active{% endif %}"><i class="ti ti-chevron-right" aria-hidden="true"></i> 중계방송</a></li>
+          <li><a href="{% url 'works:index' %}?category=video" class="{% if category == 'video' %}is-active{% endif %}"><i class="ti ti-chevron-right" aria-hidden="true"></i> 영상물 제작</a></li>
+          <li><a href="{% url 'works:index' %}?category=elearning" class="{% if category == 'elearning' %}is-active{% endif %}"><i class="ti ti-chevron-right" aria-hidden="true"></i> e러닝 제작</a></li>
+        </ul>
+      </div>
+
+      <div class="side-section side-section--plain">
+        <a href="{% url 'works:index' %}?category=portfolio" class="side-plain-link"><i class="ti ti-chevron-right" aria-hidden="true"></i> 포트폴리오</a>
+      </div>
+    </aside>
