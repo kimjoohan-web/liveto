@@ -33,6 +33,7 @@ urlpatterns = [
     path('company/', include('company.urls')),
     path('works/', include('works.urls')),
     path('dbupload/', include('dbupload.urls')),
+    path('biz/', include('biz.urls', namespace='biz')),
     
     
 

@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% block title %}영상물 제작{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+  <!-- 헤더 -->
+    {% include "main_header.html" %}
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-knobs"><span class="sv-knob"></span><span class="sv-knob"></span><span class="sv-knob"></span><span class="sv-knob"></span></div>
+      <div class="sv-grid"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">Business Field</span></p>
+      <p class="sv-desc">
+        버츄얼 스튜디오 플랫폼을 국내최초로 도입하는 등<br>
+        항상 앞서가는 서비스를 제공하고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+    {% include "biz/biz_left.html" with current_page='video' %}
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        <h1 class="content-title">영상물 제작</h1>
+      </div>
+
+      <p class="lead-quote">기업(단체) 및 제품의 이미지 업그레이드를 위한 영상물을 제작하여 드립니다.</p>
+
+      <p class="body-text">
+        홍보영상은 시청각 효과를 통한 기업이미지와 정보를 정확하게 전달할 수 있는 뛰어난 매체입니다. 제작된 홍보 영상은 CD-Title 및 인터넷 홈페이지를 통해서 많은 사람들에게 배포할 수 있어 보다 높은 효과를 볼 수 있습니다. 저희 라이브투닷컴은 영상홍보물 외 인터넷 사이트용 홍보물(Flash, 온라인 브로셔, 버츄얼 동영상)의 제작을 통해 고객사의 홍보효과를 극대화 하고 있습니다.
+      </p>
+
+      <!-- 적용 사례 -->
+      <section class="case-section">
+        <h2 class="case-heading">적용 사례</h2>
+        <p class="case-list">기업이미지 홍보 영상 및 제품 홍보 영상 제작 / 기업 홍보 영상물 / 제품 홍보물 / 인터넷 동영상 VOD / CD Title</p>
+
+        <div class="video-diagram">
+
+          <!-- 좌측 체인형 다이어그램 -->
+          <div class="vd-chain">
+            <div class="vd-node vd-node--top">
+              <div class="vd-icon"><i class="ti ti-presentation-analytics" aria-hidden="true"></i></div>
+              <p class="vd-label"><span class="dot"></span>기업홍보<br><span class="vd-sub">기업 이미지 홍보영상</span></p>
+            </div>
+            <div class="vd-node vd-node--mid1">
+              <div class="vd-icon"><i class="ti ti-movie" aria-hidden="true"></i></div>
+              <p class="vd-label"><span class="dot"></span>제품 영상<br><span class="vd-sub">제품홍보 영상</span></p>
+            </div>
+            <div class="vd-node vd-node--mid2">
+              <div class="vd-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+              <p class="vd-label vd-label--people">고객사 요구 분석</p>
+            </div>
+            <div class="vd-node vd-node--bot1">
+              <div class="vd-icon"><i class="ti ti-video" aria-hidden="true"></i></div>
+              <p class="vd-label"><span class="dot"></span>행사 영상<br><span class="vd-sub">이벤트 및 사내 행사</span></p>
+            </div>
+            <div class="vd-node vd-node--bot2">
+              <div class="vd-icon"><i class="ti ti-device-imac" aria-hidden="true"></i></div>
+              <p class="vd-label"><span class="dot"></span>인터넷 영상<br><span class="vd-sub">Flash, 온라인 브로쉬, 버츄얼 동영상</span></p>
+            </div>
+          </div>
+
+          <!-- 우측 궤도형 다이어그램 -->
+          <div class="vd-orbit">
+            <div class="orbit-ring"></div>
+            <div class="orbit-center">특&nbsp;징</div>
+            <div class="orbit-dot orbit-dot--1"></div>
+            <div class="orbit-dot orbit-dot--2"></div>
+            <div class="orbit-dot orbit-dot--3"></div>
+            <div class="orbit-dot orbit-dot--4"></div>
+            <p class="orbit-text orbit-text--1">사용자 편위위주의<br>최적화된 플랫폼 디자인</p>
+            <p class="orbit-text orbit-text--2">WMT 기반으로 사용자별<br>특성 최적화</p>
+            <p class="orbit-text orbit-text--3">세미나 / 강좌 PPT 연동</p>
+            <p class="orbit-text orbit-text--4">별도의 작업없이<br>Web site 적용 가능</p>
+            <p class="orbit-text orbit-text--5">별도의 인트로 및<br>인터페이스 디자인</p>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 푸터 -->
+
+
+</div>
+
+<style>
+:root{--g-50:#f7fce8;--g-100:#eaf6c8;--g-300:#c3df6e;--g-500:#9bbf3a;--g-600:#7da02a;--g-700:#5f7d1e;--ink:#1e2a12;--r:6px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:13px;color:#374151}
+
+/* 헤더 */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--g-600);border-color:var(--g-500);font-weight:700}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:200px;background:#fff;border:1px solid var(--g-100);border-radius:8px;box-shadow:0 8px 24px rgba(95,125,30,.14);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--g-50);color:var(--g-700)}
+
+/* 서브 비주얼 */
+.sub-visual{position:relative;border-radius:10px;overflow:hidden;min-height:160px;display:flex;align-items:center;margin-bottom:1.75rem;background:linear-gradient(120deg,#3f5613 0%,#6b8a1f 45%,#a8cf3e 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:30px 30px}
+.sv-knobs{position:absolute;left:6%;top:50%;transform:translateY(-50%);display:flex;gap:14px}
+.sv-knob{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2a2a2a,#0a0a0a);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(40,56,12,.5) 0%,rgba(107,138,31,.2) 55%,rgba(107,138,31,.02) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:25px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+.sv-title-dot{color:#eaf6c8;font-weight:400}
+.sv-title-sub{font-size:13px;color:#e8f5b8;font-weight:400;font-style:italic;margin-left:6px}
+.sv-desc{color:#f7fce8;font-size:12px;line-height:1.75;margin:0}
+
+/* 본문 영역 */
+.content-row{display:grid;grid-template-columns:180px 1fr;gap:28px;margin-bottom:2.25rem}
+
+/* 사이드바 */
+.side-nav-current{background:linear-gradient(135deg,var(--g-600),var(--g-700));color:#fff;font-size:14px;font-weight:600;text-align:center;padding:12px 0;border-radius:6px 6px 0 0}
+.side-nav-list{list-style:none;margin:0;padding:0;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
+.side-nav-list li{border-bottom:1px dashed #e5e7eb}
+.side-nav-list li:last-child{border-bottom:none}
+.side-nav-list a{display:flex;align-items:flex-start;gap:6px;padding:10px 14px;font-size:12.5px;color:#4b5563;text-decoration:none;line-height:1.5;transition:all .15s}
+.side-nav-list a i{font-size:10px;color:#bbe06a;margin-top:3px;flex-shrink:0}
+.side-nav-list a:hover{background:var(--g-50);color:var(--g-700)}
+.side-nav-list a.is-active{background:var(--g-50);color:var(--g-700);font-weight:700}
+.side-nav-list a.is-active i{color:var(--g-500)}
+
+/* 본문 */
+.main-content{min-width:0}
+.content-head{margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid #e5e7eb}
+.content-title{font-size:19px;font-weight:700;color:var(--ink);margin:0}
+
+.lead-quote{font-size:13.5px;font-weight:700;color:var(--g-700);margin:0 0 1rem;padding-bottom:.9rem;border-bottom:2px solid var(--g-300)}
+.body-text{font-size:13px;color:#4b5563;line-height:1.85;margin:0 0 2rem}
+
+/* 적용사례 */
+.case-section{margin-bottom:2rem}
+.case-heading{font-size:13.5px;font-weight:700;color:var(--ink);margin:0 0 .6rem}
+.case-list{font-size:12.5px;color:#4b5563;line-height:1.7;margin:0 0 2rem;padding-left:14px;border-left:2px solid var(--g-300)}
+
+/* 영상물 제작 다이어그램 */
+.video-diagram{display:grid;grid-template-columns:1fr 1fr;gap:20px;align-items:start}
+
+/* 좌측 체인 */
+.vd-chain{position:relative;display:flex;flex-direction:column;gap:0;padding-left:10px}
+.vd-node{display:flex;align-items:center;gap:14px;margin-bottom:-6px;position:relative}
+.vd-icon{width:78px;height:78px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:28px;color:var(--g-600);background:radial-gradient(circle at 35% 30%,#f3f4f6,#e2e5e8);box-shadow:inset 0 2px 4px rgba(255,255,255,.7)}
+.vd-label{font-size:12px;color:#374151;font-weight:700;line-height:1.5;margin:0}
+.vd-label .dot{display:inline-block;width:6px;height:6px;background:#dc2626;margin-right:5px;vertical-align:middle}
+.vd-sub{font-size:11px;color:#6b7280;font-weight:400}
+.vd-node--top{margin-left:0}
+.vd-node--mid1{margin-left:34px}
+.vd-node--mid2{margin-left:70px}
+.vd-node--bot1{margin-left:34px}
+.vd-node--bot2{margin-left:70px}
+.vd-label--people{font-size:12px;font-weight:600;color:#4b5563;align-self:flex-start;margin-top:-50px;margin-left:-4px}
+
+/* 우측 궤도 */
+.vd-orbit{position:relative;width:100%;height:380px}
+.orbit-ring{position:absolute;left:14%;top:18%;width:200px;height:200px;border:1.5px solid #e5e7eb;border-radius:50%}
+.orbit-center{position:absolute;left:24%;top:28%;width:130px;height:130px;border-radius:50%;background:radial-gradient(circle at 40% 30%,#9bd97a,#6fae4a);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:700;letter-spacing:.1em;z-index:1}
+.orbit-dot{position:absolute;width:9px;height:9px;border-radius:50%;background:#9ca3af}
+.orbit-dot--1{left:13.5%;top:17%}
+.orbit-dot--2{left:38%;top:9%}
+.orbit-dot--3{left:51%;top:30%}
+.orbit-dot--4{left:48%;top:55%}
+.orbit-text{position:absolute;font-size:11px;color:#4b5563;line-height:1.5;margin:0;font-weight:500}
+.orbit-text--1{left:0;top:0;width:170px;text-align:right}
+.orbit-text--2{left:42%;top:6%;width:160px}
+.orbit-text--3{left:54%;top:30%;width:150px}
+.orbit-text--4{left:52%;top:48%;width:160px}
+.orbit-text--5{left:32%;top:62%;width:170px}
+
+/* 푸터 */
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-list{display:none}
+  .side-nav-current{border-radius:6px}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .video-diagram{grid-template-columns:1fr}
+  .vd-node,.vd-node--mid1,.vd-node--mid2,.vd-node--bot1,.vd-node--bot2{margin-left:0!important}
+  .vd-label--people{margin-top:0}
+  .vd-orbit{height:auto}
+  .orbit-ring,.orbit-center,.orbit-dot{display:none}
+  .orbit-text{position:static;width:auto!important;text-align:left!important;margin-bottom:8px;display:block}
+  .main-nav{gap:16px}
+}
+</style>
+{% endblock %}

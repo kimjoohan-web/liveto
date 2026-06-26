@@ -1,0 +1,200 @@
+{% extends 'base_main.html' %}
+{% block title %}인터넷 생방송{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+  <!-- 헤더 -->
+    {% include "main_header.html" %}
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-knobs"><span class="sv-knob"></span><span class="sv-knob"></span><span class="sv-knob"></span><span class="sv-knob"></span></div>
+      <div class="sv-grid"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">Business Field</span></p>
+      <p class="sv-desc">
+        버츄얼 스튜디오 플랫폼을 국내최초로 도입하는 등<br>
+        항상 앞서가는 서비스를 제공하고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+    {% include "biz/biz_left.html" with current_page='webcasting' %}
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        <h1 class="content-title">인터넷 생방송</h1>
+      </div>
+
+      <p class="lead-quote">인터넷 방송은 시청자가 직접 참여할 수 있는 방송입니다.</p>
+
+      <p class="body-text">
+        인터넷 생방송은 네트워크를 통한 새로운 방식의 방송으로 인터넷 회선이 들어가는 곳이라면 어디든 인터넷 생방송 중계가 가능합니다. 특히 인터넷 방송은 공중파 방송 및 지역 방송, 사내 방송 등에서 다룰 수 없었던 중소 규모의 행사 및 특정행사(컨퍼런스, 주주총회)를 특정 다수에게 영상을 생중계할 수 있는 최적의 기술 환경을 가지고 있습니다.<br><br>
+        이러한 인터넷 방송을 진행하기 위해서는 영상중계, 영상압축, 네트워크, 하드웨어 운영 등 다양한 분야에 기술이 필요하며 저희 (주)라이브 투 닷 컴은 인터넷 생방송에 대한 핵심적이고 전문적인 지식을 갖추고 있습니다.
+      </p>
+
+      <!-- 01. 인터넷 생방송 ASP 지원 -->
+      <section class="num-section">
+        <div class="num-badge">01</div>
+        <div class="num-content">
+          <h2 class="num-heading">인터넷 생방송 ASP 지원</h2>
+          <div class="num-body">
+            <div class="asp-thumb">
+              <i class="ti ti-device-desktop-analytics" aria-hidden="true"></i>
+            </div>
+            <p class="num-desc">
+              인터넷 생중계는 네트워크를 통한 새로운 방식의 브로드캐스팅 방송으로 인터넷 회선이 들어가는 곳이라면 어디든 인터넷 생방송 중계가 가능합니다.
+              (주)라이브투닷컴은 서비스를 통해 시스템과 인력을 구축하는데 드는 <strong class="hl">초기 구축 비용과 월 운영 경비를 열 배 이상 절감</strong>할 수 있을 뿐 아니라 쉽고 편리하게 안정적인 인터넷 방송 서비스를 제공할 수 있습니다
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- 02. 적용 사례 -->
+      <section class="num-section">
+        <div class="num-badge num-badge--cyan">02</div>
+        <div class="num-content">
+          <h2 class="num-heading">적용 사례</h2>
+          <p class="case-list">이벤트, 국제 세미나, 포럼, 주주총회, 학계 세미나, 기업설명회, 다국적 기업의 사내행사, 연구 발표회, 연주 발표회 음악회, 패션쇼 등</p>
+
+          <div class="flow-diagram">
+            <div class="flow-row flow-row--top">
+              <div class="flow-node">
+                <div class="flow-icon"><i class="ti ti-device-tv-old" aria-hidden="true"></i></div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-icon"><i class="ti ti-world" aria-hidden="true"></i></div>
+              </div>
+              <div class="flow-node">
+                <div class="flow-icon"><i class="ti ti-video" aria-hidden="true"></i></div>
+              </div>
+            </div>
+            <div class="flow-row flow-row--mid">
+              <div class="flow-node flow-node--people">
+                <div class="flow-icon"><i class="ti ti-users" aria-hidden="true"></i></div>
+              </div>
+            </div>
+
+            <ul class="flow-notes">
+              <li class="flow-note flow-note--1"><span>■</span> 디지털 시스템으로 고품질의 영상 제공</li>
+              <li class="flow-note flow-note--2"><span>■</span> 동시접속 2000명을 수용할 수 있는 안정적인 네트워크 환경</li>
+              <li class="flow-note flow-note--3"><span>■</span> 현장 중계방송을 위한 DVCAM급 전문방송 장비(디지털시스템)</li>
+              <li class="flow-note flow-note--4"><span>■</span> 중계방송에 대한 풍부한 경험을 가진 전문인력</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+
+</div>
+
+<style>
+:root{--g-50:#f7fce8;--g-100:#eaf6c8;--g-300:#c3df6e;--g-500:#9bbf3a;--g-600:#7da02a;--g-700:#5f7d1e;--ink:#1e2a12;--r:6px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:13px;color:#374151}
+
+/* 헤더 */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--g-600);border-color:var(--g-500);font-weight:700}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:200px;background:#fff;border:1px solid var(--g-100);border-radius:8px;box-shadow:0 8px 24px rgba(95,125,30,.14);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--g-50);color:var(--g-700)}
+
+/* 서브 비주얼 */
+.sub-visual{position:relative;border-radius:10px;overflow:hidden;min-height:160px;display:flex;align-items:center;margin-bottom:1.75rem;background:linear-gradient(120deg,#3f5613 0%,#6b8a1f 45%,#a8cf3e 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:30px 30px}
+.sv-knobs{position:absolute;left:6%;top:50%;transform:translateY(-50%);display:flex;gap:14px}
+.sv-knob{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2a2a2a,#0a0a0a);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(40,56,12,.5) 0%,rgba(107,138,31,.2) 55%,rgba(107,138,31,.02) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:25px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+.sv-title-dot{color:#eaf6c8;font-weight:400}
+.sv-title-sub{font-size:13px;color:#e8f5b8;font-weight:400;font-style:italic;margin-left:6px}
+.sv-desc{color:#f7fce8;font-size:12px;line-height:1.75;margin:0}
+
+/* 본문 영역 */
+.content-row{display:grid;grid-template-columns:180px 1fr;gap:28px;margin-bottom:2.25rem}
+
+/* 사이드바 */
+.side-nav-current{background:linear-gradient(135deg,var(--g-600),var(--g-700));color:#fff;font-size:14px;font-weight:600;text-align:center;padding:12px 0;border-radius:6px 6px 0 0}
+.side-nav-list{list-style:none;margin:0;padding:0;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
+.side-nav-list li{border-bottom:1px dashed #e5e7eb}
+.side-nav-list li:last-child{border-bottom:none}
+.side-nav-list a{display:flex;align-items:flex-start;gap:6px;padding:10px 14px;font-size:12.5px;color:#4b5563;text-decoration:none;line-height:1.5;transition:all .15s}
+.side-nav-list a i{font-size:10px;color:#bbe06a;margin-top:3px;flex-shrink:0}
+.side-nav-list a:hover{background:var(--g-50);color:var(--g-700)}
+.side-nav-list a.is-active{background:var(--g-50);color:var(--g-700);font-weight:700}
+.side-nav-list a.is-active i{color:var(--g-500)}
+
+/* 본문 */
+.main-content{min-width:0}
+.content-head{margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid #e5e7eb}
+.content-title{font-size:19px;font-weight:700;color:var(--ink);margin:0}
+
+.lead-quote{font-size:13.5px;font-weight:700;color:var(--g-700);margin:0 0 1rem;padding-bottom:.9rem;border-bottom:2px solid var(--g-300)}
+.body-text{font-size:13px;color:#4b5563;line-height:1.85;margin:0 0 2rem}
+.hl{color:#374151;font-weight:700}
+
+/* 번호 섹션 */
+.num-section{display:flex;gap:20px;margin-bottom:2.5rem;padding-bottom:2rem;border-bottom:1px dashed #e5e7eb}
+.num-section:last-child{border-bottom:none}
+.num-badge{flex-shrink:0;width:54px;height:54px;background:#29abe2;color:#fff;font-size:22px;font-weight:700;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif}
+.num-badge--cyan{background:#22b8b0}
+.num-content{flex:1;min-width:0}
+.num-heading{font-size:15px;font-weight:700;color:var(--ink);margin:0 0 .9rem;padding-top:14px}
+
+.num-body{display:flex;gap:20px;align-items:flex-start}
+.asp-thumb{flex-shrink:0;width:170px;height:110px;border-radius:8px;background:linear-gradient(135deg,var(--g-50),var(--g-100));display:flex;align-items:center;justify-content:center;color:var(--g-600);font-size:34px;border:1px solid var(--g-100)}
+.num-desc{font-size:12.5px;color:#4b5563;line-height:1.8;margin:0}
+
+/* 적용사례 */
+.case-list{font-size:12.5px;color:#4b5563;line-height:1.7;margin:0 0 1.5rem}
+
+.flow-diagram{position:relative;padding:1rem 0 2rem;display:flex;flex-direction:column;align-items:center;gap:0}
+.flow-row{display:flex;justify-content:center;gap:90px;position:relative}
+.flow-row--top{margin-bottom:-30px}
+.flow-row--mid{margin-top:30px}
+.flow-node{width:90px;height:90px;border-radius:50%;background:linear-gradient(135deg,#f3f4f6,#e5e7eb);display:flex;align-items:center;justify-content:center;position:relative;z-index:1}
+.flow-icon{color:var(--g-600);font-size:30px}
+.flow-node--people .flow-icon{color:#a78b6c}
+
+.flow-notes{list-style:none;margin:1.5rem 0 0;padding:0;display:flex;flex-direction:column;gap:8px;width:100%;max-width:560px}
+.flow-note{display:flex;align-items:baseline;gap:6px;font-size:12px;color:#4b5563;line-height:1.6}
+.flow-note span{color:var(--g-600);font-size:9px;flex-shrink:0}
+
+/* 푸터 */
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-list{display:none}
+  .side-nav-current{border-radius:6px}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .num-section{flex-direction:column}
+  .num-body{flex-direction:column}
+  .asp-thumb{width:100%;height:130px}
+  .flow-row{gap:30px}
+  .flow-node{width:70px;height:70px}
+  .main-nav{gap:16px}
+}
+</style>
+{% endblock %}

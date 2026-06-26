@@ -1,0 +1,171 @@
+{% extends 'base_main.html' %}
+{% block title %}e러닝 컨텐츠 제작{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+  <!-- 헤더 -->
+    {% include "main_header.html" %}
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-knobs"><span class="sv-knob"></span><span class="sv-knob"></span><span class="sv-knob"></span><span class="sv-knob"></span></div>
+      <div class="sv-grid"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">Business Field</span></p>
+      <p class="sv-desc">
+        버츄얼 스튜디오 플랫폼을 국내최초로 도입하는 등<br>
+        항상 앞서가는 서비스를 제공하고 있습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+    {% include "biz/biz_left.html" with current_page='elearning' %}
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        <h1 class="content-title">e러닝 컨텐츠 제작</h1>
+      </div>
+
+      <p class="lead-quote">국내 최고의 품질을 자랑하는 컨텐츠를 제작해 드립니다.</p>
+
+      <p class="body-text">
+        교육용 버츄얼 스튜디오 플랫폼을 국내 최초로 도입해 세종 사이버대학에서 교육용으로 운영중에 있으며, 2000강의 원격교육 및 사이버대학 컨텐츠 제작 경험을 가지고 있습니다.<br>
+        컨텐츠 개발 분야에서는 컨텐츠의 품질관리를 위해 사업 전 과정에 걸쳐 품질관리 기법을 적용하고 있으며 컨텐츠의 초기 개발단계부터 설계, 구현에 이르기까지 체계적인 품질관리 체계를 통해 운영하고 있습니다.
+      </p>
+
+      <!-- 적용 사례 -->
+      <section class="case-section">
+        <h2 class="case-heading">적용 사례</h2>
+        <p class="case-list">학원/ 학교의 원격 교육사이트 운영 대행 / E러닝 사이트 개발 및 운영 대행<br>방송용 교재 개발 / 동영상 강의 촬영 및 제작 / e러닝 콘텐츠 제작</p>
+
+        <!-- 카드 다이어그램 -->
+        <div class="card-diagram">
+          <div class="cd-bg-circle" aria-hidden="true"></div>
+
+          <div class="cd-card cd-card--top">
+            <p class="cd-title">E러닝 사이트 개발</p>
+            <ul class="cd-list">
+              <li>LMS 솔루션 적용</li>
+              <li>학습자 및 기업이 원하는 교육 및 교육시스템을 총체적으로 지원받을 수 있는통합 교육 관리</li>
+            </ul>
+          </div>
+
+          <div class="cd-card cd-card--left">
+            <p class="cd-title">E러닝 컨텐츠 개발</p>
+            <ul class="cd-list">
+              <li>On-line 교육방식의 표준 Platform 적용 컨텐츠 개발</li>
+            </ul>
+          </div>
+
+          <div class="cd-card cd-card--right">
+            <p class="cd-title">E러닝 사이트 운영 대행</p>
+            <ul class="cd-list">
+              <li>운영업무</li>
+              <li>시스템구축 및 사업관리를 위한 체계적인 제안</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 푸터 -->
+
+
+</div>
+
+<style>
+:root{--g-50:#f7fce8;--g-100:#eaf6c8;--g-300:#c3df6e;--g-500:#9bbf3a;--g-600:#7da02a;--g-700:#5f7d1e;--ink:#1e2a12;--r:6px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:13px;color:#374151}
+
+/* 헤더 */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--g-600);border-color:var(--g-500);font-weight:700}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:200px;background:#fff;border:1px solid var(--g-100);border-radius:8px;box-shadow:0 8px 24px rgba(95,125,30,.14);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--g-50);color:var(--g-700)}
+
+/* 서브 비주얼 */
+.sub-visual{position:relative;border-radius:10px;overflow:hidden;min-height:160px;display:flex;align-items:center;margin-bottom:1.75rem;background:linear-gradient(120deg,#3f5613 0%,#6b8a1f 45%,#a8cf3e 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.07) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.07) 1px,transparent 1px);background-size:30px 30px}
+.sv-knobs{position:absolute;left:6%;top:50%;transform:translateY(-50%);display:flex;gap:14px}
+.sv-knob{width:22px;height:22px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#2a2a2a,#0a0a0a);box-shadow:0 2px 4px rgba(0,0,0,.4)}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(40,56,12,.5) 0%,rgba(107,138,31,.2) 55%,rgba(107,138,31,.02) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:25px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+.sv-title-dot{color:#eaf6c8;font-weight:400}
+.sv-title-sub{font-size:13px;color:#e8f5b8;font-weight:400;font-style:italic;margin-left:6px}
+.sv-desc{color:#f7fce8;font-size:12px;line-height:1.75;margin:0}
+
+/* 본문 영역 */
+.content-row{display:grid;grid-template-columns:180px 1fr;gap:28px;margin-bottom:2.25rem}
+
+/* 사이드바 */
+.side-nav-current{background:linear-gradient(135deg,var(--g-600),var(--g-700));color:#fff;font-size:14px;font-weight:600;text-align:center;padding:12px 0;border-radius:6px 6px 0 0}
+.side-nav-list{list-style:none;margin:0;padding:0;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
+.side-nav-list li{border-bottom:1px dashed #e5e7eb}
+.side-nav-list li:last-child{border-bottom:none}
+.side-nav-list a{display:flex;align-items:flex-start;gap:6px;padding:10px 14px;font-size:12.5px;color:#4b5563;text-decoration:none;line-height:1.5;transition:all .15s}
+.side-nav-list a i{font-size:10px;color:#bbe06a;margin-top:3px;flex-shrink:0}
+.side-nav-list a:hover{background:var(--g-50);color:var(--g-700)}
+.side-nav-list a.is-active{background:var(--g-50);color:var(--g-700);font-weight:700}
+.side-nav-list a.is-active i{color:var(--g-500)}
+
+/* 본문 */
+.main-content{min-width:0}
+.content-head{margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid #e5e7eb}
+.content-title{font-size:19px;font-weight:700;color:var(--ink);margin:0}
+
+.lead-quote{font-size:13.5px;font-weight:700;color:var(--g-700);margin:0 0 1rem;padding-bottom:.9rem;border-bottom:2px solid var(--g-300)}
+.body-text{font-size:13px;color:#4b5563;line-height:1.85;margin:0 0 2rem}
+
+/* 적용사례 */
+.case-section{margin-bottom:2rem}
+.case-heading{font-size:13.5px;font-weight:700;color:var(--ink);margin:0 0 .6rem}
+.case-list{font-size:12.5px;color:#4b5563;line-height:1.7;margin:0 0 2.5rem;padding-left:14px;border-left:2px solid var(--g-300)}
+
+/* 카드 다이어그램 */
+.card-diagram{position:relative;max-width:660px;margin:0 auto;padding:10px 0 20px;min-height:330px}
+.cd-bg-circle{position:absolute;left:50%;top:54%;transform:translate(-50%,-50%);width:300px;height:300px;border-radius:50%;background:radial-gradient(circle,#f1f3f5,rgba(241,243,245,0));z-index:0}
+.cd-card{position:relative;z-index:1;background:linear-gradient(145deg,#f6f7f8,#e3e6e8);border-radius:16px;padding:16px 20px;box-shadow:0 3px 8px rgba(0,0,0,.06)}
+.cd-card--top{width:260px;margin:0 auto 26px;margin-left:38%}
+.cd-card--left{width:230px;margin-right:auto;margin-top:-10px}
+.cd-card--right{width:230px;margin-left:auto;margin-top:-130px}
+.cd-title{font-size:13px;font-weight:700;color:var(--ink);margin:0 0 8px}
+.cd-list{list-style:none;margin:0;padding:0}
+.cd-list li{font-size:11.5px;color:#4b5563;padding:2px 0;position:relative;padding-left:12px;line-height:1.5}
+.cd-list li::before{content:'-';position:absolute;left:0;color:#9ca3af}
+
+/* 푸터 */
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-list{display:none}
+  .side-nav-current{border-radius:6px}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .card-diagram{min-height:auto}
+  .cd-bg-circle{display:none}
+  .cd-card,.cd-card--top,.cd-card--left,.cd-card--right{width:100%;margin:0 0 14px 0!important}
+  .main-nav{gap:16px}
+}
+</style>
+{% endblock %}

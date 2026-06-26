@@ -70,6 +70,10 @@ INSTALLED_APPS = [
     'import_export',    
     'board.apps.BoardConfig',
     'main.apps.MainConfig',
+    'company.apps.CompanyConfig',
+    'works.apps.WorksConfig',
+    'dbupload.apps.DbuploadConfig',
+    'biz.apps.BizConfig',
  
 ]
 

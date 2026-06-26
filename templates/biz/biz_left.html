@@ -1,0 +1,12 @@
+<aside class="side-nav">
+      <div class="side-nav-current">사업분야</div>
+      <ul class="side-nav-list">
+        <li><a href="{% url 'biz:webcasting' %}" {% if current_page == 'webcasting' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 인터넷 생방송</a></li>
+        <li><a href="{% url 'biz:relay' %}" {% if current_page == 'relay' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 행사중계</a></li>
+        <li><a href="{% url 'biz:video' %}" {% if current_page == 'video' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 영상물 제작</a></li>
+        <li><a href="{% url 'biz:station' %}" {% if current_page == 'station' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 인터넷 방송국<br>&nbsp;&nbsp;&nbsp;구축/운영대행</a></li>
+        <li><a href="{% url 'biz:elearning' %}" {% if current_page == 'elearning' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> e러닝 컨텐츠 제작</a></li>
+        <li><a href="{% url 'biz:homepage' %}" {% if current_page == 'homepage' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 홈페이지 제작</a></li>
+        <li><a href="{% url 'biz:eseminar' %}"><i class="ti ti-chevron-right" aria-hidden="true"></i> e-세미나</a></li>
+      </ul>
+    </aside>
