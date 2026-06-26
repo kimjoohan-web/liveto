@@ -41,12 +41,12 @@
     <div class="info-block latest-events">
       <div class="info-block-head">
         <h2 class="info-block-title">최신 행사</h2>
-        <a href="{% url 'board:index' %}" class="more-link">MORE <i class="ti ti-chevron-right" aria-hidden="true"></i></a>
+        <a href="{% url 'works:index' %}" class="more-link">MORE <i class="ti ti-chevron-right" aria-hidden="true"></i></a>
       </div>
       <ul class="event-line-list">
         {% for board in board_list %}
         <li>
-          <a href="{% url 'board:board_detail' board.car_idx %}">{{ board.car_name }}</a>
+          <a href="{% url 'works:detail' board.car_idx %}?year={{ board.car_year }}&category=">{{ board.car_name }}</a>
           <span class="event-line-date">{{ board.car_year}}.{{board.car_day}}</span>
         </li>
         {% empty %}

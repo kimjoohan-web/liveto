@@ -66,7 +66,7 @@
             {% for item in page_obj %}
             <tr>
               <td class="td-num">{{ page_obj.start_index|add:forloop.counter0 }}</td>
-              <td class="td-title"><a href="{% url 'works:detail' item.car_idx %}?page={{ page_obj.number }}&year_s={{ selected_year }}&category={{ category }}">{{ item.car_name|truncatechars:40 }}</a></td>
+              <td class="td-title"><a href="{% url 'works:detail' item.car_idx %}?page={{ page_obj.number }}&year={{ selected_year }}&category={{ category }}">{{ item.car_name|truncatechars:40 }}</a></td>
               <td class="td-client">{{ item.car_order|default:"0" }}</td>
               <td class="td-date">{{ item.car_day|date:"Y.m.d" }}</td>
               <td class="td-center">
@@ -89,7 +89,7 @@
       <!-- 페이지네이션 -->
       <nav class="pagination" aria-label="페이지 탐색">
         {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}{% if selected_year %}&year_s={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-prev">◂PREV</a>
+          <a href="?page={{ page_obj.previous_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-prev">◂PREV</a>
         {% else %}
           <span class="page-prev is-disabled">◂PREV</span>
         {% endif %}
@@ -100,14 +100,14 @@
             {% if page_obj.number == num %}
               <strong>{{ num }}</strong>
             {% else %}
-              <a href="?page={{ num }}{% if selected_year %}&year_s={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
+              <a href="?page={{ num }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
             {% endif %}
           {% empty %}<strong>1</strong>{% endfor %}
           ]
         </span>
 
         {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}{% if selected_year %}&year_s={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-next">NEXT▸</a>
+          <a href="?page={{ page_obj.next_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-next">NEXT▸</a>
         {% else %}
           <span class="page-next is-disabled">NEXT▸</span>
         {% endif %}

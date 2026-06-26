@@ -91,7 +91,7 @@ def detail(request, car_idx,page=1, kw='', year_s=0,  category=''):
 
     
     year_list = range(2026, 1998, -1)   # 1999~2026 내림차순
-    year_s = int(request.GET.get('year_s', '0')) if request.GET.get('year_s', '0').isdigit() else 0  # 연도
+    year_s = int(request.GET.get('year', '0')) if request.GET.get('year', '0').isdigit() else 0  # 연도
     category = request.GET.get('category', '')  # car_check 필드 값
     if category == '':
         stype ="인터넷중계방송"       
