@@ -6,7 +6,7 @@
     </a>
     <nav class="main-nav">
       <div class="nav-item">
-        <a href="#" {% if current_page == 'about' %}class="is-active"{% endif %}    >회사소개</a>
+        <a href="#" {% if current_page == 'about' or current_page == 'business' or current_page == 'clients' or current_page == 'works' or current_page == 'location' %}class="is-active"{% endif %}    >회사소개</a>
         <div class="nav-dropdown">
           <a href="{% url 'company:about' %}">회사소개</a>
           <a href="{% url 'company:business' %}">사업분야</a>
@@ -24,7 +24,7 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="{% url 'biz:index' %}" {% if current_page == 'biz' %}class="is-active"{% endif %}>사업분야</a>
+        <a href="#" {% if current_page == 'biz' or current_page == 'webcasting' or current_page == 'relay' or current_page == 'video' or current_page == 'station' or current_page == 'elearning' or current_page == 'homepage' or current_page == 'eseminar' %}class="is-active"{% endif %}>사업분야</a>
         <div class="nav-dropdown">
           <a href="{% url 'biz:webcasting' %}">인터넷 생방송</a>
           <a href="{% url 'biz:relay' %}">행사중계</a>
@@ -36,10 +36,11 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="{% url 'customer:index' %}" {% if current_page == 'customer' %}class="is-active"{% endif %}>고객게시판</a>
+        <a href="#" {% if current_page == 'customer' or current_page == 'contact' or current_page == 'privacy' %}class="is-active"{% endif %}>고객게시판</a>
         <div class="nav-dropdown">
           <a href="{% url 'customer:index' %}">행사소개</a>
           <a href="{% url 'customer:contact' %}">제작문의</a>
+          <a href="{% url 'customer:privacy' %}">개인정보취급방침</a>
         </div>
       </div>
     </nav>

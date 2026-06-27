@@ -3,6 +3,6 @@
       <ul class="side-nav-list">
         <li><a href="{% url 'customer:index' %}" {% if current_page == '' or current_page == 'index' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 행사소개</a></li>
         <li><a href="{% url 'customer:contact' %}" {% if current_page == 'contact' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 제작문의</a></li>
-        <li><a href="{% url 'customer:privacy_policy' %}" {% if current_page == 'privacy_policy' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 개인정보취급방침</a></li>
+        <li><a href="{% url 'customer:privacy' %}" {% if current_page == 'privacy' %}class="is-active"{% endif %}><i class="ti ti-chevron-right" aria-hidden="true"></i> 개인정보취급방침</a></li>
       </ul>
     </aside>

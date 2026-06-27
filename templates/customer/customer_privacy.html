@@ -1,0 +1,233 @@
+{% extends 'base_main.html' %}
+{% block title %}개인정보취급방침{% endblock %}
+
+{% block content %}
+<div class="page-wrap">
+
+  <!-- 헤더 -->
+  {% include 'main_header.html' %}
+
+  <!-- 서브 비주얼 -->
+  <section class="sub-visual">
+    <div class="sub-visual-pattern" aria-hidden="true">
+      <div class="sv-pins"></div>
+      <div class="sv-grid"></div>
+    </div>
+    <div class="sub-visual-overlay"></div>
+    <div class="sub-visual-text">
+      <p class="sv-title">LiveTO<span class="sv-title-dot">.com</span> <span class="sv-title-sub">Free Board</span></p>
+      <p class="sv-desc">
+        라이브투닷컴에 대한 고객님의 관심에 깊은 감사를 드리며<br>
+        더 좋은 서비스를 제공하기 위해 노력하겠습니다.
+      </p>
+    </div>
+  </section>
+
+  <div class="content-row">
+
+    <!-- 좌측 사이드바 -->
+    {% include 'customer/customer_left.html' with current_page='privacy' %}
+
+    <!-- 본문 -->
+    <main class="main-content">
+      <div class="content-head">
+        <h1 class="content-title">개인정보취급방침</h1>
+      </div>
+
+      <p class="policy-heading">
+        <span class="heading-bars">|||▶</span> 총 칙
+      </p>
+
+      <section class="policy-section">
+        <h2 class="policy-num">1. 수집하는 개인정보의 항목 및 수집방법</h2>
+        <p>- 수집하는 항목 [이름,회사명,전화번호,휴대폰번호,이메일]</p>
+        <p>- 수집방법 [회사는 다음과 같은 방법으로 개인정보를 수집합니다.]</p>
+        <p>- 서면양식, 팩스, 전화, 이메일, 배송요청</p>
+        <p>- 협력회사로부터의 제공</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">2. 개인정보의 수집 및 이용목적</h2>
+        <p>- 서비스 제공에 관한 계약 이행 및 서비스 제공에 따른 요금정산</p>
+        <p>특정 맞춤 서비스 제공, 물품배송 또는 청구서 등 발송, 본인인증, 구매 및 요금 결제, 요금추심</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">3. 개인정보 공유 및 제공</h2>
+        <p>- 회사는 이용자들의 개인정보를 "2. 개인정보의 수집목적 및 이용목적"에서 고지한 범위내에서 사용하며, 이용자의 사전 동의 없이는 동 범위를 초과하여 이용하거나 원칙적으로 이용자의 개인정보를 외부에 공개하지 않습니다. 다만, 아래의 경우에는 예외로 합니다.</p>
+        <p>- 이용자들이 사전에 공개에 동의한 경우</p>
+        <p>- 법령의 규정에 의거하거나, 수사 목적으로 법령에 정해진 절차와 방법에 따라 수사기관의 요구가 있는 경우</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">4. 취급위탁</h2>
+        <p>- 개인정보는 라이브투닷컴에서 운영관리 하고 있습니다.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">5. 개인정보의 보유 및 이용기간</h2>
+        <p>- 이용목적의 달성후 관련법규의 의해 일정기간 저장후 파기됩니다.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">6. 개인정보 파기절차 및 방법</h2>
+        <p>- 이용자의 개인정보는 원칙적으로 개인정보의 수집 이용목적이 달성되면 지체 없이 파기합니다.</p>
+
+        <div class="policy-box">
+          <p>회사의 개인정보 파기절차 및 방법은 다음과 같습니다.</p>
+        </div>
+
+        <p class="policy-sub">가. 파기절차</p>
+        <p>- 이용자가 회원가입 등을 위해 입력한 정보는 목적이 달성된 후 별도의 서류함에 넣어져 내부 방침 및 기타 관련 법령에 의한 정보보호 사유에 따라(보유 및 이용기간 참조)일정 기간 저장된 후 파기됩니다.</p>
+        <p>- 동 개인정보는 법률에 의한 경우가 아니고서는 보유되는 이외의 다른 목적으로 이용되지 않습니다.</p>
+
+        <p class="policy-sub">나. 파기방법</p>
+        <p>- 종이에 출력된 개인정보는 분쇄기로 분쇄하거나 소각을 통하여 파기합니다.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">7. 이용자 및 법정대리인의 권리와 그 행사방법</h2>
+        <p>- 이용자 및 법정 대리인은 언제든지 등록되어 있는 자신 혹은 당해 만 14세 미만 아동의 개인정보를 조회하거나 수정할 수 있으며 가입해지를 요청할 수도 있습니다.</p>
+        <p>- 이용자 혹은 만 14세 미만 아동의 개인정보 조회, 수정을 위해서는 '개인정보변경'(또는 '회원정보수정' 등)을 위해서는 개인정보관리책임자에게 서면, 전화 또는 이메일로 연락하시면 지체 없이 조치하겠습니다.</p>
+        <p>- 이용자가 개인정보의 오류에 대한 정정을 요청하신 경우에는 정정을 완료하기 전까지 당해 개인정보를 이용 또는 제공하지 않습니다. 또한 잘못된 개인정보를 제3자에게 이미 제공한 경우에는 정정 처리결과를 제3자에게 지체 없이 통지하여 정정이 이루어지도록 하겠습니다.</p>
+        <p>- 회사는 이용자 혹은 법정 대리인의 요청에 의해 해지 또는 삭제된 개인정보는 '5. 개인정보의 보유 및 이용기간'에 명시된 바에 따라 처리하고 그 외의 용도로 열람 또는 이용할 수 없도록 처리하고 있습니다.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">8. 개인정보의 기술적/관리적 보호 대책</h2>
+        <p>- 회사는 이용자들의 개인정보를 취급함에 있어 분실, 도난, 누출, 변조 또는 훼손되지 않도록 안전성 확보를 위하여 다음과 같은 기술적/관리적 대책을 강구하고 있습니다.</p>
+        <p>- 회사의 개인정보관련 취급 직원은 담당자에 한정시키고 있고 담당자에 대한 수시 교육을 통하여 라이브투닷컴의 개인정보취급방침의 준수를 항상 강조하고 있습니다.</p>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">9. 개인정보관리책임자 및 담당자의 연락처</h2>
+        <div class="contact-grid">
+          <div class="contact-col">
+            <p class="contact-col-title">개인정보관리책임자 :</p>
+            <table class="contact-info-table">
+              <tr><th>이름</th><td>{{ privacy_manager_name|default:"신혜옥" }}</td></tr>
+              <tr><th>소속</th><td>라이브투 닷컴</td></tr>
+              <tr><th>직위</th><td>부장</td></tr>
+              <tr><th>전화</th><td>{{ company_tel|default:"02-538-3258" }}</td></tr>
+              <tr><th>메일</th><td>{{ privacy_manager_email|default:"liveto@liveto.com" }}</td></tr>
+            </table>
+          </div>
+          <div class="contact-col">
+            <p class="contact-col-title">개인정보관리담당자 :</p>
+            <table class="contact-info-table">
+              <tr><th>이름</th><td>{{ privacy_staff_name|default:"김주한" }}</td></tr>
+              <tr><th>소속</th><td>라이브투 닷컴</td></tr>
+              <tr><th>직위</th><td>차장</td></tr>
+              <tr><th>전화</th><td>{{ company_tel|default:"02-538-3258" }}</td></tr>
+              <tr><th>메일</th><td>{{ privacy_staff_email|default:"joodding@naver.com" }}</td></tr>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">10. 기타</h2>
+      </section>
+
+      <section class="policy-section">
+        <h2 class="policy-num">11. 고지의 의무</h2>
+        <p>현 개인정보취급방침 내용에 추가, 삭제 및 수정이 있을 시에는 개정 최소 7일전부터 홈페이지의 '공지사항'을 통해 고지할 것입니다.</p>
+        <p>- 공고일자 : {{ privacy_announce_date|default:"2009년 7월 1일" }}</p>
+        <p>- 시행일자 : {{ privacy_effective_date|default:"2009년 7월 8일" }}</p>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- 푸터 -->
+  <footer class="site-footer">
+    <p>(주)라이브투닷컴 &nbsp;|&nbsp; 대표 : 김 호 진 &nbsp;|&nbsp; 사업자등록번호 : 000-00-00000</p>
+    <p>서울 송파구 법원로6길 7 송파유통테크밸리 503호 &nbsp;|&nbsp; TEL 02-538-3258 &nbsp;|&nbsp; EMAIL liveto@liveto.com</p>
+    <p class="footer-copy">&copy; LiveTo.com All rights reserved.</p>
+  </footer>
+
+</div>
+
+<style>
+:root{--amb-50:#fdf6e3;--amb-100:#fbe7b8;--amb-300:#e6b860;--amb-500:#c8881f;--amb-600:#a86c15;--amb-700:#8a5810;--ink:#3a2c0f;--r:6px}
+*{box-sizing:border-box}
+.page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:13px;color:#374151}
+
+/* 헤더 */
+.site-header{display:flex;align-items:center;justify-content:space-between;padding:1.25rem 0;flex-wrap:wrap;gap:10px}
+.logo{display:flex;align-items:center;text-decoration:none}
+.logo-img{height:34px;display:block}
+.main-nav{display:flex;gap:28px}
+.nav-item{position:relative}
+.nav-item>a{display:block;color:#374151;text-decoration:none;font-size:14px;font-weight:500;padding:6px 0;border-bottom:2px solid transparent;transition:all .15s}
+.nav-item:hover>a,.nav-item>a.is-active{color:var(--amb-600);border-color:var(--amb-500);font-weight:700}
+.nav-dropdown{position:absolute;top:100%;left:50%;transform:translateX(-50%);min-width:200px;background:#fff;border:1px solid var(--amb-100);border-radius:8px;box-shadow:0 8px 24px rgba(138,88,16,.14);padding:8px;display:none;flex-direction:column;gap:2px;z-index:50}
+.nav-item:hover .nav-dropdown{display:flex}
+.nav-dropdown a{padding:8px 12px;font-size:13px;color:#4b5563;text-decoration:none;border-radius:6px;white-space:nowrap;border-bottom:none}
+.nav-dropdown a:hover{background:var(--amb-50);color:var(--amb-700)}
+
+/* 서브 비주얼 */
+.sub-visual{position:relative;border-radius:10px;overflow:hidden;min-height:160px;display:flex;align-items:center;margin-bottom:1.75rem;background:linear-gradient(120deg,#5c4310 0%,#a8780f 45%,#e6ad2e 100%)}
+.sub-visual-pattern{position:absolute;inset:0}
+.sv-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.08) 1px,transparent 1px);background-size:14px 30px}
+.sv-pins{position:absolute;left:0;top:0;width:55%;height:100%;background-image:repeating-linear-gradient(90deg,rgba(20,15,5,.5) 0 2px,transparent 2px 9px);opacity:.5}
+.sub-visual-overlay{position:absolute;inset:0;background:linear-gradient(100deg,rgba(58,44,15,.55) 0%,rgba(168,120,15,.22) 55%,rgba(168,120,15,.02) 100%)}
+.sub-visual-text{position:relative;z-index:1;padding:0 40px;max-width:560px;margin-left:auto}
+.sv-title{color:#fff;font-size:25px;font-weight:700;margin:0 0 8px;letter-spacing:-.01em}
+.sv-title-dot{color:#fde9bd;font-weight:400}
+.sv-title-sub{font-size:13px;color:#fce0a0;font-weight:400;font-style:italic;margin-left:6px}
+.sv-desc{color:#fdf6e3;font-size:12px;line-height:1.75;margin:0}
+
+/* 본문 영역 */
+.content-row{display:grid;grid-template-columns:170px 1fr;gap:28px;margin-bottom:2.25rem}
+
+/* 사이드바 */
+.side-nav-current{background:linear-gradient(135deg,var(--amb-600),var(--amb-700));color:#fff;font-size:14px;font-weight:600;text-align:center;padding:12px 0;border-radius:6px 6px 0 0}
+.side-nav-list{list-style:none;margin:0;padding:0;border:1px solid #e5e7eb;border-top:none;border-radius:0 0 6px 6px;overflow:hidden}
+.side-nav-list li{border-bottom:1px dashed #e5e7eb}
+.side-nav-list li:last-child{border-bottom:none}
+.side-nav-list a{display:flex;align-items:center;gap:6px;padding:11px 14px;font-size:12.5px;color:#4b5563;text-decoration:none;transition:all .15s}
+.side-nav-list a i{font-size:10px;color:#e6b860;flex-shrink:0}
+.side-nav-list a:hover{background:var(--amb-50);color:var(--amb-700)}
+.side-nav-list a.is-active{background:var(--amb-50);color:var(--amb-700);font-weight:700}
+.side-nav-list a.is-active i{color:var(--amb-500)}
+
+/* 본문 */
+.main-content{min-width:0}
+.content-head{margin-bottom:1rem;padding-bottom:.7rem;border-bottom:1px solid #e5e7eb}
+.content-title{font-size:19px;font-weight:600;color:var(--ink);margin:0}
+
+.policy-heading{display:flex;align-items:center;gap:8px;font-size:14px;font-weight:700;color:#dc2626;margin:0 0 1.5rem}
+.heading-bars{color:#dc2626;letter-spacing:-2px;font-size:13px}
+
+.policy-section{margin-bottom:1.75rem}
+.policy-num{font-size:13.5px;font-weight:700;color:var(--ink);margin:0 0 .7rem}
+.policy-section p{font-size:12.5px;color:#4b5563;line-height:1.85;margin:0 0 .35rem}
+.policy-sub{font-weight:700;color:var(--amb-700);margin-top:.6rem!important}
+
+.policy-box{background:#f3f4f6;border-radius:4px;padding:8px 12px;margin:.6rem 0}
+.policy-box p{margin:0}
+
+/* 연락처 */
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:.5rem}
+.contact-col-title{font-size:12.5px;font-weight:700;color:var(--ink);margin:0 0 .6rem}
+.contact-info-table{border-collapse:collapse;width:100%}
+.contact-info-table tr{border-bottom:1px solid #f3f4f6}
+.contact-info-table tr:last-child{border-bottom:none}
+.contact-info-table th{text-align:left;width:44px;padding:5px 0;font-size:12px;color:#6b7280;font-weight:500}
+.contact-info-table td{padding:5px 0;font-size:12px;color:#374151}
+
+/* 푸터 */
+.site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
+.footer-copy{margin-top:6px;color:#c1c1cb}
+
+@media(max-width:860px){
+  .content-row{grid-template-columns:1fr}
+  .side-nav-list{display:none}
+  .side-nav-current{border-radius:6px}
+  .sub-visual-text{margin-left:0;padding:0 24px}
+  .main-nav{gap:16px}
+  .contact-grid{grid-template-columns:1fr}
+}
+</style>
+{% endblock %}

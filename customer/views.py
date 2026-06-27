@@ -80,5 +80,5 @@ def detail(request, car_idx):
 def contact(request):
     return render(request, 'customer/customer_contact.html')
 
-def privacy_policy(request):
-    return render(request, 'customer/customer_privacy_policy.html')
+def privacy(request):
+    return render(request, 'customer/customer_privacy.html')

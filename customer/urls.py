@@ -7,7 +7,7 @@ urlpatterns = [
     path('index/', views.index, name='index'),
     path('<int:car_idx>/', views.detail, name='detail'),
     path('contact/', views.contact, name='contact'),
-    path('privacy_policy/', views.privacy_policy, name='privacy_policy')
+    path('privacy/', views.privacy, name='privacy')
     
     
 ]
