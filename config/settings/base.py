@@ -74,6 +74,7 @@ INSTALLED_APPS = [
     'works.apps.WorksConfig',
     'dbupload.apps.DbuploadConfig',
     'biz.apps.BizConfig',
+    'customer.apps.CustomerConfig',
  
 ]
 

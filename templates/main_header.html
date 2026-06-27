@@ -24,22 +24,22 @@
         </div>
       </div>
       <div class="nav-item">
-        <a href="">사업분야</a>
+        <a href="{% url 'biz:index' %}" {% if current_page == 'biz' %}class="is-active"{% endif %}>사업분야</a>
         <div class="nav-dropdown">
           <a href="{% url 'biz:webcasting' %}">인터넷 생방송</a>
           <a href="{% url 'biz:relay' %}">행사중계</a>
           <a href="{% url 'biz:video' %}">영상물 제작</a>
           <a href="{% url 'biz:station' %}">인터넷 방송국 구축/운영대행</a>
           <a href="{% url 'biz:elearning' %}">e러닝 컨텐츠 제작</a>
-          <a href="">홈페이지 제작</a>
-          <a href="">e-세미나</a>
+          <a href="{% url 'biz:homepage' %}">홈페이지 제작</a>
+          <a href="{% url 'biz:eseminar' %}">e-세미나</a>
         </div>
       </div>
       <div class="nav-item">
-        <a href="">고객게시판</a>
+        <a href="{% url 'customer:index' %}" {% if current_page == 'customer' %}class="is-active"{% endif %}>고객게시판</a>
         <div class="nav-dropdown">
-          <a href="">행사소개</a>
-          <a href="">제작문의</a>
+          <a href="{% url 'customer:index' %}">행사소개</a>
+          <a href="{% url 'customer:contact' %}">제작문의</a>
         </div>
       </div>
     </nav>
