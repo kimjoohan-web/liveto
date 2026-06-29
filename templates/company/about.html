@@ -5,7 +5,7 @@
 <div class="page-wrap">
 
   <!-- 헤더 -->
-  {% include "main_header.html" %}
+  {% include "main_header.html" with current_page='about' %}
   <!-- 서브 비주얼 -->
   <section class="sub-visual">
     <div class="sub-visual-pattern" aria-hidden="true">
@@ -27,7 +27,7 @@
   <div class="content-row">
 
     <!-- 좌측 사이드바 -->
-      {% include "company/company_left.html" %}
+      {% include "company/company_left.html" with current_page='about' %}
 
     <!-- 본문 -->
     <main class="main-content">

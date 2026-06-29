@@ -32,8 +32,8 @@ def login_required_view(view_func):# 로그인 여부 확인 데코레이터
 
 
 def index(request):    
-    if not request.session.get('mem_name'):
-        return redirect('livemanager:mem_login')  # 로그인 페이지로 리다이렉트
+    # if not request.session.get('mem_name'):
+    #     return redirect('livemanager:mem_login')  # 로그인 페이지로 리다이렉트
     # mssql 연결
     page = request.GET.get('page', '1')  # 페이지   # 페이지 번호, 기본값은 1
     kw = request.GET.get('kw', '')  # 검색어, 기본값은 빈 문자열

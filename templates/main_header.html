@@ -6,7 +6,7 @@
     </a>
     <nav class="main-nav">
       <div class="nav-item">
-        <a href="#" {% if current_page == 'about' or current_page == 'business' or current_page == 'clients' or current_page == 'works' or current_page == 'location' %}class="is-active"{% endif %}    >회사소개</a>
+        <a href="#" {% if current_page == 'about' or current_page == 'business' or current_page == 'clients' or current_page == 'company.works' or current_page == 'location' %}class="is-active"{% endif %}    >회사소개</a>
         <div class="nav-dropdown">
           <a href="{% url 'company:about' %}">회사소개</a>
           <a href="{% url 'company:business' %}">사업분야</a>
