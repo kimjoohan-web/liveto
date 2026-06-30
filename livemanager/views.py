@@ -31,7 +31,7 @@ def login_required_view(view_func):# 로그인 여부 확인 데코레이터
 
 
 
-def index(request):    
+def member_list(request):    
     # if not request.session.get('mem_name'):
     #     return redirect('livemanager:mem_login')  # 로그인 페이지로 리다이렉트
     # mssql 연결
@@ -416,3 +416,70 @@ def member_bulk_delete(request):
 def member_logout(request):
     request.session.flush()  # 세션 데이터 삭제
     return redirect('livemanager:index')  # 로그아웃 후 리다이렉트할 URL 이름
+
+
+def admin_dashboard(request):
+    # 관리자 대시보드 페이지 렌더링
+    return render(request, 'livemanager/admin_dashboard.html')
+
+def event_list(request):
+    # 관리자 행사 목록 페이지 렌더링
+    return render(request, 'livemanager/admin_event_list.html') 
+
+def event_detail(request, event_id):
+    # 관리자 행사 상세 페이지 렌더링
+    return render(request, 'livemanager/admin_event_detail.html', {'event_id': event_id})
+
+def member_detail(request, member_id):
+    # 관리자 회원 상세 페이지 렌더링
+    return render(request, 'livemanager/admin_member_detail.html', {'member_id': member_id})    
+
+def board_list(request):
+    # 관리자 게시판 목록 페이지 렌더링
+    return render(request, 'livemanager/admin_board_list.html')
+
+def board_detail(request, post_id):
+    # 관리자 게시판 상세 페이지 렌더링
+    return render(request, 'livemanager/admin_board_detail.html', {'post_id': post_id})
+
+def member_pending(request):
+    # 관리자 미승인 회원 목록 페이지 렌더링
+    return render(request, 'livemanager/admin_member_pending.html')
+
+
+def admin_logout(request):
+    # 관리자 로그아웃 처리
+    return redirect('livemanager:admin_dashboard')  # 로그아웃 후 리다이렉트할 URL 이름
+
+def member_search(request):
+    # 관리자 회원 검색 처리
+    query = request.GET.get('q', '')  # 검색어 가져오기
+    # 검색 로직 구현 (예: 데이터베이스에서 검색)
+    # 예: results = Member.objects.filter(name__icontains=query)
+    results = []  # 검색 결과를 담을 리스트 (예시)
+    return render(request, 'livemanager/admin_member_search.html', {'results': results, 'query': query})
+
+def event_create(request):
+    # 관리자 행사 생성 처리
+    if request.method == 'POST':
+        # 폼에서 입력된 데이터 처리
+        event_title = request.POST.get('event_title')
+        event_date = request.POST.get('event_date')
+        # 데이터베이스에 저장하거나 필요한 작업 수행
+        # 예: Event.objects.create(title=event_title, date=event_date)
+        return redirect('livemanager:admin_event_list')  # 행사 생성 후 리다이렉트할 URL 이름
+    else:
+        return render(request, 'livemanager/admin_event_create.html')
+    
+
+def event_category(request):
+    # 관리자 행사 카테고리 관리 처리
+    return render(request, 'livemanager/admin_event_category.html') 
+
+def inquiry_list(request):
+    # 관리자 문의 목록 페이지 렌더링
+    return render(request, 'livemanager/admin_inquiry_list.html')
+
+def comment_list(request):
+    # 관리자 댓글 목록 페이지 렌더링
+    return render(request, 'livemanager/admin_comment_list.html')

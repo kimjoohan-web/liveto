@@ -145,7 +145,7 @@
   </div>
 
 </div>
-<form id="searchForm" method="get" action="{% url 'livemanager:index' %}">
+<form id="searchForm" method="get" action="{% url 'livemanager:member_list' %}">
     <input type="hidden" id="kw" name="kw" value="{{ kw|default_if_none:'' }}">
     <input type="hidden" id="page" name="page" value="{{ page }}">
     

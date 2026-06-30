@@ -1,0 +1,280 @@
+{% extends 'admin_base.html' %}
+{% block title %}관리자 메인{% endblock %}
+{% load static %}
+{% block content %}
+<div class="admin-wrap">
+
+  <!-- 상단 헤더 -->
+  
+
+  <div class="admin-body">
+
+    <!-- 좌측 메뉴 -->
+        {% include "livemanager/admin_left.html" %}
+    <!-- 본문 -->
+    <main class="admin-main">
+
+      <div class="admin-page-head">
+        <h1 class="admin-page-title">대시보드</h1>
+        <p class="admin-page-sub">{{ today|default:"오늘" }} 기준 사이트 현황입니다.</p>
+      </div>
+
+      <!-- 요약 카드 -->
+      <div class="stat-grid">
+        <div class="stat-card">
+          <span class="stat-icon stat-icon--indigo"><i class="ti ti-users" aria-hidden="true"></i></span>
+          <div class="stat-body">
+            <p class="stat-label">전체 회원</p>
+            <p class="stat-value">{{ stat_member_total|default:"1,284" }}<span class="stat-unit">명</span></p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon stat-icon--amber"><i class="ti ti-user-plus" aria-hidden="true"></i></span>
+          <div class="stat-body">
+            <p class="stat-label">가입 승인 대기</p>
+            <p class="stat-value">{{ stat_member_pending|default:"6" }}<span class="stat-unit">명</span></p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon stat-icon--teal"><i class="ti ti-calendar-event" aria-hidden="true"></i></span>
+          <div class="stat-body">
+            <p class="stat-label">전체 행사</p>
+            <p class="stat-value">{{ stat_event_total|default:"909" }}<span class="stat-unit">건</span></p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <span class="stat-icon stat-icon--coral"><i class="ti ti-message-circle" aria-hidden="true"></i></span>
+          <div class="stat-body">
+            <p class="stat-label">미답변 문의</p>
+            <p class="stat-value">{{ stat_inquiry_pending|default:"3" }}<span class="stat-unit">건</span></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2단 콘텐츠 -->
+      <div class="admin-grid-2">
+
+        <!-- 최근 등록 행사 -->
+        <section class="admin-card">
+          <div class="admin-card-head">
+            <h2 class="admin-card-title">최근 등록 행사</h2>
+            <a href="{% url 'livemanager:event_list' %}" class="admin-card-more">전체보기 <i class="ti ti-chevron-right" aria-hidden="true"></i></a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>no</th><th>행사명</th><th>발주처</th><th>행사일</th></tr>
+            </thead>
+            <tbody>
+              {% for event in recent_events %}
+              <tr>
+                <td class="td-num">{{ event.id }}</td>
+                <td class="td-title"><a href="{% url 'livemanager:event_detail' event.pk %}">{{ event.title|truncatechars:24 }}</a></td>
+                <td class="td-muted">{{ event.client|default:"-" }}</td>
+                <td class="td-muted">{{ event.event_date|date:"Y.m.d" }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4" class="td-empty-row">등록된 행사가 없습니다.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 최근 가입 회원 -->
+        <section class="admin-card">
+          <div class="admin-card-head">
+            <h2 class="admin-card-title">최근 가입 회원</h2>
+            <a href="{% url 'livemanager:member_list' %}" class="admin-card-more">전체보기 <i class="ti ti-chevron-right" aria-hidden="true"></i></a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>no</th><th>이름</th><th>이메일</th><th>가입일</th><th>상태</th></tr>
+            </thead>
+            <tbody>
+              {% for member in recent_members %}
+              <tr>
+                <td class="td-num">{{ member.id }}</td>
+                <td class="td-title"><a href="{% url 'livemanager:member_detail' member.pk %}">{{ member.name }}</a></td>
+                <td class="td-muted">{{ member.email }}</td>
+                <td class="td-muted">{{ member.created_at|date:"Y.m.d" }}</td>
+                <td>
+                  {% if member.is_approved %}
+                    <span class="badge badge--approved">승인</span>
+                  {% else %}
+                    <span class="badge badge--pending">대기</span>
+                  {% endif %}
+                </td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="5" class="td-empty-row">가입한 회원이 없습니다.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 최근 게시판 글 -->
+        <section class="admin-card">
+          <div class="admin-card-head">
+            <h2 class="admin-card-title">최근 고객게시판 글</h2>
+            <a href="{% url 'livemanager:board_list' %}" class="admin-card-more">전체보기 <i class="ti ti-chevron-right" aria-hidden="true"></i></a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>no</th><th>제목</th><th>작성자</th><th>등록일</th></tr>
+            </thead>
+            <tbody>
+              {% for post in recent_posts %}
+              <tr>
+                <td class="td-num">{{ post.id }}</td>
+                <td class="td-title"><a href="{% url 'livemanager:board_detail' post.pk %}">{{ post.title|truncatechars:20 }}</a></td>
+                <td class="td-muted">{{ post.author|default:"-" }}</td>
+                <td class="td-muted">{{ post.created_at|date:"Y.m.d" }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4" class="td-empty-row">등록된 글이 없습니다.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+
+        <!-- 미답변 제작문의 -->
+        <section class="admin-card">
+          <div class="admin-card-head">
+            <h2 class="admin-card-title">미답변 제작문의</h2>
+            <a href="{% url 'livemanager:inquiry_list' %}" class="admin-card-more">전체보기 <i class="ti ti-chevron-right" aria-hidden="true"></i></a>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>no</th><th>문의 내용</th><th>이메일</th><th>접수일</th></tr>
+            </thead>
+            <tbody>
+              {% for inquiry in pending_inquiries %}
+              <tr>
+                <td class="td-num">{{ inquiry.id }}</td>
+                <td class="td-title"><a href="{% url 'livemanager:inquiry_detail' inquiry.pk %}">{{ inquiry.message|truncatechars:22 }}</a></td>
+                <td class="td-muted">{{ inquiry.email }}</td>
+                <td class="td-muted">{{ inquiry.created_at|date:"Y.m.d" }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4" class="td-empty-row">미답변 문의가 없습니다.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+
+      </div>
+
+    </main>
+  </div>
+</div>
+
+<style>
+:root{--ai-50:#eef2ff;--ai-100:#e0e7ff;--ai-200:#c7d2fe;--ai-500:#6366f1;--ai-600:#4f46e5;--ai-700:#4338ca;--ai-ink:#1e1b4b;--ar:8px}
+*{box-sizing:border-box}
+.admin-wrap{min-height:100vh;background:#f6f7fb;font-size:13px;color:#374151}
+
+/* 헤더 */
+.admin-header{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 1.5rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.admin-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.admin-logo-img{height:26px;display:block}
+.admin-logo-divider{width:1px;height:18px;background:#e5e7eb}
+.admin-logo-text{font-size:13px;font-weight:600;color:var(--ai-700);letter-spacing:.02em}
+.admin-header-right{display:flex;align-items:center;gap:18px}
+.admin-user-greet{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5563;font-weight:500}
+.admin-user-greet i{font-size:16px;color:var(--ai-500)}
+.admin-header-link{display:flex;align-items:center;gap:4px;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-header-link:hover{color:var(--ai-600)}
+
+/* 본문 레이아웃 */
+.admin-body{display:flex;min-height:calc(100vh - 56px)}
+
+/* 사이드바 */
+.admin-sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;padding:1.25rem 0}
+.admin-nav-group{margin-bottom:4px}
+.admin-nav-group-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:11px 1.25rem;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--ai-ink);text-align:left}
+.admin-nav-group-toggle:hover{background:var(--ai-50)}
+.admin-nav-icon{font-size:17px;color:var(--ai-600);flex-shrink:0}
+.admin-nav-group-toggle span{flex:1}
+.admin-nav-chevron{font-size:13px;color:#9ca3af;transition:transform .15s;flex-shrink:0}
+.admin-nav-group.is-open .admin-nav-chevron{transform:rotate(180deg)}
+.admin-nav-sub{list-style:none;margin:0;padding:2px 0 6px;max-height:0;overflow:hidden;transition:max-height .2s ease}
+.admin-nav-group.is-open .admin-nav-sub{max-height:300px}
+.admin-nav-sub li a{display:block;padding:8px 1.25rem 8px 2.85rem;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-nav-sub li a:hover{background:var(--ai-50);color:var(--ai-700)}
+.admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
+
+/* 본문 */
+.admin-main{flex:1;padding:1.75rem 2rem;min-width:0}
+.admin-page-head{margin-bottom:1.5rem}
+.admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0 0 4px}
+.admin-page-sub{font-size:12.5px;color:#9ca3af;margin:0}
+
+/* 통계 카드 */
+.stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:1.75rem}
+.stat-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.1rem 1.25rem;display:flex;align-items:center;gap:14px}
+.stat-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.stat-icon--indigo{background:var(--ai-50);color:var(--ai-600)}
+.stat-icon--amber{background:#fef3c7;color:#b45309}
+.stat-icon--teal{background:#ccfbf1;color:#0f766e}
+.stat-icon--coral{background:#ffe4e0;color:#c2410c}
+.stat-label{font-size:11.5px;color:#9ca3af;margin:0 0 3px}
+.stat-value{font-size:21px;font-weight:700;color:var(--ai-ink);margin:0}
+.stat-unit{font-size:12px;font-weight:500;color:#9ca3af;margin-left:3px}
+
+/* 2단 그리드 */
+.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.admin-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.25rem 1.4rem}
+.admin-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.admin-card-title{font-size:14.5px;font-weight:700;color:var(--ai-ink);margin:0}
+.admin-card-more{display:flex;align-items:center;gap:2px;font-size:11.5px;color:#9ca3af;text-decoration:none;font-weight:600}
+.admin-card-more:hover{color:var(--ai-600)}
+
+/* 테이블 */
+.admin-table{width:100%;border-collapse:collapse;font-size:12.5px}
+.admin-table thead tr{border-bottom:1px solid #e5e7eb}
+.admin-table th{padding:7px 6px;font-weight:600;text-align:left;color:#9ca3af;font-size:11px}
+.admin-table th:first-child{width:34px;text-align:center}
+.admin-table td{padding:9px 6px;border-bottom:1px solid #f3f4f6}
+.admin-table tbody tr:last-child td{border-bottom:none}
+.admin-table tbody tr:hover{background:#fafbff}
+.td-num{text-align:center;color:#c1c5cd}
+.td-title a{color:#374151;text-decoration:none;font-weight:500}
+.td-title a:hover{color:var(--ai-600);text-decoration:underline}
+.td-muted{color:#9ca3af}
+.td-empty-row{text-align:center;color:#c1c5cd;padding:28px}
+
+.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px}
+.badge--approved{background:#dcfce7;color:#15803d}
+.badge--pending{background:#fef3c7;color:#b45309}
+
+@media(max-width:1100px){
+  .admin-grid-2{grid-template-columns:1fr}
+  .stat-grid{grid-template-columns:repeat(2,1fr)}
+}
+@media(max-width:760px){
+  .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30}
+  .admin-sidebar.is-open{left:0}
+  .admin-main{padding:1.25rem}
+  .stat-grid{grid-template-columns:1fr 1fr;gap:10px}
+}
+</style>
+
+<script>
+(function(){
+  document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var group = btn.closest('.admin-nav-group');
+      var wasOpen = group.classList.contains('is-open');
+      document.querySelectorAll('.admin-nav-group').forEach(function(g){ g.classList.remove('is-open'); });
+      if(!wasOpen) group.classList.add('is-open');
+    });
+  });
+  var currentPath = window.location.pathname;
+  document.querySelectorAll('.admin-nav-sub a').forEach(function(a){
+    if(a.getAttribute('href') === currentPath){
+      a.classList.add('is-active');
+      a.closest('.admin-nav-group').classList.add('is-open');
+    }
+  });
+})();
+</script>
+{% endblock %}

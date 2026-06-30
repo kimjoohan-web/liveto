@@ -1,0 +1,188 @@
+{% extends 'admin_base.html' %}
+{% block title %}관리자 목록{% endblock %}
+
+{% block content %}
+<div class="admin-wrap">
+
+  <!-- 상단 헤더 -->
+
+  <div class="admin-body">
+
+    <!-- 좌측 메뉴 -->
+    {% include "livemanager/admin_left.html" %}
+
+    <!-- 본문 -->
+    <main class="admin-main">
+
+      <div class="admin-page-head">
+        <h1 class="admin-page-title">관리자 목록</h1>
+        <a href="{% url 'admin_member:admin_create' %}" class="btn-primary">
+          <i class="ti ti-plus" aria-hidden="true"></i> 관리자 등록
+        </a>
+      </div>
+
+      <!-- 검색 -->
+      <form method="get" class="search-bar">
+        <select name="search_field" class="search-select">
+          <option value="all"   {% if search_field == 'all'   %}selected{% endif %}>전체</option>
+          <option value="name"  {% if search_field == 'name'  %}selected{% endif %}>이름</option>
+          <option value="login_id" {% if search_field == 'login_id' %}selected{% endif %}>아이디</option>
+          <option value="email" {% if search_field == 'email' %}selected{% endif %}>이메일</option>
+        </select>
+        <input type="text" name="kw" value="{{ kw|default:'' }}" placeholder="검색어를 입력하세요" class="search-input">
+        <button type="submit" class="btn-search"><i class="ti ti-search" aria-hidden="true"></i> 검색</button>
+        {% if kw %}<a href="{% url 'admin_member:admin_list' %}" class="btn-reset">초기화</a>{% endif %}
+      </form>
+
+      <div class="result-meta">총 <strong>{{ admin_lists.paginator.count|default:"0" }}</strong>명</div>
+
+      <!-- 테이블 -->
+      <div class="table-wrap">
+        <table class="admin-table admin-table--bordered">
+          <colgroup>
+            <col style="width:50px"><col style="width:130px"><col>
+            <col style="width:160px"><col style="width:130px"><col style="width:110px"><col style="width:80px">
+          </colgroup>
+          <thead>
+            <tr>
+              <th>no</th><th>아이디</th><th>이름</th><th>이메일</th><th>전화번호</th><th>등록일</th><th>관리</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for admin in admin_lists %}
+            <tr>
+              <td class="td-num">{{ admin.admin_idx }}</td>
+              <td class="td-login">{{ admin.admin_id }}</td>
+              <td>{{ admin.admin_name }}</td>
+              <td class="td-muted">{{ admin.admin_email }}</td>
+              <td class="td-muted">{{ admin.admin_phone|default:"-" }}</td>
+              <td class="td-muted">{{ admin.admin_date_joined|date:"Y.m.d" }}</td>
+              <td class="td-center">
+                <a href="{% url 'admin_member:admin_update' admin.admin_idx %}" class="row-action" title="수정" aria-label="수정"><i class="ti ti-edit" aria-hidden="true"></i>수정</a>
+              </td>
+            </tr>
+            {% empty %}
+            <tr><td colspan="7" class="td-empty-row">등록된 관리자가 없습니다.</td></tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 페이지네이션 -->
+      {% if admin_lists.has_other_pages %}
+      <nav class="pagination" aria-label="페이지 탐색">
+        {% if admin_lists.has_previous %}
+          <a href="?page={{ admin_lists.previous_page_number }}" class="page-btn"><i class="ti ti-chevron-left" aria-hidden="true"></i></a>
+        {% endif %}
+        {% for num in admin_lists.paginator.page_range %}
+          {% if admin_lists.number == num %}
+            <span class="page-btn active">{{ num }}</span>
+          {% elif num > admin_lists.number|add:'-3' and num < admin_lists.number|add:'3' %}
+            <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
+          {% endif %}
+        {% endfor %}
+        {% if admin_lists.has_next %}
+          <a href="?page={{ admin_lists.next_page_number }}" class="page-btn"><i class="ti ti-chevron-right" aria-hidden="true"></i></a>
+        {% endif %}
+      </nav>
+      {% endif %}
+
+    </main>
+  </div>
+</div>
+
+<style>
+:root{--ai-50:#eef2ff;--ai-100:#e0e7ff;--ai-200:#c7d2fe;--ai-500:#6366f1;--ai-600:#4f46e5;--ai-700:#4338ca;--ai-ink:#1e1b4b;--ar:8px}
+*{box-sizing:border-box}
+.admin-wrap{min-height:100vh;background:#f6f7fb;font-size:13px;color:#374151}
+
+.admin-header{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 1.5rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.admin-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.admin-logo-img{height:26px;display:block}
+.admin-logo-divider{width:1px;height:18px;background:#e5e7eb}
+.admin-logo-text{font-size:13px;font-weight:600;color:var(--ai-700);letter-spacing:.02em}
+.admin-header-right{display:flex;align-items:center;gap:18px}
+.admin-user-greet{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5563;font-weight:500}
+.admin-user-greet i{font-size:16px;color:var(--ai-500)}
+.admin-header-link{display:flex;align-items:center;gap:4px;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-header-link:hover{color:var(--ai-600)}
+
+.admin-body{display:flex;min-height:calc(100vh - 56px)}
+
+.admin-sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;padding:1.25rem 0}
+.admin-nav-group{margin-bottom:4px}
+.admin-nav-group-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:11px 1.25rem;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--ai-ink);text-align:left}
+.admin-nav-group-toggle:hover{background:var(--ai-50)}
+.admin-nav-icon{font-size:17px;color:var(--ai-600);flex-shrink:0}
+.admin-nav-group-toggle span{flex:1}
+.admin-nav-chevron{font-size:13px;color:#9ca3af;transition:transform .15s;flex-shrink:0}
+.admin-nav-group.is-open .admin-nav-chevron{transform:rotate(180deg)}
+.admin-nav-sub{list-style:none;margin:0;padding:2px 0 6px;max-height:0;overflow:hidden;transition:max-height .2s ease}
+.admin-nav-group.is-open .admin-nav-sub{max-height:300px}
+.admin-nav-sub li a{display:block;padding:8px 1.25rem 8px 2.85rem;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-nav-sub li a:hover{background:var(--ai-50);color:var(--ai-700)}
+.admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
+
+.admin-main{flex:1;padding:1.75rem 2rem;min-width:0}
+.admin-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0}
+
+.btn-primary{display:inline-flex;align-items:center;gap:6px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none;transition:background .15s}
+.btn-primary:hover{background:var(--ai-700)}
+
+/* 검색 */
+.search-bar{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
+.search-select{padding:8px 10px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;background:#fff;color:#374151}
+.search-input{flex:1;min-width:220px;padding:8px 12px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;box-sizing:border-box}
+.search-input:focus{outline:none;border-color:var(--ai-500);box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.btn-search{padding:8px 16px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);font-size:12.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px}
+.btn-search:hover{background:var(--ai-700)}
+.btn-reset{padding:8px 14px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;text-decoration:none}
+.btn-reset:hover{background:#f9fafb}
+
+.result-meta{color:#9ca3af;font-size:12.5px;margin-bottom:.7rem}
+.result-meta strong{color:var(--ai-600)}
+
+/* 테이블 */
+.table-wrap{border:1px solid #e5e7eb;border-radius:var(--ar);overflow:hidden;margin-bottom:1.25rem}
+.admin-table--bordered{font-size:12.5px;width:100%;border-collapse:collapse}
+.admin-table--bordered thead tr{background:var(--ai-50)}
+.admin-table--bordered th{padding:10px 12px;font-weight:600;text-align:center;color:var(--ai-700);border-bottom:1px solid var(--ai-100);font-size:11.5px}
+.admin-table--bordered td{padding:10px 12px;border-bottom:1px solid #f3f4f6;text-align:center}
+.admin-table--bordered tbody tr:last-child td{border-bottom:none}
+.admin-table--bordered tbody tr:hover{background:#fafbff}
+.td-num{color:#c1c5cd}
+.td-login a{color:#374151;text-decoration:none;font-weight:600}
+.td-login a:hover{color:var(--ai-600);text-decoration:underline}
+.td-muted{color:#9ca3af}
+.td-center{text-align:center}
+.td-empty-row{color:#c1c5cd;padding:36px}
+.row-action{display:inline-flex;align-items:center;justify-content:center;width:26px;height:26px;border-radius:50%;color:var(--ai-600);background:var(--ai-50)}
+.row-action:hover{background:var(--ai-100)}
+
+/* 페이지네이션 */
+.pagination{display:flex;justify-content:center;align-items:center;gap:4px}
+.page-btn{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 6px;border:1px solid #e5e7eb;border-radius:var(--ar);font-size:12.5px;color:#4b5563;text-decoration:none;background:#fff}
+.page-btn:hover{border-color:var(--ai-500);color:var(--ai-600)}
+.page-btn.active{background:var(--ai-600);border-color:var(--ai-600);color:#fff;font-weight:600}
+
+@media(max-width:760px){
+  .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30;overflow-y:auto}
+  .admin-main{padding:1.25rem}
+  .admin-table--bordered th:nth-child(5),.admin-table--bordered td:nth-child(5){display:none}
+}
+</style>
+
+<script>
+(function(){
+  document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var group = btn.closest('.admin-nav-group');
+      var wasOpen = group.classList.contains('is-open');
+      document.querySelectorAll('.admin-nav-group').forEach(function(g){ g.classList.remove('is-open'); });
+      if(!wasOpen) group.classList.add('is-open');
+    });
+  });
+})();
+</script>
+{% endblock %}

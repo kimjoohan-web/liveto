@@ -1,0 +1,54 @@
+<aside class="admin-sidebar">
+      <nav class="admin-nav">
+
+        <div class="admin-nav-group">
+          <button type="button" class="admin-nav-group-toggle" data-target="grp-member">
+            <i class="ti ti-users admin-nav-icon" aria-hidden="true"></i>
+            <span>회원관리</span>
+            <i class="ti ti-chevron-down admin-nav-chevron" aria-hidden="true"></i>
+          </button>
+          <ul class="admin-nav-sub" id="grp-member">
+            <li><a href="{% url 'user_member:user_list' %}">회원 목록</a></li>
+            <li><a href="#">가입 승인 대기</a></li>
+            <li><a href="#">회원 검색</a></li>
+          </ul>
+        </div>
+
+        <div class="admin-nav-group">
+          <button type="button" class="admin-nav-group-toggle" data-target="grp-event">
+            <i class="ti ti-calendar-event admin-nav-icon" aria-hidden="true"></i>
+            <span>행사관리</span>
+            <i class="ti ti-chevron-down admin-nav-chevron" aria-hidden="true"></i>
+          </button>
+          <ul class="admin-nav-sub" id="grp-event">
+            <li><a href="{% url 'livemanager:event_list' %}">행사 목록</a></li>
+            <li><a href="{% url 'livemanager:event_create' %}">행사 등록</a></li>
+            <li><a href="{% url 'livemanager:event_category' %}">분야별 분류</a></li>
+          </ul>
+        </div>
+
+        <div class="admin-nav-group">
+          <button type="button" class="admin-nav-group-toggle" data-target="grp-community">
+            <i class="ti ti-message-2 admin-nav-icon" aria-hidden="true"></i>
+            <span>커뮤니티 관리</span>
+            <i class="ti ti-chevron-down admin-nav-chevron" aria-hidden="true"></i>
+          </button>
+          <ul class="admin-nav-sub" id="grp-community">
+            <li><a href="{% url 'livemanager:board_list' %}">고객게시판 관리</a></li>
+            <li><a href="{% url 'livemanager:inquiry_list' %}">제작문의 내역</a></li>
+            <li><a href="{% url 'livemanager:comment_list' %}">댓글 관리</a></li>
+          </ul>
+        </div>
+
+      <div class="admin-nav-group">
+          <button type="button" class="admin-nav-group-toggle" data-target="grp-admin">
+            <i class="ti ti-users admin-nav-icon" aria-hidden="true"></i>
+            <span>관리자관리</span>
+            <i class="ti ti-chevron-down admin-nav-chevron" aria-hidden="true"></i>
+          </button>
+          <ul class="admin-nav-sub" id="grp-admin">
+            <li><a href="{% url 'admin_member:admin_list' %}">관리자 리스트</a></li>            
+          </ul>
+        </div>
+      </nav>
+    </aside>

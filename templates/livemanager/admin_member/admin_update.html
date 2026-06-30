@@ -1,0 +1,209 @@
+{% extends 'admin_base.html' %}
+{% block title %}{% if object %}관리자 수정{% else %}관리자 등록{% endif %}{% endblock %}
+
+{% block content %}
+<div class="admin-wrap">
+
+  <!-- 상단 헤더 -->
+  
+
+  <div class="admin-body">
+
+    <!-- 좌측 메뉴 -->
+    {% include "livemanager/admin_left.html" %}
+
+    <!-- 본문 -->
+    <main class="admin-main">
+
+      <div class="admin-page-head">
+        <h1 class="admin-page-title">{% if object %}관리자 수정{% else %}관리자 등록{% endif %}</h1>
+        <a href="{% url 'admin_member:admin_list' %}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" class="admin-form" novalidate>
+        {% csrf_token %}
+
+        <div class="form-card">
+
+          <div class="field">
+            <label for="admin_id" class="field-label">아이디 <span class="required">*</span></label>
+            <input type="text" id="admin_id" name="admin_id"
+                   value="{{ admin.admin_id|default:'' }}"
+                   placeholder="로그인에 사용할 아이디"
+                   class="field-input {% if form.admin_id.errors %}is-error{% endif %}"
+                   {% if admin %}readonly{% endif %}
+                   maxlength="50" required>
+            {% if form.admin_id.errors %}<p class="field-error">{{ form.admin_id.errors.0 }}</p>{% endif %}
+            {% if admin %}<p class="field-hint">아이디는 등록 후 변경할 수 없습니다.</p>{% endif %}
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="id_password" class="field-label">
+                패스워드 {% if not admin %}<span class="required">*</span>{% endif %}
+              </label>
+              <input type="password" id="admin_pw" name="admin_pw"
+                     placeholder="{% if admin %}변경하지 않으면 비워두세요{% else %}8자 이상 입력하세요{% endif %}"
+                     class="field-input {% if form.admin_pw.errors %}is-error{% endif %}"
+                     autocomplete="new-password"
+                     {% if not admin %}required{% endif %}>
+              {% if form.admin_pw.errors %}<p class="field-error">{{ form.admin_pw.errors.0 }}</p>{% endif %}
+            </div>
+            <div class="field">
+              <label for="admin_pw_confirm" class="field-label">
+                패스워드 확인 {% if not admin %}<span class="required">*</span>{% endif %}
+              </label>
+              <input type="password" id="admin_pw_confirm" name="admin_pw_confirm"
+                     placeholder="패스워드를 다시 입력하세요"
+                     class="field-input {% if form.admin_pw_confirm.errors %}is-error{% endif %}"
+                     autocomplete="new-password"
+                     {% if not admin %}required{% endif %} >
+              {% if form.admin_pw_confirm.errors %}<p class="field-error">{{ form.admin_pw_confirm.errors.0 }}</p>{% endif %}
+            </div>
+          </div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="admin_name" class="field-label">이름 <span class="required">*</span></label>
+              <input type="text" id="admin_name" name="admin_name"
+                     value="{{ admin.admin_name|default:'' }}"
+                     placeholder="홍길동"
+                     class="field-input {% if form.admin_name.errors %}is-error{% endif %}"
+                     maxlength="30" required>
+              {% if form.admin_name.errors %}<p class="field-error">{{ form.admin_name.errors.0 }}</p>{% endif %}
+            </div>
+            <div class="field">
+              <label for="admin_phone" class="field-label">전화번호</label>
+              <input type="tel" id="admin_phone" name="admin_phone"
+                     value="{{ admin.admin_phone|default:'' }}"
+                     placeholder="010-0000-0000"
+                     class="field-input {% if form.admin_phone.errors %}is-error{% endif %}"
+                     maxlength="20">
+              {% if form.admin_phone.errors %}<p class="field-error">{{ form.admin_phone.errors.0 }}</p>{% endif %}
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="admin_email" class="field-label">이메일 <span class="required">*</span></label>
+            <input type="email" id="admin_email" name="admin_email"
+                   value="{{ admin.admin_email|default:'' }}"
+                   placeholder="admin@liveto.com"
+                   class="field-input {% if form.admin_email.errors %}is-error{% endif %}"
+                   required>
+            {% if form.admin_email.errors %}<p class="field-error">{{ form.admin_email.errors.0 }}</p>{% endif %}
+          </div>
+
+          <div class="field">
+            <label for="admin_is_superuser" class="field-label">슈퍼유저 여부 <span class="required">*</span></label>
+            <input type="checkbox" id="admin_is_superuser" name="admin_is_superuser"
+                   value="{{ admin.admin_is_superuser|default:'' }}"
+                   class="field-input {% if form.admin_is_superuser.errors %}is-error{% endif %}"
+                   {% if admin %}readonly{% endif %}>
+
+            {% if form.admin_is_superuser.errors %}<p class="field-error">{{ form.admin_is_superuser.errors.0 }}</p>{% endif %}
+            {% if admin %}<p class="field-hint">아이디는 등록 후 변경할 수 없습니다.</p>{% endif %}
+          </div>
+
+        </div>
+
+        <div class="form-actions">
+          <a href="{% url 'admin_member:admin_list' %}" class="btn-cancel">취소</a>
+          <button type="submit" class="btn-submit">
+            <i class="ti ti-check" aria-hidden="true"></i> {% if admin %}수정 완료{% else %}등록하기{% endif %}
+          </button>
+        </div>
+
+      </form>
+
+    </main>
+  </div>
+</div>
+
+<style>
+:root{--ai-50:#eef2ff;--ai-100:#e0e7ff;--ai-200:#c7d2fe;--ai-500:#6366f1;--ai-600:#4f46e5;--ai-700:#4338ca;--ai-ink:#1e1b4b;--ar:8px}
+*{box-sizing:border-box}
+.admin-wrap{min-height:100vh;background:#f6f7fb;font-size:13px;color:#374151}
+
+.admin-header{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 1.5rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.admin-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.admin-logo-img{height:26px;display:block}
+.admin-logo-divider{width:1px;height:18px;background:#e5e7eb}
+.admin-logo-text{font-size:13px;font-weight:600;color:var(--ai-700);letter-spacing:.02em}
+.admin-header-right{display:flex;align-items:center;gap:18px}
+.admin-user-greet{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5563;font-weight:500}
+.admin-user-greet i{font-size:16px;color:var(--ai-500)}
+.admin-header-link{display:flex;align-items:center;gap:4px;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-header-link:hover{color:var(--ai-600)}
+
+.admin-body{display:flex;min-height:calc(100vh - 56px)}
+
+.admin-sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;padding:1.25rem 0}
+.admin-nav-group{margin-bottom:4px}
+.admin-nav-group-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:11px 1.25rem;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--ai-ink);text-align:left}
+.admin-nav-group-toggle:hover{background:var(--ai-50)}
+.admin-nav-icon{font-size:17px;color:var(--ai-600);flex-shrink:0}
+.admin-nav-group-toggle span{flex:1}
+.admin-nav-chevron{font-size:13px;color:#9ca3af;transition:transform .15s;flex-shrink:0}
+.admin-nav-group.is-open .admin-nav-chevron{transform:rotate(180deg)}
+.admin-nav-sub{list-style:none;margin:0;padding:2px 0 6px;max-height:0;overflow:hidden;transition:max-height .2s ease}
+.admin-nav-group.is-open .admin-nav-sub{max-height:300px}
+.admin-nav-sub li a{display:block;padding:8px 1.25rem 8px 2.85rem;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-nav-sub li a:hover{background:var(--ai-50);color:var(--ai-700)}
+.admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
+
+.admin-main{flex:1;padding:1.75rem 2rem;min-width:0;max-width:680px}
+.admin-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0}
+.back-link{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#6b7280;text-decoration:none;padding:6px 12px;border:1px solid #e5e7eb;border-radius:var(--ar)}
+.back-link:hover{border-color:var(--ai-500);color:var(--ai-600);background:var(--ai-50)}
+
+.alert{padding:10px 14px;border-radius:var(--ar);margin-bottom:1rem;font-size:12.5px}
+.alert-success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.alert-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+/* 폼 */
+.form-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.5rem}
+.field{margin-bottom:1.1rem}
+.field:last-child{margin-bottom:0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-label{display:block;font-size:12.5px;font-weight:600;color:#374151;margin-bottom:6px}
+.required{color:#ef4444}
+.field-hint{font-size:11px;color:#9ca3af;margin:5px 0 0}
+.field-input{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:13px;color:#1f2937;background:#fff;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;font-family:inherit}
+.field-input:focus{outline:none;border-color:var(--ai-500);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.field-input[readonly]{background:#f9fafb;color:#9ca3af}
+.field-input.is-error{border-color:#ef4444}
+.field-error{font-size:11.5px;color:#ef4444;margin:5px 0 0}
+
+.form-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:1.25rem}
+.btn-cancel{display:inline-flex;align-items:center;padding:9px 18px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--ar);font-size:13px;font-weight:500;text-decoration:none;cursor:pointer}
+.btn-cancel:hover{background:#f9fafb}
+.btn-submit{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);font-size:13px;font-weight:500;cursor:pointer}
+.btn-submit:hover{background:var(--ai-700)}
+
+@media(max-width:760px){
+  .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30;overflow-y:auto}
+  .admin-main{padding:1.25rem;max-width:none}
+  .field-row{grid-template-columns:1fr}
+}
+</style>
+
+<script>
+(function(){
+  document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var group = btn.closest('.admin-nav-group');
+      var wasOpen = group.classList.contains('is-open');
+      document.querySelectorAll('.admin-nav-group').forEach(function(g){ g.classList.remove('is-open'); });
+      if(!wasOpen) group.classList.add('is-open');
+    });
+  });
+})();
+</script>
+{% endblock %}

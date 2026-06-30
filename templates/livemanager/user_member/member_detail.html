@@ -1,0 +1,280 @@
+{% extends 'admin_base.html' %}
+{% block title %}회원 상세정보{% endblock %}
+
+{% block content %}
+<div class="admin-wrap">
+
+  <!-- 상단 헤더 -->
+ 
+
+  <div class="admin-body">
+
+    <!-- 좌측 메뉴 -->
+    {% include "livemanager/admin_left.html" %}
+
+    <!-- 본문 -->
+    <main class="admin-main">
+
+      <div class="admin-page-head">
+        <h1 class="admin-page-title">회원 상세정보</h1>
+        <a href="{% url 'user_member:user_list' %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- 기본 정보 카드 -->
+      <div class="detail-card">
+        <div class="detail-card-head">
+          <div class="member-id-block">
+            <span class="id-badge">No.{{ user.mem_idx }}</span>
+            <h2 class="member-name">{{ user.mem_name }}</h2>
+            {% if user.status == 'pending' %}
+              <span class="badge badge--pending">대기</span>
+            {% elif user.status == 'inactive' %}
+              <span class="badge badge--inactive">정지</span>
+            {% else %}
+              <span class="badge badge--approved">승인</span>
+            {% endif %}
+          </div>
+          <div class="detail-card-actions">
+            <a href="{% url 'user_member:user_update' user.mem_idx %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> 정보 수정</a>
+            {% if user.status == 'pending' %}
+              <button type="button" class="btn-approve"><i class="ti ti-check" aria-hidden="true"></i> 승인</button>
+            {% elif user.status == 'inactive' %}
+              <button type="button" class="btn-approve"><i class="ti ti-rotate-clockwise" aria-hidden="true"></i> 정지 해제</button>
+            {% else %}
+              <button type="button" class="btn-block"><i class="ti ti-ban" aria-hidden="true"></i> 정지</button>
+            {% endif %}
+            <button type="button" class="btn-delete" id="delete-btn"><i class="ti ti-trash" aria-hidden="true"></i> 삭제</button>
+          </div>
+        </div>
+
+        <table class="info-table">
+          <tr>
+            <th>아이디</th>
+            <td>{{ user.mem_id }}</td>
+            <th>이메일</th>
+            <td>{{ user.mem_email1 }}@{{ user.mem_email2 }}</td>
+          </tr>
+          <tr>
+            <th>전화번호</th>
+            <td>{{ user.mem_HP|default:"-" }}</td>
+            <th>가입일</th>
+            <td>{{ user.mem_input_date|date:"Y년 m월 d일 H:i" }}</td>
+          </tr>          
+        </table>
+      </div>
+
+      <!-- 활동 내역 -->
+      <div class="admin-grid-2">
+        <section class="admin-card">
+          <div class="admin-card-head">
+            <h2 class="admin-card-title">등록한 행사</h2>
+            <span class="admin-card-count">{{ member_events.count|default:"0" }}건</span>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>no</th><th>행사명</th><th>발주처</th><th>등록일</th></tr>
+            </thead>
+            <tbody>
+              {% for event in member_events %}
+              <tr>
+                <td class="td-num">{{ event.id }}</td>
+                <td class="td-title"><a href="{% url 'user_event:event_detail' event.pk %}">{{ event.title|truncatechars:20 }}</a></td>
+                <td class="td-muted">{{ event.client|default:"-" }}</td>
+                <td class="td-muted">{{ event.created_at|date:"Y.m.d" }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="4" class="td-empty-row">등록한 행사가 없습니다.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+
+        <section class="admin-card">
+          <div class="admin-card-head">
+            <h2 class="admin-card-title">작성한 게시글</h2>
+            <span class="admin-card-count">{{ member_posts.count|default:"0" }}건</span>
+          </div>
+          <table class="admin-table">
+            <thead>
+              <tr><th>no</th><th>제목</th><th>등록일</th></tr>
+            </thead>
+            <tbody>
+              {% for post in member_posts %}
+              <tr>
+                <td class="td-num">{{ post.id }}</td>
+                <td class="td-title"><a href="{% url 'user_board:board_detail' post.pk %}">{{ post.title|truncatechars:24 }}</a></td>
+                <td class="td-muted">{{ post.created_at|date:"Y.m.d" }}</td>
+              </tr>
+              {% empty %}
+              <tr><td colspan="3" class="td-empty-row">작성한 글이 없습니다.</td></tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </section>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- 삭제 확인 모달 -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-box">
+    <p class="modal-title">회원을 삭제하시겠습니까?</p>
+    <p class="modal-desc">삭제된 회원 정보는 복구할 수 없습니다.</p>
+    <form method="post" action="{% url 'user_member:user_delete' user.mem_idx %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}">
+      {% csrf_token %}      
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="modal-cancel">취소</button>
+        <button type="submit" class="btn-confirm-delete">삭제</button>
+      </div>     
+    </form>
+  </div>
+</div>
+
+<style>
+:root{--ai-50:#eef2ff;--ai-100:#e0e7ff;--ai-200:#c7d2fe;--ai-500:#6366f1;--ai-600:#4f46e5;--ai-700:#4338ca;--ai-ink:#1e1b4b;--ar:8px}
+*{box-sizing:border-box}
+.admin-wrap{min-height:100vh;background:#f6f7fb;font-size:13px;color:#374151}
+
+.admin-header{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 1.5rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.admin-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.admin-logo-img{height:26px;display:block}
+.admin-logo-divider{width:1px;height:18px;background:#e5e7eb}
+.admin-logo-text{font-size:13px;font-weight:600;color:var(--ai-700);letter-spacing:.02em}
+.admin-header-right{display:flex;align-items:center;gap:18px}
+.admin-user-greet{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5563;font-weight:500}
+.admin-user-greet i{font-size:16px;color:var(--ai-500)}
+.admin-header-link{display:flex;align-items:center;gap:4px;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-header-link:hover{color:var(--ai-600)}
+
+.admin-body{display:flex;min-height:calc(100vh - 56px)}
+
+.admin-sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;padding:1.25rem 0}
+.admin-nav-group{margin-bottom:4px}
+.admin-nav-group-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:11px 1.25rem;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--ai-ink);text-align:left}
+.admin-nav-group-toggle:hover{background:var(--ai-50)}
+.admin-nav-icon{font-size:17px;color:var(--ai-600);flex-shrink:0}
+.admin-nav-group-toggle span{flex:1}
+.admin-nav-chevron{font-size:13px;color:#9ca3af;transition:transform .15s;flex-shrink:0}
+.admin-nav-group.is-open .admin-nav-chevron{transform:rotate(180deg)}
+.admin-nav-sub{list-style:none;margin:0;padding:2px 0 6px;max-height:0;overflow:hidden;transition:max-height .2s ease}
+.admin-nav-group.is-open .admin-nav-sub{max-height:300px}
+.admin-nav-sub li a{display:block;padding:8px 1.25rem 8px 2.85rem;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-nav-sub li a:hover{background:var(--ai-50);color:var(--ai-700)}
+.admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
+
+.admin-main{flex:1;padding:1.75rem 2rem;min-width:0}
+.admin-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0}
+.back-link{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#6b7280;text-decoration:none;padding:6px 12px;border:1px solid #e5e7eb;border-radius:var(--ar)}
+.back-link:hover{border-color:var(--ai-500);color:var(--ai-600);background:var(--ai-50)}
+
+.alert{padding:10px 14px;border-radius:var(--ar);margin-bottom:1rem;font-size:12.5px}
+.alert-success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.alert-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+/* 기본정보 카드 */
+.detail-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.4rem 1.5rem;margin-bottom:1.25rem}
+.detail-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;padding-bottom:1rem;border-bottom:1px solid #f3f4f6;flex-wrap:wrap;gap:10px}
+.member-id-block{display:flex;align-items:center;gap:10px}
+.id-badge{background:var(--ai-50);color:var(--ai-700);font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px}
+.member-name{font-size:17px;font-weight:700;color:var(--ai-ink);margin:0}
+
+.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:10px}
+.badge--approved{background:#dcfce7;color:#15803d}
+.badge--pending{background:#fef3c7;color:#b45309}
+.badge--inactive{background:#fee2e2;color:#b91c1c}
+
+.detail-card-actions{display:flex;gap:8px}
+.btn-edit,.btn-approve,.btn-block,.btn-delete{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--ar);font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151}
+.btn-edit:hover{border-color:var(--ai-500);color:var(--ai-600);background:var(--ai-50)}
+.btn-approve{border-color:#86efac;color:#15803d}
+.btn-approve:hover{background:#f0fdf4}
+.btn-block{border-color:#fde68a;color:#b45309}
+.btn-block:hover{background:#fffbeb}
+.btn-delete:hover{border-color:#fca5a5;color:#dc2626;background:#fef2f2}
+
+.info-table{width:100%;border-collapse:collapse}
+.info-table th{text-align:left;width:100px;padding:9px 10px 9px 0;font-size:12px;font-weight:600;color:#6b7280;white-space:nowrap;border-bottom:1px solid #f3f4f6}
+.info-table td{padding:9px 16px 9px 10px;font-size:12.5px;color:#374151;border-bottom:1px solid #f3f4f6}
+.info-table tr:last-child th,.info-table tr:last-child td{border-bottom:none}
+
+/* 활동 내역 2단 */
+.admin-grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:1.25rem}
+.admin-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.25rem 1.4rem}
+.admin-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem}
+.admin-card-title{font-size:13.5px;font-weight:700;color:var(--ai-ink);margin:0}
+.admin-card-count{font-size:11.5px;color:#9ca3af;font-weight:600}
+
+.admin-table{width:100%;border-collapse:collapse;font-size:12px}
+.admin-table thead tr{border-bottom:1px solid #e5e7eb}
+.admin-table th{padding:7px 6px;font-weight:600;text-align:left;color:#9ca3af;font-size:10.5px}
+.admin-table th:first-child{width:32px;text-align:center}
+.admin-table td{padding:8px 6px;border-bottom:1px solid #f3f4f6}
+.admin-table tbody tr:last-child td{border-bottom:none}
+.admin-table tbody tr:hover{background:#fafbff}
+.td-num{text-align:center;color:#c1c5cd}
+.td-title a{color:#374151;text-decoration:none;font-weight:500}
+.td-title a:hover{color:var(--ai-600);text-decoration:underline}
+.td-muted{color:#9ca3af}
+.td-empty-row{text-align:center;color:#c1c5cd;padding:24px;font-size:12px}
+
+/* 메모 */
+.card-section-label{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ai-600);margin-bottom:.9rem}
+.memo-form{display:flex;flex-direction:column;gap:10px}
+.memo-textarea{width:100%;padding:10px 12px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;font-family:inherit;resize:vertical;box-sizing:border-box}
+.memo-textarea:focus{outline:none;border-color:var(--ai-500);box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.btn-memo-save{align-self:flex-end;display:flex;align-items:center;gap:5px;padding:8px 16px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);font-size:12.5px;font-weight:500;cursor:pointer}
+.btn-memo-save:hover{background:var(--ai-700)}
+
+/* 삭제 모달 */
+.modal-overlay{position:fixed;inset:0;background:rgba(17,17,27,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem}
+.modal-overlay.is-open{display:flex}
+.modal-box{background:#fff;border-radius:12px;padding:1.5rem;max-width:340px;width:100%}
+.modal-title{font-size:14.5px;font-weight:600;color:#1f2937;margin:0 0 6px}
+.modal-desc{font-size:12.5px;color:#6b7280;margin:0 0 1.25rem}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px}
+.btn-cancel{padding:7px 15px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;font-weight:500;cursor:pointer}
+.btn-cancel:hover{background:#f9fafb}
+.btn-confirm-delete{padding:7px 15px;background:#dc2626;color:#fff;border:none;border-radius:var(--ar);font-size:12.5px;font-weight:500;cursor:pointer}
+.btn-confirm-delete:hover{background:#b91c1c}
+
+@media(max-width:1100px){
+  .admin-grid-2{grid-template-columns:1fr}
+}
+@media(max-width:760px){
+  .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30;overflow-y:auto}
+  .admin-main{padding:1.25rem}
+  .info-table{display:block}
+  .info-table tr{display:flex;flex-direction:column;padding:8px 0}
+  .info-table th,.info-table td{display:block;width:auto;border-bottom:none;padding:2px 0}
+}
+</style>
+
+<script>
+(function(){
+  document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var group = btn.closest('.admin-nav-group');
+      var wasOpen = group.classList.contains('is-open');
+      document.querySelectorAll('.admin-nav-group').forEach(function(g){ g.classList.remove('is-open'); });
+      if(!wasOpen) group.classList.add('is-open');
+    });
+  });
+
+  var deleteModal = document.getElementById('delete-modal');
+  var deleteBtn = document.getElementById('delete-btn');
+  if(deleteBtn){
+    deleteBtn.addEventListener('click', function(){ deleteModal.classList.add('is-open'); });
+    document.getElementById('modal-cancel').addEventListener('click', function(){ deleteModal.classList.remove('is-open'); });
+    deleteModal.addEventListener('click', function(e){ if(e.target === deleteModal) deleteModal.classList.remove('is-open'); });
+  }
+})();
+</script>
+{% endblock %}

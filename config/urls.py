@@ -35,6 +35,8 @@ urlpatterns = [
     path('dbupload/', include('dbupload.urls')),
     path('biz/', include('biz.urls', namespace='biz')),
     path('customer/', include('customer.urls')),
+    path('livemanager/admin_member/', include('livemanager.admin_member.urls', namespace='admin_member')),
+    path('livemanager/user_member/', include('livemanager.user_member.urls', namespace='user_member')),
     
     
 

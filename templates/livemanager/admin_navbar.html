@@ -1,0 +1,15 @@
+{% load static %}
+<header class="admin-header">
+    <div class="admin-header-left">
+        <a href="{% url 'livemanager:admin_dashboard' %}" class="admin-logo">
+        <img src="{% static 'images/liveto_logo.png' %}" alt="LiveTo.com" class="admin-logo-img">
+        <span class="admin-logo-divider"></span>
+        <span class="admin-logo-text">livemanager</span>
+        </a>
+    </div>
+    <div class="admin-header-right">
+        <span class="admin-user-greet"><i class="ti ti-user-circle" aria-hidden="true"></i> {{ request.user.username|default:"관리자" }}님</span>
+        <a href="{% url 'main:index' %}" target="_blank" class="admin-header-link"><i class="ti ti-external-link" aria-hidden="true"></i> 사이트 보기</a>
+        <a href="{% url 'livemanager:admin_logout' %}" class="admin-header-link"><i class="ti ti-logout" aria-hidden="true"></i> 로그아웃</a>
+    </div>
+</header>

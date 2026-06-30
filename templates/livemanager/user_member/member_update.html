@@ -1,0 +1,219 @@
+{% extends 'admin_base.html' %}
+{% block title %}{% if object %}회원 정보 수정{% else %}회원 등록{% endif %}{% endblock %}
+
+{% block content %}
+<div class="admin-wrap">
+
+  <!-- 상단 헤더 -->
+ 
+
+  <div class="admin-body">
+
+    <!-- 좌측 메뉴 -->
+    {% include "livemanager/admin_left.html" %}
+
+    <!-- 본문 -->
+    <main class="admin-main">
+
+      <div class="admin-page-head">
+        <h1 class="admin-page-title">{% if user %}회원 정보 수정{% else %}회원 등록{% endif %}</h1>
+        <a href="{% if user %}{% url 'user_member:user_detail' user.mem_idx %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}{% else %}{% url 'user_member:user_list' %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}{% endif %}" class="back-link">
+          <i class="ti ti-arrow-left" aria-hidden="true"></i> {% if user %}상세보기로{% else %}목록으로{% endif %}
+        </a>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" class="admin-form" novalidate action="{% url 'user_member:user_update' user.mem_idx %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}">
+        {% csrf_token %}
+
+        <div class="form-card">
+          <div class="card-section-label">계정 정보</div>
+
+          <div class="field">
+            <label for="mem_id" class="field-label">아이디 <span class="required">*</span></label>
+            <input type="text" id="mem_id" name="mem_id"
+                   value="{{ user.mem_id|default:'' }}"
+                   placeholder="로그인에 사용할 아이디"
+                   class="field-input {% if form.mem_id.errors %}is-error{% endif %}"
+                   {% if user %}readonly{% endif %}
+                   maxlength="50" required>
+            {% if form.mem_id.errors %}<p class="field-error">{{ form.mem_id.errors.0 }}</p>{% endif %}
+            {% if user %}<p class="field-hint">아이디는 등록 후 변경할 수 없습니다.</p>{% endif %}
+          </div>
+
+          
+
+          {% if user %}
+          <div class="field">
+            <label class="field-label">계정 상태</label>
+            <div class="radio-group">
+              <label class="radio-pill">
+                <input type="radio" name="mem_YN" value="Y" {% if user.mem_YN == 'Y' or not user.mem_YN %}checked{% endif %}>
+                <span>승인</span>
+              </label>
+              <label class="radio-pill">
+                <input type="radio" name="mem_YN" value="P" {% if user.mem_YN == 'P' %}checked{% endif %}>
+                <span>대기</span>
+              </label>
+              <label class="radio-pill">
+                <input type="radio" name="mem_YN" value="N" {% if user.mem_YN == 'N' %}checked{% endif %}>
+                <span>정지</span>
+              </label>
+            </div>
+          </div>
+          {% endif %}
+        </div>
+
+        <div class="form-card">
+          <div class="card-section-label">개인 정보</div>
+
+          <div class="field-row">
+            <div class="field">
+              <label for="mem_name" class="field-label">이름 <span class="required">*</span></label>
+              <input type="text" id="mem_name" name="mem_name"
+                     value="{{ user.mem_name|default:'' }}"
+                     placeholder="홍길동"
+                     class="field-input {% if form.mem_name.errors %}is-error{% endif %}"
+                     maxlength="30" required>
+              {% if form.mem_name.errors %}<p class="field-error">{{ form.mem_name.errors.0 }}</p>{% endif %}
+            </div>
+            <div class="field">
+              <label for="mem_HP" class="field-label">전화번호</label>
+              <input type="tel" id="mem_HP" name="mem_HP"
+                     value="{{ user.mem_HP|default:'' }}"
+                     placeholder="010-0000-0000"
+                     class="field-input {% if form.mem_HP.errors %}is-error{% endif %}"
+                     maxlength="20">
+              {% if form.mem_HP.errors %}<p class="field-error">{{ form.mem_HP.errors.0 }}</p>{% endif %}
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="mem_email" class="field-label">이메일 <span class="required">*</span></label>
+            <input type="email" id="mem_email" name="mem_email"
+                   value="{{ user.mem_email1 }}@{{ user.mem_email2|default:'' }}"
+                   placeholder="user@example.com"
+                   class="field-input {% if form.mem_email.errors %}is-error{% endif %}"
+                   required>
+            {% if form.mem_email.errors %}<p class="field-error">{{ form.mem_email.errors.0 }}</p>{% endif %}
+          </div>
+          <div class="field">
+            <label for="mem_Event" class="field-label">이벤트넘버 <span class="required">*</span></label>
+            <input type="text" id="mem_Event" name="mem_Event"
+                   value="{{ user.mem_Event|default:'' }}"
+                   placeholder="이벤트 번호"
+                   class="field-input {% if form.mem_Event.errors %}is-error{% endif %}"
+                   required>
+            {% if form.mem_Event.errors %}<p class="field-error">{{ form.mem_Event.errors.0 }}</p>{% endif %}
+          </div>          
+        </div>
+
+        <div class="form-actions">
+          <a href="{% if user %}{% url 'user_member:user_detail' user.mem_idx %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}{% else %}{% url 'user_member:user_list' %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}{% endif %}" class="btn-cancel">취소</a>
+          <button type="submit" class="btn-submit">
+            <i class="ti ti-check" aria-hidden="true"></i> {% if user %}수정 완료{% else %}등록하기{% endif %}
+          </button>
+        </div>
+
+      </form>
+
+    </main>
+  </div>
+</div>
+
+<style>
+:root{--ai-50:#eef2ff;--ai-100:#e0e7ff;--ai-200:#c7d2fe;--ai-500:#6366f1;--ai-600:#4f46e5;--ai-700:#4338ca;--ai-ink:#1e1b4b;--ar:8px}
+*{box-sizing:border-box}
+.admin-wrap{min-height:100vh;background:#f6f7fb;font-size:13px;color:#374151}
+
+.admin-header{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 1.5rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.admin-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.admin-logo-img{height:26px;display:block}
+.admin-logo-divider{width:1px;height:18px;background:#e5e7eb}
+.admin-logo-text{font-size:13px;font-weight:600;color:var(--ai-700);letter-spacing:.02em}
+.admin-header-right{display:flex;align-items:center;gap:18px}
+.admin-user-greet{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5563;font-weight:500}
+.admin-user-greet i{font-size:16px;color:var(--ai-500)}
+.admin-header-link{display:flex;align-items:center;gap:4px;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-header-link:hover{color:var(--ai-600)}
+
+.admin-body{display:flex;min-height:calc(100vh - 56px)}
+
+.admin-sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;padding:1.25rem 0}
+.admin-nav-group{margin-bottom:4px}
+.admin-nav-group-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:11px 1.25rem;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--ai-ink);text-align:left}
+.admin-nav-group-toggle:hover{background:var(--ai-50)}
+.admin-nav-icon{font-size:17px;color:var(--ai-600);flex-shrink:0}
+.admin-nav-group-toggle span{flex:1}
+.admin-nav-chevron{font-size:13px;color:#9ca3af;transition:transform .15s;flex-shrink:0}
+.admin-nav-group.is-open .admin-nav-chevron{transform:rotate(180deg)}
+.admin-nav-sub{list-style:none;margin:0;padding:2px 0 6px;max-height:0;overflow:hidden;transition:max-height .2s ease}
+.admin-nav-group.is-open .admin-nav-sub{max-height:300px}
+.admin-nav-sub li a{display:block;padding:8px 1.25rem 8px 2.85rem;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-nav-sub li a:hover{background:var(--ai-50);color:var(--ai-700)}
+.admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
+
+.admin-main{flex:1;padding:1.75rem 2rem;min-width:0;max-width:680px}
+.admin-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0}
+.back-link{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#6b7280;text-decoration:none;padding:6px 12px;border:1px solid #e5e7eb;border-radius:var(--ar)}
+.back-link:hover{border-color:var(--ai-500);color:var(--ai-600);background:var(--ai-50)}
+
+.alert{padding:10px 14px;border-radius:var(--ar);margin-bottom:1rem;font-size:12.5px}
+.alert-success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.alert-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+/* 폼 카드 */
+.form-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.4rem 1.5rem;margin-bottom:1.1rem}
+.card-section-label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ai-600);margin-bottom:1.1rem;padding-bottom:.6rem;border-bottom:1px solid var(--ai-100)}
+.field{margin-bottom:1.1rem}
+.field:last-child{margin-bottom:0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-label{display:block;font-size:12.5px;font-weight:600;color:#374151;margin-bottom:6px}
+.required{color:#ef4444}
+.field-hint{font-size:11px;color:#9ca3af;margin:5px 0 0}
+.field-input,.field-textarea{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:13px;color:#1f2937;background:#fff;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;font-family:inherit}
+.field-input:focus,.field-textarea:focus{outline:none;border-color:var(--ai-500);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.field-input[readonly]{background:#f9fafb;color:#9ca3af}
+.field-input.is-error,.field-textarea.is-error{border-color:#ef4444}
+.field-error{font-size:11.5px;color:#ef4444;margin:5px 0 0}
+.field-textarea{resize:vertical}
+
+/* 상태 라디오 */
+.radio-group{display:flex;gap:8px}
+.radio-pill{position:relative;cursor:pointer}
+.radio-pill input{position:absolute;opacity:0;width:0;height:0}
+.radio-pill span{display:inline-block;padding:7px 16px;border:1px solid #d1d5db;border-radius:16px;font-size:12.5px;color:#6b7280;transition:all .15s}
+.radio-pill input:checked+span{background:var(--ai-600);border-color:var(--ai-600);color:#fff;font-weight:600}
+
+.form-actions{display:flex;justify-content:flex-end;gap:8px}
+.btn-cancel{display:inline-flex;align-items:center;padding:9px 18px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--ar);font-size:13px;font-weight:500;text-decoration:none;cursor:pointer}
+.btn-cancel:hover{background:#f9fafb}
+.btn-submit{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);font-size:13px;font-weight:500;cursor:pointer}
+.btn-submit:hover{background:var(--ai-700)}
+
+@media(max-width:760px){
+  .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30;overflow-y:auto}
+  .admin-main{padding:1.25rem;max-width:none}
+  .field-row{grid-template-columns:1fr}
+}
+</style>
+
+<script>
+(function(){
+  document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var group = btn.closest('.admin-nav-group');
+      var wasOpen = group.classList.contains('is-open');
+      document.querySelectorAll('.admin-nav-group').forEach(function(g){ g.classList.remove('is-open'); });
+      if(!wasOpen) group.classList.add('is-open');
+    });
+  });
+})();
+</script>
+{% endblock %}

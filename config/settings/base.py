@@ -75,6 +75,8 @@ INSTALLED_APPS = [
     'dbupload.apps.DbuploadConfig',
     'biz.apps.BizConfig',
     'customer.apps.CustomerConfig',
+    'livemanager.admin_member.apps.AdminMemberConfig',
+    'livemanager.user_member.apps.UserMemberConfig',
  
 ]
 
