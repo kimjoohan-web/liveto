@@ -82,7 +82,7 @@ def user_update(request, user_idx,kw='', page=1, search_field=''):
         elif mem_YN == 'N':
             user.mem_YN = 'N'
         user.save()  # 변경된 정보를 저장합니다.
-        return redirect(reverse('user_member:user_detail', args=[user_idx]))  # 회원 상세 페이지로 리디렉션합니다.
+        return redirect(reverse('user_member:user_detail', args=[user_idx]) + f'?page={page}&kw={kw}&search_field={search_field}')  # 회원 상세 페이지로 리디렉션합니다.
     else:
         return render(request, 'livemanager/user_member/member_update.html', {'user': user, 'kw': kw, 'page': page, 'search_field': search_field})  
 
@@ -101,4 +101,4 @@ def user_excel_create(request):
 def user_delete(request, user_idx, kw='', page=1, search_field=''):
     user = event_member.objects.get(mem_idx=user_idx)  # user_idx에 해당하는 event_member 객체를 가져옵니다.
     user.delete()  # 해당 회원 객체를 삭제합니다.
-    return redirect(reverse('user_member:user_list', args=[kw, page, search_field]))  # 회원 목록 페이지로 리디렉션합니다.
+    return redirect(reverse('user_member:user_list') + f'?page={page}&kw={kw}&search_field={search_field}')  # 회원 목록 페이지로 리디렉션합니다.

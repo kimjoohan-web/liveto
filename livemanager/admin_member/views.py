@@ -5,6 +5,7 @@ from django.http import HttpResponse
 from django.urls import reverse
 from django.shortcuts import redirect
 from livemanager.admin_member.models import AdminMember
+from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
 
 
@@ -35,7 +36,10 @@ def admin_create(request):
 
     if request.method == 'POST':
         admin_id = request.POST.get('admin_id')
-        admin_pw = request.POST.get('admin_pw')
+        admin_pw = request.POST.get('admin_pw') #패스워드를 암호화하여 저장하는 로직을 추가해야 합니다.
+        if admin_pw:
+            admin_pw = make_password(admin_pw)  # 비밀번호를 암호화합니다.
+        
         admin_name = request.POST.get('admin_name')
         admin_email = request.POST.get('admin_email')
         admin_phone = request.POST.get('admin_phone')
@@ -74,12 +78,11 @@ def admin_update(request, admin_idx):
     if request.method == 'POST':
 
         admin.admin_id = request.POST.get('admin_id')
-        if request.POST.get('admin_pw'):
-            admin.admin_pw = request.POST.get('admin_pw')  # 비밀번호가 입력된 경우에만 업데이트합니다.
+        if request.POST.get('admin_pw'):    
+            admin.admin_pw = make_password(request.POST.get('admin_pw'))  # 비밀번호가 입력된 경우에만 업데이트합니다.
             admin.admin_name = request.POST.get('admin_name')
             admin.admin_email = request.POST.get('admin_email')
-            admin.admin_phone = request.POST.get('admin_phone')
-            admin.update_at = timezone.now()  # 현재 시간을 업데이트 시간으로 설정합니다.
+            admin.admin_phone = request.POST.get('admin_phone')            
             admin.admin_is_superuser = request.POST.get('admin_is_superuser') == 'on'  # 체크박스 값에 따라 True/False로 설정합니다.
             admin.save()  # 변경 사항을 저장합니다.
         return redirect(reverse('admin_member:admin_list') + f'?page={page}&kw={kw}&search_field={search_field}')  # 관리자 목록 페이지로 리디렉션합니다.
