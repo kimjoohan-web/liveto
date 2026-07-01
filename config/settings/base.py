@@ -77,6 +77,7 @@ INSTALLED_APPS = [
     'customer.apps.CustomerConfig',
     'livemanager.admin_member.apps.AdminMemberConfig',
     'livemanager.user_member.apps.UserMemberConfig',
+    'livemanager.event_board.apps.EventBoardConfig',
  
 ]
 

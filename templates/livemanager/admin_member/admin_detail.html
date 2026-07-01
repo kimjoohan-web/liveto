@@ -10,14 +10,14 @@
   <div class="admin-body">
 
     <!-- 좌측 메뉴 -->
-    {% include "livemanager/admin_left.html" with current_g='member' current_page='member_detail' %}
+    {% include "livemanager/admin_left.html" with current_g='admin_member' current_page='admin_list' %}
 
     <!-- 본문 -->
     <main class="admin-main">
 
       <div class="admin-page-head">
         <h1 class="admin-page-title">회원 상세정보</h1>
-        <a href="{% url 'user_member:user_list' %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
+        <a href="{% url 'admin_member:admin_list' %}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
       </div>
 
       {% if messages %}
@@ -30,21 +30,21 @@
       <div class="detail-card">
         <div class="detail-card-head">
           <div class="member-id-block">
-            <span class="id-badge">No.{{ user.mem_idx }}</span>
-            <h2 class="member-name">{{ user.mem_name }}</h2>
-            {% if user.status == 'pending' %}
+            <span class="id-badge">No.{{ admin.admin_idx }}</span>
+            <h2 class="member-name">{{ admin.admin_name }}</h2>
+            {% if admin.admin_status == 'pending' %}
               <span class="badge badge--pending">대기</span>
-            {% elif user.status == 'inactive' %}
+            {% elif admin.admin_status == 'inactive' %}
               <span class="badge badge--inactive">정지</span>
             {% else %}
               <span class="badge badge--approved">승인</span>
             {% endif %}
           </div>
           <div class="detail-card-actions">
-            <a href="{% url 'user_member:user_update' user.mem_idx %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> 정보 수정</a>
-            {% if user.status == 'pending' %}
+            <a href="{% url 'admin_member:admin_update' admin.admin_idx %}" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> 정보 수정</a>
+            {% if admin.admin_status == 'pending' %}
               <button type="button" class="btn-approve"><i class="ti ti-check" aria-hidden="true"></i> 승인</button>
-            {% elif user.status == 'inactive' %}
+            {% elif admin.admin_status == 'inactive' %}
               <button type="button" class="btn-approve"><i class="ti ti-rotate-clockwise" aria-hidden="true"></i> 정지 해제</button>
             {% else %}
               <button type="button" class="btn-block"><i class="ti ti-ban" aria-hidden="true"></i> 정지</button>
@@ -56,16 +56,22 @@
         <table class="info-table">
           <tr>
             <th>아이디</th>
-            <td>{{ user.mem_id }}</td>
+            <td>{{ admin.admin_id }}</td>
             <th>이메일</th>
-            <td>{{ user.mem_email1 }}@{{ user.mem_email2 }}</td>
+            <td>{{ admin.admin_email }}</td>
           </tr>
           <tr>
             <th>전화번호</th>
-            <td>{{ user.mem_HP|default:"-" }}</td>
+            <td>{{ admin.admin_phone|default:"-" }}</td>
             <th>가입일</th>
-            <td>{{ user.mem_input_date|date:"Y년 m월 d일 H:i" }}</td>
-          </tr>          
+            <td>{{ admin.admin_date_joined|date:"Y년 m월 d일 H:i" }}</td>
+          </tr>
+          <tr>
+            <th>최종 로그인</th>
+            <td>{{ admin.admin_last_login|date:"Y.m.d H:i"|default:"-" }}</td>
+            <th>가입 경로</th>
+            <td>{{ admin.admin_join_channel|default:"홈페이지 직접 가입" }}</td>
+          </tr>
         </table>
       </div>
 
@@ -84,7 +90,7 @@
               {% for event in member_events %}
               <tr>
                 <td class="td-num">{{ event.id }}</td>
-                <td class="td-title"><a href="{% url 'user_event:event_detail' event.pk %}">{{ event.title|truncatechars:20 }}</a></td>
+                <td class="td-title"><a href="{% url 'admin_event_detail' event.pk %}">{{ event.title|truncatechars:20 }}</a></td>
                 <td class="td-muted">{{ event.client|default:"-" }}</td>
                 <td class="td-muted">{{ event.created_at|date:"Y.m.d" }}</td>
               </tr>
@@ -108,7 +114,7 @@
               {% for post in member_posts %}
               <tr>
                 <td class="td-num">{{ post.id }}</td>
-                <td class="td-title"><a href="{% url 'user_board:board_detail' post.pk %}">{{ post.title|truncatechars:24 }}</a></td>
+                <td class="td-title"><a href="{% url 'admin_board_detail' post.pk %}">{{ post.title|truncatechars:24 }}</a></td>
                 <td class="td-muted">{{ post.created_at|date:"Y.m.d" }}</td>
               </tr>
               {% empty %}
@@ -118,6 +124,10 @@
           </table>
         </section>
       </div>
+
+      <!-- 관리자 메모 -->
+      
+
     </main>
   </div>
 </div>
@@ -127,12 +137,12 @@
   <div class="modal-box">
     <p class="modal-title">회원을 삭제하시겠습니까?</p>
     <p class="modal-desc">삭제된 회원 정보는 복구할 수 없습니다.</p>
-    <form method="post" action="{% url 'user_member:user_delete' user.mem_idx %}?kw={{ kw }}&page={{ page }}&search_field={{ search_field }}">
-      {% csrf_token %}      
+    <form method="post" action="{% url 'admin_member:admin_delete' admin.admin_idx %}">
+      {% csrf_token %}
       <div class="modal-actions">
         <button type="button" class="btn-cancel" id="modal-cancel">취소</button>
         <button type="submit" class="btn-confirm-delete">삭제</button>
-      </div>     
+      </div>
     </form>
   </div>
 </div>

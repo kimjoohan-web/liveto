@@ -88,3 +88,17 @@ def admin_update(request, admin_idx):
         return redirect(reverse('admin_member:admin_list') + f'?page={page}&kw={kw}&search_field={search_field}')  # 관리자 목록 페이지로 리디렉션합니다.
 
     return render(request, 'livemanager/admin_member/admin_update.html', {'admin': admin, 'kw': kw, 'page': page, 'search_field': search_field})
+
+
+def admin_delete(request, admin_idx):
+    admin = AdminMember.objects.get(admin_idx=admin_idx)
+    admin.delete()
+    return redirect(reverse('admin_member:admin_list'))
+
+def admin_detail(request, admin_idx):
+    kw = request.GET.get('kw', '')  # 검색어를 가져옵니다. kw라는 이름으로 GET 요청에서 검색어를 가져옵니다.
+    page = request.GET.get('page', 1)  # 페이지 번호를 가져옵니다. 기본값은 1입니다.
+    search_field = request.GET.get('search_field', '')  # 검색 필드를 가져옵니다. search_field라는 이름으로 GET 요청에서 검색 필드를 가져옵니다.
+
+    admin = AdminMember.objects.get(admin_idx=admin_idx)  # admin_idx에 해당하는 AdminMember 객체를 가져옵니다.
+    return render(request, 'livemanager/admin_member/admin_detail.html', {'admin': admin, 'kw': kw, 'page': page, 'search_field': search_field})

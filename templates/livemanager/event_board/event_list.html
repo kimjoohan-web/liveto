@@ -1,53 +1,53 @@
 {% extends 'admin_base.html' %}
-{% block title %}회원 목록{% endblock %}
+{% block title %}행사 목록{% endblock %}
 
 {% block content %}
 <div class="admin-wrap">
 
-  <!-- 상단 헤더 -->
- 
-
+  <!-- 상단 헤더 -->  
   <div class="admin-body">
 
     <!-- 좌측 메뉴 -->
-    {% include "livemanager/admin_left.html" with current_g='member' current_page='member_list' %}
+    {% include "livemanager/admin_left.html" with current_g='event' current_page='event_list' %}
 
     <!-- 본문 -->
     <main class="admin-main">
 
       <div class="admin-page-head">
-        <h1 class="admin-page-title">회원 목록</h1>
-        <span class="admin-page-sub-inline">{{ today|default:"" }}</span>
+        <h1 class="admin-page-title">행사 목록</h1>
+        <a href="{% url 'event_board:event_create' %}" class="btn-primary">
+          <i class="ti ti-plus" aria-hidden="true"></i> 행사 등록
+        </a>
       </div>
 
       <!-- 요약 카드 -->
       <div class="stat-grid">
         <div class="stat-card">
-          <span class="stat-icon stat-icon--indigo"><i class="ti ti-users" aria-hidden="true"></i></span>
+          <span class="stat-icon stat-icon--indigo"><i class="ti ti-calendar-event" aria-hidden="true"></i></span>
           <div class="stat-body">
-            <p class="stat-label">전체 회원</p>
-            <p class="stat-value">{{ stat_total|default:"1,284" }}<span class="stat-unit">명</span></p>
+            <p class="stat-label">전체 행사</p>
+            <p class="stat-value">{{ stat_total|default:"0" }}<span class="stat-unit">건</span></p>
           </div>
         </div>
         <div class="stat-card">
-          <span class="stat-icon stat-icon--teal"><i class="ti ti-user-check" aria-hidden="true"></i></span>
+          <span class="stat-icon stat-icon--teal"><i class="ti ti-player-play" aria-hidden="true"></i></span>
           <div class="stat-body">
-            <p class="stat-label">승인 완료</p>
-            <p class="stat-value">{{ stat_approved|default:"1,278" }}<span class="stat-unit">명</span></p>
+            <p class="stat-label">VOD 등록</p>
+            <p class="stat-value">{{ stat_vod|default:"0" }}<span class="stat-unit">건</span></p>
           </div>
         </div>
         <div class="stat-card">
-          <span class="stat-icon stat-icon--amber"><i class="ti ti-user-plus" aria-hidden="true"></i></span>
+          <span class="stat-icon stat-icon--amber"><i class="ti ti-calendar-time" aria-hidden="true"></i></span>
           <div class="stat-body">
-            <p class="stat-label">승인 대기</p>
-            <p class="stat-value">{{ stat_pending|default:"6" }}<span class="stat-unit">명</span></p>
+            <p class="stat-label">이번 달 행사</p>
+            <p class="stat-value">{{ stat_this_month|default:"0" }}<span class="stat-unit">건</span></p>
           </div>
         </div>
         <div class="stat-card">
-          <span class="stat-icon stat-icon--coral"><i class="ti ti-user-x" aria-hidden="true"></i></span>
+          <span class="stat-icon stat-icon--coral"><i class="ti ti-photo" aria-hidden="true"></i></span>
           <div class="stat-body">
-            <p class="stat-label">탈퇴/정지</p>
-            <p class="stat-value">{{ stat_inactive|default:"12" }}<span class="stat-unit">명</span></p>
+            <p class="stat-label">첨부파일 누락</p>
+            <p class="stat-value">{{ stat_no_attach|default:"0" }}<span class="stat-unit">건</span></p>
           </div>
         </div>
       </div>
@@ -55,69 +55,71 @@
       <!-- 검색 -->
       <form method="get" class="search-bar">
         <select name="search_field" class="search-select">
-          <option value="all"   {% if search_field == 'all'   %}selected{% endif %}>전체</option>
-          <option value="name"  {% if search_field == 'name'  %}selected{% endif %}>이름</option>
-          <option value="login_id" {% if search_field == 'login_id' %}selected{% endif %}>아이디</option>
-          <option value="email" {% if search_field == 'email' %}selected{% endif %}>이메일</option>
-          <option value="phone" {% if search_field == 'phone' %}selected{% endif %}>전화번호</option>
+          <option value="all"    {% if search_field == 'all'    %}selected{% endif %}>전체</option>
+          <option value="car_name"  {% if search_field == 'car_name'  %}selected{% endif %}>행사명</option>
+          <option value="car_order" {% if search_field == 'car_order' %}selected{% endif %}>발주처</option>
         </select>
-        <input type="text" name="q" value="{{ query|default:'' }}" placeholder="검색어를 입력하세요" class="search-input">
+        <input type="text" name="kw" value="{{ kw|default:'' }}" placeholder="검색어를 입력하세요" class="search-input">
 
-        <select name="status" class="search-select">
-          <option value="" {% if not status %}selected{% endif %}>전체 상태</option>
-          <option value="approved" {% if status == 'approved' %}selected{% endif %}>승인</option>
-          <option value="pending" {% if status == 'pending' %}selected{% endif %}>대기</option>
-          <option value="inactive" {% if status == 'inactive' %}selected{% endif %}>탈퇴/정지</option>
+        <select name="category" class="search-select">
+          <option value="" {% if not category %}selected{% endif %}>전체 분야</option>
+          <option value="인터넷중계방송" {% if category == '인터넷중계방송' %}selected{% endif %}>인터넷 중계방송</option>
+          <option value="인터넷생방송" {% if category == '인터넷생방송' %}selected{% endif %}>인터넷 생방송</option>
+          <option value="영상중계"      {% if category == '영상중계'      %}selected{% endif %}>영상중계</option>
+          <option value="영상물제작"      {% if category == '영상물제작'      %}selected{% endif %}>영상물제작</option>
+          <option value="e러닝제작"  {% if category == 'e러닝제작'  %}selected{% endif %}>e러닝</option>
         </select>
+
+        <input type="date" name="date_from" value="{{ date_from|default:'' }}" class="search-date">
+        <span class="search-date-sep">~</span>
+        <input type="date" name="date_to" value="{{ date_to|default:'' }}" class="search-date">
 
         <button type="submit" class="btn-search"><i class="ti ti-search" aria-hidden="true"></i> 검색</button>
-        {% if query or status %}<a href="{% url 'admin_user_member_list' %}" class="btn-reset">초기화</a>{% endif %}
+        {% if kw or category or date_from or date_to %}<a href="{% url 'event_board:event_list' %}" class="btn-reset">초기화</a>{% endif %}
+
+        <input type="hidden" name="page" value="{{ page_obj.number }}">
       </form>
 
-      <div class="result-meta">총 <strong>{{ page_obj.paginator.count|default:"0" }}</strong>명</div>
+      <div class="result-meta">총 <strong>{{ page_obj.paginator.count|default:"0" }}</strong>건</div>
 
       <!-- 테이블 -->
       <div class="table-wrap">
         <table class="admin-table admin-table--bordered">
           <colgroup>
-            <col style="width:46px">
-            <col style="width:30px">
-            <col style="width:120px"><col style="width:90px">
-            <col><col style="width:130px"><col style="width:100px">
-            <col style="width:90px"><col style="width:90px">
+            <col style="width:36px"><col style="width:46px"><col>
+            <col style="width:130px"><col style="width:100px"><col style="width:70px">
+            <col style="width:70px"><col style="width:90px"><col style="width:90px">
           </colgroup>
           <thead>
             <tr>
               <th><input type="checkbox" id="check-all" aria-label="전체 선택"></th>
-              <th>no</th><th>아이디</th><th>이름</th><th>이메일</th><th>전화번호</th><th>가입일</th><th>상태</th><th>관리</th>
+              <th>no</th><th>행사명</th><th>발주처</th><th>행사일</th><th>VOD</th><th>첨부</th><th>등록일</th><th>관리</th>
             </tr>
           </thead>
           <tbody>
-            {% for member in page_obj %}
+            {% for event in board_list %}
             <tr>
-              <td class="td-center"><input type="checkbox" name="selected" value="{{ member.mem_idx }}" aria-label="{{ member.mem_name }} 선택"></td>
-              <td class="td-num">{{ member.mem_idx }}</td>
-              <td class="td-login"><a href="{% url 'user_member:user_detail' member.mem_idx %}">{{ member.mem_id }}</a></td>
-              <td>{{ member.mem_name }}</td>
-              <td class="td-muted">{{ member.mem_email1 }}@{{ member.mem_email2 }}</td>
-              <td class="td-muted">{{ member.mem_HP|default:"-" }}</td>
-              <td class="td-muted">{{ member.mem_input_date|date:"Y.m.d" }}</td>
-              <td>
-                {% if member.status == 'pending' %}
-                  <span class="badge badge--pending">대기</span>
-                {% elif member.status == 'inactive' %}
-                  <span class="badge badge--inactive">정지</span>
-                {% else %}
-                  <span class="badge badge--approved">승인</span>
-                {% endif %}
+              <td class="td-center"><input type="checkbox" name="selected" value="{{ event.car_idx }}" aria-label="{{ event.car_name }} 선택"></td>
+              <td class="td-num">{{ event.car_idx }}</td>
+              <td class="td-title"><a href="{% url 'event_board:event_detail' event.car_idx %}?search_field={{ search_field }}&kw={{ kw }}&page={{ page }}&category={{ category }}">{{ event.car_name|truncatechars:32 }}</a></td>
+              <td class="td-muted">{{ event.car_order|default:"-" }}</td>
+              <td class="td-muted">{{ event.car_date|date:"Y.m.d" }}</td>
+              <td class="td-center">
+                {% if event.car_url %}<i class="ti ti-circle-check icon-yes" aria-hidden="true" title="VOD 있음"></i>{% else %}<span class="td-empty">—</span>{% endif %}
               </td>
               <td class="td-center">
-                <a href="{% url 'user_member:user_detail' member.mem_idx %}" class="row-action" title="상세보기" aria-label="상세보기"><i class="ti ti-eye" aria-hidden="true"></i></a>
-                <a href="{% url 'user_member:user_update' member.mem_idx %}" class="row-action" title="수정" aria-label="수정"><i class="ti ti-edit" aria-hidden="true"></i></a>
+                {% with fc=event.files.count ic=event.images.count %}
+                  {% if fc or ic %}<span class="attach-count">{{ fc|add:ic }}</span>{% else %}<span class="td-empty">—</span>{% endif %}
+                {% endwith %}
+              </td>
+              <td class="td-muted">{{ event.created_at|date:"Y.m.d" }}</td>
+              <td class="td-center">
+                <a href="{% url 'event_board:event_detail' event.car_idx %}" class="row-action" title="상세보기" aria-label="상세보기"><i class="ti ti-eye" aria-hidden="true"></i></a>
+                <a href="{% url 'event_board:event_update' event.car_idx %}" class="row-action" title="수정" aria-label="수정"><i class="ti ti-edit" aria-hidden="true"></i></a>
               </td>
             </tr>
             {% empty %}
-            <tr><td colspan="9" class="td-empty-row">등록된 회원이 없습니다.</td></tr>
+            <tr><td colspan="9" class="td-empty-row">등록된 행사가 없습니다.</td></tr>
             {% endfor %}
           </tbody>
         </table>
@@ -126,28 +128,23 @@
       <!-- 일괄 처리 + 페이지네이션 -->
       <div class="list-footer">
         <div class="bulk-actions">
-          <button type="button" class="btn-bulk btn-bulk--approve"><i class="ti ti-check" aria-hidden="true"></i> 선택 승인</button>
-          <button type="button" class="btn-bulk btn-bulk--block"><i class="ti ti-ban" aria-hidden="true"></i> 선택 정지</button>
           <button type="button" class="btn-bulk btn-bulk--delete"><i class="ti ti-trash" aria-hidden="true"></i> 선택 삭제</button>
-          <button type="button" class="btn-bulk btn-bulk--register" id="mem_creat"><i class="ti ti-user-plus" aria-hidden="true"></i> 회원가입</button>
-          <button type="button" class="btn-bulk btn-bulk--register" id="mem_excel_creat"><i class="ti ti-user-plus" aria-hidden="true"></i> 회원엑셀가입</button>
-
         </div>
 
-        {% if page_obj.has_other_pages %}
+        {% if board_list.has_other_pages %}
         <nav class="pagination" aria-label="페이지 탐색">
-          {% if page_obj.has_previous %}
-            <a href="?page={{ page_obj.previous_page_number }}" class="page-btn"><i class="ti ti-chevron-left" aria-hidden="true"></i></a>
+          {% if board_list.has_previous %}
+            <a href="?page={{ board_list.previous_page_number }}" class="page-btn"><i class="ti ti-chevron-left" aria-hidden="true"></i></a>
           {% endif %}
-          {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
+          {% for num in board_list.paginator.page_range %}
+            {% if board_list.number == num %}
               <span class="page-btn active">{{ num }}</span>
-            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+            {% elif num > board_list.number|add:'-3' and num < board_list.number|add:'3' %}
               <a href="?page={{ num }}" class="page-btn">{{ num }}</a>
             {% endif %}
           {% endfor %}
-          {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}" class="page-btn"><i class="ti ti-chevron-right" aria-hidden="true"></i></a>
+          {% if board_list.has_next %}
+            <a href="?page={{ board_list.next_page_number }}" class="page-btn"><i class="ti ti-chevron-right" aria-hidden="true"></i></a>
           {% endif %}
         </nav>
         {% endif %}
@@ -190,9 +187,11 @@
 .admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
 
 .admin-main{flex:1;padding:1.75rem 2rem;min-width:0}
-.admin-page-head{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:1.25rem}
+.admin-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
 .admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0}
-.admin-page-sub-inline{font-size:12px;color:#9ca3af}
+
+.btn-primary{display:inline-flex;align-items:center;gap:6px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);padding:9px 16px;font-size:13px;font-weight:500;cursor:pointer;text-decoration:none}
+.btn-primary:hover{background:var(--ai-700)}
 
 /* 통계 카드 */
 .stat-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:1.5rem}
@@ -209,8 +208,10 @@
 /* 검색 */
 .search-bar{display:flex;align-items:center;gap:8px;margin-bottom:1rem;flex-wrap:wrap}
 .search-select{padding:8px 10px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;background:#fff;color:#374151}
-.search-input{flex:1;min-width:200px;padding:8px 12px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;box-sizing:border-box}
+.search-input{flex:1;min-width:180px;padding:8px 12px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;box-sizing:border-box}
 .search-input:focus{outline:none;border-color:var(--ai-500);box-shadow:0 0 0 3px rgba(99,102,241,.12)}
+.search-date{padding:8px 10px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12px;color:#374151}
+.search-date-sep{color:#9ca3af;font-size:12px}
 .btn-search{padding:8px 16px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);font-size:12.5px;font-weight:500;cursor:pointer;display:flex;align-items:center;gap:5px}
 .btn-search:hover{background:var(--ai-700)}
 .btn-reset{padding:8px 14px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;text-decoration:none}
@@ -228,27 +229,24 @@
 .admin-table--bordered tbody tr:last-child td{border-bottom:none}
 .admin-table--bordered tbody tr:hover{background:#fafbff}
 .td-num{color:#c1c5cd}
-.td-login a{color:#374151;text-decoration:none;font-weight:600}
-.td-login a:hover{color:var(--ai-600);text-decoration:underline}
+.td-title{text-align:left}
+.td-title a{color:#374151;text-decoration:none;font-weight:500}
+.td-title a:hover{color:var(--ai-600);text-decoration:underline}
 .td-muted{color:#9ca3af}
 .td-center{text-align:center}
+.td-empty{color:#d1d5db}
 .td-empty-row{color:#c1c5cd;padding:36px}
+.icon-yes{color:#16a34a;font-size:15px}
+.attach-count{display:inline-block;background:var(--ai-50);color:var(--ai-700);font-size:10.5px;font-weight:700;padding:2px 7px;border-radius:10px}
 .row-action{display:inline-flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:50%;color:var(--ai-600);background:var(--ai-50);margin:0 2px}
 .row-action:hover{background:var(--ai-100)}
 input[type="checkbox"]{accent-color:var(--ai-600);width:14px;height:14px;cursor:pointer}
 
-.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:2px 8px;border-radius:10px}
-.badge--approved{background:#dcfce7;color:#15803d}
-.badge--pending{background:#fef3c7;color:#b45309}
-.badge--inactive{background:#fee2e2;color:#b91c1c}
-
-/* 하단: 일괄처리 + 페이지네이션 */
+/* 하단 */
 .list-footer{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
 .bulk-actions{display:flex;gap:8px}
 .btn-bulk{display:flex;align-items:center;gap:5px;padding:7px 13px;border:1px solid #d1d5db;background:#fff;border-radius:var(--ar);font-size:11.5px;font-weight:500;color:#4b5563;cursor:pointer}
 .btn-bulk:hover{background:#f9fafb}
-.btn-bulk--approve:hover{border-color:#86efac;color:#15803d;background:#f0fdf4}
-.btn-bulk--block:hover{border-color:#fde68a;color:#b45309;background:#fffbeb}
 .btn-bulk--delete:hover{border-color:#fca5a5;color:#dc2626;background:#fef2f2}
 
 .pagination{display:flex;align-items:center;gap:4px}
@@ -262,24 +260,13 @@ input[type="checkbox"]{accent-color:var(--ai-600);width:14px;height:14px;cursor:
 @media(max-width:760px){
   .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30;overflow-y:auto}
   .admin-main{padding:1.25rem}
-  .admin-table--bordered th:nth-child(5),.admin-table--bordered td:nth-child(5),
-  .admin-table--bordered th:nth-child(6),.admin-table--bordered td:nth-child(6){display:none}
+  .admin-table--bordered th:nth-child(4),.admin-table--bordered td:nth-child(4),
+  .admin-table--bordered th:nth-child(8),.admin-table--bordered td:nth-child(8){display:none}
   .list-footer{flex-direction:column;align-items:flex-start}
 }
 </style>
 
 <script>
-const mem_creat = document.querySelector('#mem_creat');
-mem_creat.addEventListener('click', function() {
-    alert("회원 추가 페이지로 이동합니다.");
-  window.location.href = "{% url 'user_member:user_create' %}";
-});
-
-const mem_excel_creat = document.querySelector('#mem_excel_creat');
-mem_excel_creat.addEventListener('click', function() {
-  window.location.href = "{% url 'user_member:user_excel_create' %}";
-});
-
 (function(){
   document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
     btn.addEventListener('click', function(){
@@ -289,7 +276,6 @@ mem_excel_creat.addEventListener('click', function() {
       if(!wasOpen) group.classList.add('is-open');
     });
   });
-
   var checkAll = document.getElementById('check-all');
   if(checkAll){
     checkAll.addEventListener('change', function(){
@@ -297,5 +283,44 @@ mem_excel_creat.addEventListener('click', function() {
     });
   }
 })();
+
+const btn_search = document.querySelector('.btn-search');
+btn_search.addEventListener('click', function(e){
+  const search_input = document.querySelector('.search-input');
+  if(search_input.value.trim() === ''){
+    e.preventDefault();
+    alert('검색어를 입력하세요.');
+    search_input.focus();
+  }
+  
+});
+const btn_bulk_delete = document.querySelector('.btn-bulk--delete');
+btn_bulk_delete.addEventListener('click', function(){
+  const selected = document.querySelectorAll('input[name="selected"]:checked');
+  if(selected.length === 0){
+    alert('삭제할 행사를 선택하세요.');
+    return;
+  }
+  if(confirm('선택한 행사를 삭제하시겠습니까?')){
+    const form = document.createElement('form');
+    form.method = 'post';
+    form.action = "{% url 'event_board:event_bulk_delete' %}";
+    const csrfToken = '{{ csrf_token }}';
+    const csrfInput = document.createElement('input');
+    csrfInput.type = 'hidden';
+    csrfInput.name = 'csrfmiddlewaretoken';
+    csrfInput.value = csrfToken;
+    form.appendChild(csrfInput);
+    selected.forEach(function(cb){
+      const input = document.createElement('input');
+      input.type = 'hidden';
+      input.name = 'selected';
+      input.value = cb.value;
+      form.appendChild(input);
+    });
+    document.body.appendChild(form);
+    form.submit();
+  }
+});
 </script>
 {% endblock %}

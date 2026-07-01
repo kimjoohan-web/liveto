@@ -1,0 +1,308 @@
+{% extends 'admin_base.html' %}
+{% block title %}{{ object.title }}{% endblock %}
+
+{% block content %}
+<div class="admin-wrap">
+
+  <!-- 상단 헤더 -->
+  
+
+  <div class="admin-body">
+
+    <!-- 좌측 메뉴 -->
+    {% include "livemanager/admin_left.html" with current_g='event' current_page='event_list' %}
+
+    <!-- 본문 -->
+    <main class="admin-main">
+
+      <div class="admin-page-head">
+        <h1 class="admin-page-title">행사 상세보기</h1>
+        <a href="{% url 'event_board:event_list' %}?search_field={{ search_field }}&kw={{ kw }}&page={{ page }}&category={{ category }}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <!-- 기본 정보 카드 -->
+      <div class="detail-card">
+        <div class="detail-card-head">
+          <div class="event-id-block">
+            <span class="id-badge">No.{{ object.car_idx }}</span>
+            <h2 class="event-name">{{ object.car_name }}</h2>
+            
+          </div>
+          <div class="detail-card-actions">
+            <a href="{% url 'event_board:event_detail' object.car_idx %}" target="_blank" class="btn-view"><i class="ti ti-external-link" aria-hidden="true"></i> 사이트에서 보기</a>
+            <a href="{% url 'event_board:event_update' object.car_idx %}" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> 수정</a>
+            <button type="button" class="btn-delete" id="delete-btn"><i class="ti ti-trash" aria-hidden="true"></i> 삭제</button>
+          </div>
+        </div>
+
+        <table class="info-table">
+          <tr>
+            <th>발주처</th>
+            <td>{{ object.car_order|default:"-" }}</td>
+            <th>행사일</th>
+            <td>{{ object.car_year }}.{{ object.car_month }}.{{ object.car_day }}</td>
+          </tr>
+          <tr>
+            <th>사업분야</th>
+            <td>{{ object.car_field|default:"-" }}</td>
+            <th>등록일</th>
+            <td>{{ object.car_date|date:"Y.m.d H:i" }}</td>
+          </tr>          
+        </table>
+
+        <!-- VOD -->
+        {% if object.car_url %}
+        <a href="{{ object.car_url }}" target="_blank" rel="noopener" class="vod-banner">
+          <span class="vod-play"><i class="ti ti-player-play-filled" aria-hidden="true"></i></span>
+          <span class="vod-text">
+            <span class="vod-title">VOD 영상 보기</span>
+            <span class="vod-url">{{ object.car_url }}</span>
+          </span>
+          <i class="ti ti-arrow-up-right" aria-hidden="true"></i>
+        </a>
+        {% endif %}
+
+        <!-- 내용 -->
+        {% if object.car_content %}
+        <div class="content-section">
+          <p class="content-label">내용</p>
+          <div class="content-body">{{ object.car_content|linebreaksbr }}</div>
+        </div>
+        {% endif %}
+      </div>
+
+      <!-- 이미지 갤러리 -->
+     {% if object.car_image %}
+      <div class="detail-card">
+        <div class="card-section-label"><i class="ti ti-photo" aria-hidden="true"></i> 이미지 ({{ object.images.count }})</div>
+        <div class="gallery-grid">
+       
+          <button type="button" class="gallery-item" data-index="{{ forloop.counter0 }}" aria-label="{{ object.car_image }} 크게 보기">
+            <img src="/media/{{ object.car_image }}" alt="{{ object.car_image }}" loading="lazy">
+          </button>
+     
+        </div>
+      </div>
+    {% endif %}
+     
+
+     
+
+    </main>
+  </div>
+</div>
+
+<!-- 라이트박스 -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="이미지 보기">
+  <button type="button" class="lightbox-close" id="lightbox-close" aria-label="닫기"><i class="ti ti-x" aria-hidden="true"></i></button>
+  <button type="button" class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="이전 이미지"><i class="ti ti-chevron-left" aria-hidden="true"></i></button>
+  <img src="" alt="" class="lightbox-img" id="lightbox-img">
+  <button type="button" class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="다음 이미지"><i class="ti ti-chevron-right" aria-hidden="true"></i></button>
+  <div class="lightbox-count" id="lightbox-count"></div>
+</div>
+
+<!-- 삭제 확인 모달 -->
+<div class="modal-overlay" id="delete-modal">
+  <div class="modal-box">
+    <p class="modal-title">행사를 삭제하시겠습니까?</p>
+    <p class="modal-desc">삭제된 데이터와 첨부파일은 복구할 수 없습니다.</p>
+    <form method="post" action="{% url 'event_board:event_delete' object.car_idx %}">
+      {% csrf_token %}
+      <div class="modal-actions">
+        <button type="button" class="btn-cancel" id="modal-cancel">취소</button>
+        <button type="submit" class="btn-confirm-delete">삭제</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<style>
+:root{--ai-50:#eef2ff;--ai-100:#e0e7ff;--ai-200:#c7d2fe;--ai-500:#6366f1;--ai-600:#4f46e5;--ai-700:#4338ca;--ai-ink:#1e1b4b;--ar:8px}
+*{box-sizing:border-box}
+.admin-wrap{min-height:100vh;background:#f6f7fb;font-size:13px;color:#374151}
+
+.admin-header{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 1.5rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.admin-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.admin-logo-img{height:26px;display:block}
+.admin-logo-divider{width:1px;height:18px;background:#e5e7eb}
+.admin-logo-text{font-size:13px;font-weight:600;color:var(--ai-700);letter-spacing:.02em}
+.admin-header-right{display:flex;align-items:center;gap:18px}
+.admin-user-greet{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5563;font-weight:500}
+.admin-user-greet i{font-size:16px;color:var(--ai-500)}
+.admin-header-link{display:flex;align-items:center;gap:4px;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-header-link:hover{color:var(--ai-600)}
+
+.admin-body{display:flex;min-height:calc(100vh - 56px)}
+
+.admin-sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;padding:1.25rem 0}
+.admin-nav-group{margin-bottom:4px}
+.admin-nav-group-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:11px 1.25rem;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--ai-ink);text-align:left}
+.admin-nav-group-toggle:hover{background:var(--ai-50)}
+.admin-nav-icon{font-size:17px;color:var(--ai-600);flex-shrink:0}
+.admin-nav-group-toggle span{flex:1}
+.admin-nav-chevron{font-size:13px;color:#9ca3af;transition:transform .15s;flex-shrink:0}
+.admin-nav-group.is-open .admin-nav-chevron{transform:rotate(180deg)}
+.admin-nav-sub{list-style:none;margin:0;padding:2px 0 6px;max-height:0;overflow:hidden;transition:max-height .2s ease}
+.admin-nav-group.is-open .admin-nav-sub{max-height:300px}
+.admin-nav-sub li a{display:block;padding:8px 1.25rem 8px 2.85rem;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-nav-sub li a:hover{background:var(--ai-50);color:var(--ai-700)}
+.admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
+
+.admin-main{flex:1;padding:1.75rem 2rem;min-width:0;max-width:780px}
+.admin-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0}
+.back-link{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#6b7280;text-decoration:none;padding:6px 12px;border:1px solid #e5e7eb;border-radius:var(--ar)}
+.back-link:hover{border-color:var(--ai-500);color:var(--ai-600);background:var(--ai-50)}
+
+.alert{padding:10px 14px;border-radius:var(--ar);margin-bottom:1rem;font-size:12.5px}
+.alert-success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.alert-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+/* 기본정보 카드 */
+.detail-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.4rem 1.5rem;margin-bottom:1.1rem}
+.detail-card-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.1rem;padding-bottom:1rem;border-bottom:1px solid #f3f4f6;flex-wrap:wrap;gap:10px}
+.event-id-block{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.id-badge{background:var(--ai-50);color:var(--ai-700);font-size:11.5px;font-weight:600;padding:5px 9px;border-radius:6px;flex-shrink:0}
+.event-name{font-size:17px;font-weight:700;color:var(--ai-ink);margin:0}
+
+.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:3px 9px;border-radius:10px;flex-shrink:0}
+.badge--published{background:#dcfce7;color:#15803d}
+.badge--draft{background:#f3f4f6;color:#6b7280}
+
+.detail-card-actions{display:flex;gap:8px}
+.btn-view,.btn-edit,.btn-delete{display:inline-flex;align-items:center;gap:5px;padding:7px 13px;border-radius:var(--ar);font-size:12px;font-weight:500;cursor:pointer;text-decoration:none;border:1px solid #d1d5db;background:#fff;color:#374151}
+.btn-view:hover{border-color:#86efac;color:#15803d;background:#f0fdf4}
+.btn-edit:hover{border-color:var(--ai-500);color:var(--ai-600);background:var(--ai-50)}
+.btn-delete:hover{border-color:#fca5a5;color:#dc2626;background:#fef2f2}
+
+.info-table{width:100%;border-collapse:collapse;margin-bottom:1.1rem}
+.info-table th{text-align:left;width:80px;padding:9px 10px 9px 0;font-size:12px;font-weight:600;color:#6b7280;white-space:nowrap;border-bottom:1px solid #f3f4f6}
+.info-table td{padding:9px 16px 9px 10px;font-size:12.5px;color:#374151;border-bottom:1px solid #f3f4f6}
+.info-table tr:last-child th,.info-table tr:last-child td{border-bottom:none}
+
+.vod-banner{display:flex;align-items:center;gap:12px;padding:11px 14px;background:#fffbeb;border:1px solid #fde68a;border-radius:8px;text-decoration:none;transition:background .15s;margin-bottom:1rem}
+.vod-banner:hover{background:#fef3c7}
+.vod-play{display:flex;align-items:center;justify-content:center;width:32px;height:32px;background:#fde68a;color:#92400e;border-radius:50%;flex-shrink:0;font-size:14px}
+.vod-text{display:flex;flex-direction:column;gap:2px;flex:1;min-width:0}
+.vod-title{font-size:12.5px;font-weight:600;color:#92400e}
+.vod-url{font-size:11.5px;color:#b45309;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vod-banner i:last-child{color:#b45309}
+
+.content-section{padding-top:.2rem}
+.content-label{font-size:11px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:.05em;margin:0 0 .6rem}
+.content-body{font-size:13px;line-height:1.8;color:#374151;white-space:pre-wrap;word-break:break-word}
+
+.card-section-label{display:flex;align-items:center;gap:6px;font-size:10.5px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ai-600);margin-bottom:1rem;padding-bottom:.55rem;border-bottom:1px solid var(--ai-100)}
+
+.gallery-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(115px,1fr));gap:10px}
+.gallery-item{position:relative;aspect-ratio:1;border-radius:8px;overflow:hidden;border:1px solid #e5e7eb;padding:0;cursor:pointer;background:none;transition:transform .15s,box-shadow .15s}
+.gallery-item:hover{transform:scale(1.02);box-shadow:0 2px 10px rgba(79,70,229,.18)}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block}
+
+.file-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.file-item{display:flex;align-items:center;gap:10px;padding:9px 11px;background:#fafbff;border:1px solid #f3f4f6;border-radius:8px}
+.file-icon{color:var(--ai-500);flex-shrink:0;font-size:15px}
+.file-name{font-size:12.5px;color:#1f2937;font-weight:500;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.file-size{font-size:11.5px;color:#9ca3af;flex-shrink:0}
+.file-download{display:flex;align-items:center;justify-content:center;width:28px;height:28px;border-radius:50%;color:var(--ai-600);background:var(--ai-50);flex-shrink:0;font-size:13px}
+.file-download:hover{background:var(--ai-100)}
+
+/* 라이트박스 */
+.lightbox{position:fixed;inset:0;background:rgba(17,17,27,.92);display:none;align-items:center;justify-content:center;z-index:1000}
+.lightbox.is-open{display:flex}
+.lightbox-img{max-width:88vw;max-height:84vh;object-fit:contain;border-radius:4px}
+.lightbox-close{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.12);border:none;color:#fff;width:38px;height:38px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
+.lightbox-close:hover{background:rgba(255,255,255,.22)}
+.lightbox-nav{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.12);border:none;color:#fff;width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:18px}
+.lightbox-nav:hover{background:rgba(255,255,255,.22)}
+.lightbox-prev{left:18px}
+.lightbox-next{right:18px}
+.lightbox-count{position:absolute;bottom:20px;left:50%;transform:translateX(-50%);color:#d1d5db;font-size:13px;background:rgba(255,255,255,.1);padding:5px 12px;border-radius:14px}
+
+/* 삭제 모달 */
+.modal-overlay{position:fixed;inset:0;background:rgba(17,17,27,.5);display:none;align-items:center;justify-content:center;z-index:1000;padding:1rem}
+.modal-overlay.is-open{display:flex}
+.modal-box{background:#fff;border-radius:12px;padding:1.5rem;max-width:340px;width:100%}
+.modal-title{font-size:14.5px;font-weight:600;color:#1f2937;margin:0 0 6px}
+.modal-desc{font-size:12.5px;color:#6b7280;margin:0 0 1.25rem}
+.modal-actions{display:flex;justify-content:flex-end;gap:8px}
+.btn-cancel{padding:7px 15px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--ar);font-size:12.5px;font-weight:500;cursor:pointer}
+.btn-cancel:hover{background:#f9fafb}
+.btn-confirm-delete{padding:7px 15px;background:#dc2626;color:#fff;border:none;border-radius:var(--ar);font-size:12.5px;font-weight:500;cursor:pointer}
+.btn-confirm-delete:hover{background:#b91c1c}
+
+@media(max-width:760px){
+  .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30;overflow-y:auto}
+  .admin-main{padding:1.25rem;max-width:none}
+  .detail-card-actions{flex-wrap:wrap}
+  .info-table{display:block}
+  .info-table tr{display:flex;flex-direction:column;padding:8px 0}
+  .info-table th,.info-table td{display:block;width:auto;border-bottom:none;padding:2px 0}
+}
+</style>
+
+<script>
+// (function(){
+//   document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
+//     btn.addEventListener('click', function(){
+//       var group = btn.closest('.admin-nav-group');
+//       var wasOpen = group.classList.contains('is-open');
+//       document.querySelectorAll('.admin-nav-group').forEach(function(g){ g.classList.remove('is-open'); });
+//       if(!wasOpen) group.classList.add('is-open');
+//     });
+//   });
+
+//   var images = [
+//     {% for img in object.images.all %}
+//     { url: "{{ img.file.url }}", name: "{{ img.original_name|escapejs }}" }{% if not forloop.last %},{% endif %}
+//     {% endfor %}
+//   ];
+//   var current = 0;
+//   var lightbox = document.getElementById('lightbox');
+//   var lbImg = document.getElementById('lightbox-img');
+//   var lbCount = document.getElementById('lightbox-count');
+//   function openLightbox(i){ if(!images.length) return; current = i; updateLightbox(); lightbox.classList.add('is-open'); }
+//   function updateLightbox(){ lbImg.src = images[current].url; lbImg.alt = images[current].name; lbCount.textContent = (current+1) + ' / ' + images.length; }
+//   function closeLightbox(){ lightbox.classList.remove('is-open'); lbImg.src=''; }
+//   document.querySelectorAll('.gallery-item').forEach(function(btn){ btn.addEventListener('click', function(){ openLightbox(+btn.dataset.index); }); });
+//   document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+//   document.getElementById('lightbox-prev').addEventListener('click', function(){ current=(current-1+images.length)%images.length; updateLightbox(); });
+//   document.getElementById('lightbox-next').addEventListener('click', function(){ current=(current+1)%images.length; updateLightbox(); });
+//   lightbox.addEventListener('click', function(e){ if(e.target===lightbox) closeLightbox(); });
+//   document.addEventListener('keydown', function(e){
+//     if(!lightbox.classList.contains('is-open')) return;
+//     if(e.key==='Escape') closeLightbox();
+//     if(e.key==='ArrowLeft'){ current=(current-1+images.length)%images.length; updateLightbox(); }
+//     if(e.key==='ArrowRight'){ current=(current+1)%images.length; updateLightbox(); }
+//   });
+
+//   var deleteModal = document.getElementById('delete-modal');
+//   document.getElementById('delete-btn').addEventListener('click', function(){ deleteModal.classList.add('is-open'); });
+//   document.getElementById('modal-cancel').addEventListener('click', function(){ deleteModal.classList.remove('is-open'); });
+//   deleteModal.addEventListener('click', function(e){ if(e.target===deleteModal) deleteModal.classList.remove('is-open'); });
+// })();
+const deleteBtn = document.getElementById('delete-btn');
+deleteBtn.addEventListener('click', function() {
+    const deleteModal = document.getElementById('delete-modal');
+    deleteModal.classList.add('is-open');
+    
+    const cancelBtn = document.getElementById('modal-cancel');
+    cancelBtn.addEventListener('click', function() {
+        deleteModal.classList.remove('is-open');
+    });
+    
+    deleteModal.addEventListener('click', function(e) {
+        if (e.target === deleteModal) {
+        deleteModal.classList.remove('is-open');
+        }
+    });
+});
+
+</script>
+{% endblock %}

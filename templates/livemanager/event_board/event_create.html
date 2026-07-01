@@ -1,0 +1,360 @@
+{% extends 'admin_base.html' %}
+{% block title %}{% if object %}행사 수정{% else %}행사 등록{% endif %}{% endblock %}
+
+{% block content %}
+<div class="admin-wrap">
+
+  <!-- 상단 헤더 -->
+  
+
+  <div class="admin-body">
+
+    <!-- 좌측 메뉴 -->
+    {% include "livemanager/admin_left.html" with current_g='event' current_page='event_list' %}
+
+    <!-- 본문 -->
+    <main class="admin-main">
+
+      <div class="admin-page-head">
+        <h1 class="admin-page-title">{% if object %}행사 수정{% else %}행사 등록{% endif %}</h1>
+        <a href="{% url 'event_board:event_list' %}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
+      </div>
+
+      {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post" enctype="multipart/form-data" class="admin-form" novalidate action="{% url 'event_board:event_create' %}">
+        {% csrf_token %}
+
+        <div class="form-card">
+          <div class="card-section-label">기본 정보</div>
+
+          <div class="field">
+            <label for="car_name" class="field-label">행사명 <span class="required">*</span></label>
+            <input type="text" id="car_name" name="car_name"
+                   value="{{ form.car_name.value|default:'' }}"
+                   placeholder="행사명을 입력하세요"
+                   class="field-input {% if form.car_name.errors %}is-error{% endif %}"
+                   maxlength="200" required>
+            {% if form.car_name.errors %}<p class="field-error">{{ form.car_name.errors.0 }}</p>{% endif %}
+          </div>
+
+          
+            <div class="field">
+              <label for="car_order" class="field-label">발주처 <span class="required">*</span></label>
+              <input type="text" id="car_order" name="car_order"
+                     value="{{ form.car_order.value|default:'' }}"
+                     placeholder="발주처명을 입력하세요"
+                     class="field-input {% if form.car_order.errors %}is-error{% endif %}"
+                     maxlength="100" required>
+              {% if form.car_order.errors %}<p class="field-error">{{ form.car_order.errors.0 }}</p>{% endif %}
+            </div>
+          <div class="field-row">
+            <div class="field">
+              <label for="car_year" class="field-label">행사 연도 <span class="required">*</span></label>
+              <input type="text" id="car_year" name="car_year"
+                     value="{{ form.car_year.value|default:'' }}"
+                     class="field-input {% if form.car_year.errors %}is-error{% endif %}"
+                     placeholder="YYYY"
+                     required>
+              {% if form.car_year.errors %}<p class="field-error">{{ form.car_year.errors.0 }}</p>{% endif %}
+            </div>
+            <div class="field">
+              <label for="car_day" class="field-label">행사일 <span class="required">*</span></label>
+              <input type="text" id="car_day" name="car_day"
+                     value="{{ form.car_day.value|default:'' }}"
+                     placeholder="MM.DD"
+                     class="field-input {% if form.car_day.errors %}is-error{% endif %}"
+                     required>
+              {% if form.car_day.errors %}<p class="field-error">{{ form.car_day.errors.0 }}</p>{% endif %}
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="car_field" class="field-label">사업분야</label>
+            <select id="car_field" name="car_field" class="field-input">
+              <option value="">선택 안 함</option>              
+              <option value="인터넷생방송" {% if form.car_field.value == '인터넷생방송' %}selected{% endif %}>인터넷 생방송</option>
+              <option value="인터넷중계방송"   {% if form.car_field.value == '인터넷중계방송'   %}selected{% endif %}>인터넷중계방송</option>
+              <option value="영상중계"      {% if form.car_field.value == '영상중계'      %}selected{% endif %}>영상중계</option>
+              <option value="영상물제작"      {% if form.car_field.value == '영상물제작'      %}selected{% endif %}>영상물 제작</option>              
+              <option value="e러닝제작"  {% if form.car_field.value == 'e러닝제작'  %}selected{% endif %}>e러닝 컨텐츠 제작</option>              
+              
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="car_url" class="field-label">
+              VOD <span class="field-hint">YouTube, Vimeo 등 영상 링크</span>
+            </label>
+            <div class="input-prefix-wrap">
+              <i class="ti ti-player-play input-prefix" aria-hidden="true"></i>
+              <input type="url" id="car_url" name="vod_url"
+                     value="{{ form.car_url.value|default:'' }}"
+                     placeholder="https://youtube.com/..."
+                     class="field-input has-prefix {% if form.car_url.errors %}is-error{% endif %}">
+            </div>
+            {% if form.car_url.errors %}<p class="field-error">{{ form.car_url.errors.0 }}</p>{% endif %}
+          </div>
+
+          <div class="field">
+            <label for="car_content" class="field-label">내용</label>
+            <textarea id="car_content" name="car_content"
+                      placeholder="행사 내용을 입력하세요"
+                      class="field-textarea {% if form.car_content.errors %}is-error{% endif %}"
+                      rows="6">{{ form.car_content.value|default:'' }}</textarea>
+            {% if form.car_content.errors %}<p class="field-error">{{ form.car_content.errors.0 }}</p>{% endif %}
+          </div>
+
+          <!-- <div class="field">
+            <label class="check-row">
+              <input type="checkbox" name="is_published" {% if form.is_published.value|default:True %}checked{% endif %}>
+              <span>사이트에 공개</span>
+            </label>
+            <p class="field-hint">체크 해제 시 임시저장 상태로 사이트에 노출되지 않습니다.</p>
+          </div> -->
+        </div>
+
+        <!-- 파일/이미지 첨부 -->
+        <div class="form-card">          
+
+          <div class="field" style="margin-top:1.25rem">
+            <label class="field-label">
+              이미지 <span class="field-hint">JPG, PNG, GIF, WebP (최대 10MB / 이미지당)</span>
+            </label>   
+            <input type="file" id="car_image" name="car_image" multiple accept="image/*"  aria-label="이미지 첨부">
+            
+            
+
+            {% if object and object.images.exists %}
+            <div class="existing-files">
+              <p class="existing-label">현재 이미지</p>
+              <div class="existing-img-grid">
+                {% for img in object.images.all %}
+                <div class="existing-img-item">
+                  <img src="{{ img.file.url }}" alt="{{ img.original_name }}">
+                  <label class="del-check del-check--img">
+                    <input type="checkbox" name="delete_images" value="{{ img.pk }}">
+                    <span>삭제</span>
+                  </label>
+                </div>
+                {% endfor %}
+              </div>
+            </div>
+            {% endif %}
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <a href="{% url 'event_board:event_list' %}" class="btn-cancel">취소</a>
+          <button type="submit" class="btn-submit" >
+            <i class="ti ti-check" aria-hidden="true"></i> {% if object %}수정 완료{% else %}등록하기{% endif %}
+          </button>
+        </div>
+
+      </form>
+
+    </main>
+  </div>
+</div>
+
+<style>
+:root{--ai-50:#eef2ff;--ai-100:#e0e7ff;--ai-200:#c7d2fe;--ai-500:#6366f1;--ai-600:#4f46e5;--ai-700:#4338ca;--ai-ink:#1e1b4b;--ar:8px}
+*{box-sizing:border-box}
+.admin-wrap{min-height:100vh;background:#f6f7fb;font-size:13px;color:#374151}
+
+.admin-header{display:flex;align-items:center;justify-content:space-between;height:56px;padding:0 1.5rem;background:#fff;border-bottom:1px solid #e5e7eb;position:sticky;top:0;z-index:40}
+.admin-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.admin-logo-img{height:26px;display:block}
+.admin-logo-divider{width:1px;height:18px;background:#e5e7eb}
+.admin-logo-text{font-size:13px;font-weight:600;color:var(--ai-700);letter-spacing:.02em}
+.admin-header-right{display:flex;align-items:center;gap:18px}
+.admin-user-greet{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#4b5563;font-weight:500}
+.admin-user-greet i{font-size:16px;color:var(--ai-500)}
+.admin-header-link{display:flex;align-items:center;gap:4px;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-header-link:hover{color:var(--ai-600)}
+
+.admin-body{display:flex;min-height:calc(100vh - 56px)}
+
+.admin-sidebar{width:220px;flex-shrink:0;background:#fff;border-right:1px solid #e5e7eb;padding:1.25rem 0}
+.admin-nav-group{margin-bottom:4px}
+.admin-nav-group-toggle{display:flex;align-items:center;gap:10px;width:100%;padding:11px 1.25rem;background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:var(--ai-ink);text-align:left}
+.admin-nav-group-toggle:hover{background:var(--ai-50)}
+.admin-nav-icon{font-size:17px;color:var(--ai-600);flex-shrink:0}
+.admin-nav-group-toggle span{flex:1}
+.admin-nav-chevron{font-size:13px;color:#9ca3af;transition:transform .15s;flex-shrink:0}
+.admin-nav-group.is-open .admin-nav-chevron{transform:rotate(180deg)}
+.admin-nav-sub{list-style:none;margin:0;padding:2px 0 6px;max-height:0;overflow:hidden;transition:max-height .2s ease}
+.admin-nav-group.is-open .admin-nav-sub{max-height:300px}
+.admin-nav-sub li a{display:block;padding:8px 1.25rem 8px 2.85rem;font-size:12.5px;color:#6b7280;text-decoration:none}
+.admin-nav-sub li a:hover{background:var(--ai-50);color:var(--ai-700)}
+.admin-nav-sub li a.is-active{background:var(--ai-50);color:var(--ai-700);font-weight:600;border-right:2px solid var(--ai-600)}
+
+.admin-main{flex:1;padding:1.75rem 2rem;min-width:0;max-width:760px}
+.admin-page-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem}
+.admin-page-title{font-size:20px;font-weight:700;color:var(--ai-ink);margin:0}
+.back-link{display:flex;align-items:center;gap:5px;font-size:12.5px;color:#6b7280;text-decoration:none;padding:6px 12px;border:1px solid #e5e7eb;border-radius:var(--ar)}
+.back-link:hover{border-color:var(--ai-500);color:var(--ai-600);background:var(--ai-50)}
+
+.alert{padding:10px 14px;border-radius:var(--ar);margin-bottom:1rem;font-size:12.5px}
+.alert-success{background:#ecfdf5;color:#065f46;border:1px solid #a7f3d0}
+.alert-error{background:#fef2f2;color:#991b1b;border:1px solid #fecaca}
+
+/* 폼 카드 */
+.form-card{background:#fff;border:1px solid #e5e7eb;border-radius:var(--ar);padding:1.4rem 1.5rem;margin-bottom:1.1rem}
+.card-section-label{font-size:11px;font-weight:700;letter-spacing:.05em;text-transform:uppercase;color:var(--ai-600);margin-bottom:1.1rem;padding-bottom:.6rem;border-bottom:1px solid var(--ai-100)}
+.field{margin-bottom:1.1rem}
+.field:last-child{margin-bottom:0}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:1rem}
+.field-label{display:block;font-size:12.5px;font-weight:600;color:#374151;margin-bottom:6px}
+.required{color:#ef4444}
+.field-hint{font-size:11px;color:#9ca3af;font-weight:400;margin-left:6px}
+.field-input,.field-textarea{width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:var(--ar);font-size:13px;color:#1f2937;background:#fff;box-sizing:border-box;transition:border-color .15s,box-shadow .15s;font-family:inherit}
+.field-input:focus,.field-textarea:focus{outline:none;border-color:var(--ai-500);box-shadow:0 0 0 3px rgba(99,102,241,.15)}
+.field-input.is-error,.field-textarea.is-error{border-color:#ef4444}
+.field-textarea{resize:vertical;min-height:110px;line-height:1.6}
+.field-error{font-size:11.5px;color:#ef4444;margin:5px 0 0}
+.input-prefix-wrap{position:relative}
+.input-prefix{position:absolute;left:11px;top:50%;transform:translateY(-50%);color:#9ca3af;font-size:14px}
+.field-input.has-prefix{padding-left:34px}
+
+.check-row{display:flex;align-items:center;gap:7px;font-size:12.5px;color:#374151;cursor:pointer}
+.check-row input{accent-color:var(--ai-600);width:15px;height:15px;cursor:pointer}
+
+/* 업로드 영역 */
+.upload-zone{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;border:1.5px dashed var(--ai-200);border-radius:var(--ar);padding:26px 20px;cursor:pointer;transition:all .15s;background:#fafbff;text-align:center}
+.upload-zone:hover,.upload-zone.drag-over{border-color:var(--ai-500);background:var(--ai-50)}
+.upload-zone--img{border-color:#fbcfe8;background:#fff7fb}
+.upload-zone--img:hover,.upload-zone--img.drag-over{border-color:#ec4899;background:#fdf2f8}
+.upload-icon{font-size:26px;color:#a5b4fc}
+.upload-zone--img .upload-icon{color:#f9a8d4}
+.upload-text{font-size:12.5px;font-weight:500;color:#4b5563}
+.upload-sub{font-size:11px;color:#9ca3af}
+.upload-input{display:none}
+
+.attach-list{list-style:none;padding:0;margin:8px 0 0}
+.attach-list li{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f9fafb;border:1px solid #f3f4f6;border-radius:6px;margin-bottom:4px;font-size:11.5px;color:#374151}
+.attach-list li i{color:#a5b4fc;flex-shrink:0}
+.attach-list .remove-btn{margin-left:auto;background:none;border:none;cursor:pointer;color:#9ca3af;padding:2px;display:flex}
+.attach-list .remove-btn:hover{color:#ef4444}
+
+.img-preview-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(90px,1fr));gap:8px;margin-top:10px}
+.img-preview-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb}
+.img-preview-item img{width:100%;height:100%;object-fit:cover}
+.img-preview-item .remove-img{position:absolute;top:4px;right:4px;background:rgba(0,0,0,.55);color:#fff;border:none;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:12px}
+.img-preview-item .remove-img:hover{background:rgba(239,68,68,.85)}
+
+.existing-files{margin-top:12px}
+.existing-label{font-size:11px;font-weight:600;color:#6b7280;margin:0 0 8px;text-transform:uppercase}
+.existing-item{display:flex;align-items:center;gap:8px;padding:7px 10px;background:#f9fafb;border:1px solid #f3f4f6;border-radius:6px;margin-bottom:4px;font-size:11.5px;color:#374151}
+.existing-item i{color:#a5b4fc;flex-shrink:0}
+.del-check{margin-left:auto;display:flex;align-items:center;gap:4px;font-size:10.5px;color:#9ca3af;cursor:pointer}
+.del-check input{accent-color:#ef4444}
+.del-check input:checked+span{color:#ef4444}
+.existing-img-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:8px}
+.existing-img-item{position:relative;aspect-ratio:1;border-radius:6px;overflow:hidden;border:1px solid #e5e7eb}
+.existing-img-item img{width:100%;height:100%;object-fit:cover}
+.del-check--img{position:absolute;bottom:0;left:0;right:0;background:rgba(0,0,0,.55);justify-content:center;padding:4px 0;margin:0;border-radius:0;color:#fff;font-size:10px}
+.del-check--img input:checked+span{color:#fca5a5}
+
+.form-actions{display:flex;justify-content:flex-end;gap:8px}
+.btn-cancel{display:inline-flex;align-items:center;padding:9px 18px;background:#fff;color:#6b7280;border:1px solid #d1d5db;border-radius:var(--ar);font-size:13px;font-weight:500;text-decoration:none;cursor:pointer}
+.btn-cancel:hover{background:#f9fafb}
+.btn-submit{display:inline-flex;align-items:center;gap:6px;padding:9px 20px;background:var(--ai-600);color:#fff;border:none;border-radius:var(--ar);font-size:13px;font-weight:500;cursor:pointer}
+.btn-submit:hover{background:var(--ai-700)}
+
+@media(max-width:760px){
+  .admin-sidebar{position:fixed;left:-220px;top:56px;height:calc(100vh - 56px);transition:left .2s;z-index:30;overflow-y:auto}
+  .admin-main{padding:1.25rem;max-width:none}
+  .field-row{grid-template-columns:1fr}
+}
+</style>
+
+<script>
+(function(){
+  document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var group = btn.closest('.admin-nav-group');
+      var wasOpen = group.classList.contains('is-open');
+      document.querySelectorAll('.admin-nav-group').forEach(function(g){ g.classList.remove('is-open'); });
+      if(!wasOpen) group.classList.add('is-open');
+    });
+  });
+
+  // 파일 첨부
+  var fileInput = document.getElementById('id_files');
+  var fileList  = document.getElementById('file-list');
+  var fileZone  = document.getElementById('file-zone');
+  var selectedFiles = [];
+
+  function renderFileList(){
+    fileList.innerHTML = '';
+    selectedFiles.forEach(function(f,i){
+      var li = document.createElement('li');
+      li.innerHTML = '<i class="ti ti-paperclip" aria-hidden="true"></i><span>'+f.name+'</span><span style="color:#9ca3af;font-size:10.5px">('+(f.size/1024/1024).toFixed(1)+'MB)</span><button type="button" class="remove-btn" data-i="'+i+'" aria-label="삭제"><i class="ti ti-x" aria-hidden="true"></i></button>';
+      fileList.appendChild(li);
+    });
+    fileList.querySelectorAll('.remove-btn').forEach(function(btn){
+      btn.addEventListener('click', function(){ selectedFiles.splice(+btn.dataset.i,1); syncFileInput(); renderFileList(); });
+    });
+  }
+  function syncFileInput(){
+    var dt = new DataTransfer();
+    selectedFiles.forEach(function(f){ dt.items.add(f); });
+    fileInput.files = dt.files;
+  }
+  fileInput.addEventListener('change', function(){
+    Array.from(fileInput.files).forEach(function(f){ selectedFiles.push(f); });
+    syncFileInput(); renderFileList();
+  });
+  ['dragover','dragenter'].forEach(function(ev){ fileZone.addEventListener(ev, function(e){ e.preventDefault(); fileZone.classList.add('drag-over'); }); });
+  ['dragleave','drop'].forEach(function(ev){ fileZone.addEventListener(ev, function(e){ e.preventDefault(); fileZone.classList.remove('drag-over'); }); });
+  fileZone.addEventListener('drop', function(e){
+    Array.from(e.dataTransfer.files).forEach(function(f){ selectedFiles.push(f); });
+    syncFileInput(); renderFileList();
+  });
+
+  // 이미지 첨부
+  var imgInput   = document.getElementById('id_images');
+  var imgPreview = document.getElementById('img-preview');
+  var imgZone    = document.getElementById('img-zone');
+  var selectedImgs = [];
+
+  function renderImgPreview(){
+    imgPreview.innerHTML = '';
+    selectedImgs.forEach(function(f,i){
+      var url = URL.createObjectURL(f);
+      var div = document.createElement('div');
+      div.className = 'img-preview-item';
+      div.innerHTML = '<img src="'+url+'" alt="'+f.name+'"><button type="button" class="remove-img" data-i="'+i+'" aria-label="이미지 삭제">&times;</button>';
+      imgPreview.appendChild(div);
+    });
+    imgPreview.querySelectorAll('.remove-img').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        URL.revokeObjectURL(imgPreview.querySelectorAll('img')[+btn.dataset.i].src);
+        selectedImgs.splice(+btn.dataset.i,1); syncImgInput(); renderImgPreview();
+      });
+    });
+  }
+  function syncImgInput(){
+    var dt = new DataTransfer();
+    selectedImgs.forEach(function(f){ dt.items.add(f); });
+    imgInput.files = dt.files;
+  }
+  imgInput.addEventListener('change', function(){
+    Array.from(imgInput.files).forEach(function(f){ selectedImgs.push(f); });
+    syncImgInput(); renderImgPreview();
+  });
+  ['dragover','dragenter'].forEach(function(ev){ imgZone.addEventListener(ev, function(e){ e.preventDefault(); imgZone.classList.add('drag-over'); }); });
+  ['dragleave','drop'].forEach(function(ev){ imgZone.addEventListener(ev, function(e){ e.preventDefault(); imgZone.classList.remove('drag-over'); }); });
+  imgZone.addEventListener('drop', function(e){
+    Array.from(e.dataTransfer.files).filter(function(f){ return f.type.startsWith('image/'); }).forEach(function(f){ selectedImgs.push(f); });
+    syncImgInput(); renderImgPreview();
+  });
+})();
+
+</script>
+{% endblock %}

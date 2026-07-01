@@ -9,7 +9,7 @@
   <div class="admin-body">
 
     <!-- 좌측 메뉴 -->
-    {% include "livemanager/admin_left.html" %}
+    {% include "livemanager/admin_left.html" with current_g='admin_member' current_page='admin_list' %}
 
     <!-- 본문 -->
     <main class="admin-main">
@@ -53,7 +53,7 @@
             <tr>
               <td class="td-num">{{ admin.admin_idx }}</td>
               <td class="td-login">{{ admin.admin_id }}</td>
-              <td>{{ admin.admin_name }}</td>
+              <td><a href="{% url 'admin_member:admin_detail' admin.admin_idx %}">{{ admin.admin_name }}</a></td>
               <td class="td-muted">{{ admin.admin_email }}</td>
               <td class="td-muted">{{ admin.admin_phone|default:"-" }}</td>
               <td class="td-muted">{{ admin.admin_date_joined|date:"Y.m.d" }}</td>
