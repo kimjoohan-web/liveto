@@ -10,7 +10,8 @@ from django.conf import settings
 from django.db import connection
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-
+from django.contrib.auth.hashers import check_password
+from livemanager.admin_member.models import AdminMember
 
 import pandas as pd
 #mssql 연결문자
@@ -25,15 +26,15 @@ import pandas as pd
 def login_required_view(view_func):# 로그인 여부 확인 데코레이터
     def wrapper(request, *args, **kwargs):
         if not request.session.get('mem_name'):
-            return redirect('livemanager:mem_login', next=request.path)  # 로그인 페이지로 리다이렉트
+            return redirect('livemanager:admin_login', next=request.path)  # 로그인 페이지로 리다이렉트
         return view_func(request, *args, **kwargs)
     return wrapper
 
 
 
 def member_list(request):    
-    # if not request.session.get('mem_name'):
-    #     return redirect('livemanager:mem_login')  # 로그인 페이지로 리다이렉트
+    if not request.session.get('mem_name'):
+        return redirect('livemanager:admin_login')  # 로그인 페이지로 리다이렉트
     # mssql 연결
     page = request.GET.get('page', '1')  # 페이지   # 페이지 번호, 기본값은 1
     kw = request.GET.get('kw', '')  # 검색어, 기본값은 빈 문자열
@@ -420,6 +421,9 @@ def member_logout(request):
 
 def admin_dashboard(request):
     # 관리자 대시보드 페이지 렌더링
+    if not request.session.get('admin_name'):
+        return redirect('livemanager:admin_login')  # 로그인 페이지로 리다이렉트   
+
     return render(request, 'livemanager/admin_dashboard.html')
 
 def event_list(request):
@@ -449,7 +453,8 @@ def member_pending(request):
 
 def admin_logout(request):
     # 관리자 로그아웃 처리
-    return redirect('livemanager:admin_dashboard')  # 로그아웃 후 리다이렉트할 URL 이름
+    request.session.flush()  # 세션 데이터 삭제
+    return redirect('livemanager:admin_login')  # 로그아웃 후 리다이렉트할 URL 이름
 
 def member_search(request):
     # 관리자 회원 검색 처리
@@ -483,3 +488,24 @@ def inquiry_list(request):
 def comment_list(request):
     # 관리자 댓글 목록 페이지 렌더링
     return render(request, 'livemanager/admin_comment_list.html')
+
+
+
+def admin_login(request):
+    if request.method == 'POST':
+        admin_id = request.POST.get('admin_id')
+        admin_password = request.POST.get('admin_password')
+        
+        admin=AdminMember.objects.filter(admin_id=admin_id).first()  # admin_id로 관리자 조회
+        if admin and check_password(admin_password, admin.admin_pw):  # 비밀번호 확인
+            request.session['admin_name'] = admin.admin_name  # 세션에 admin_name 저장
+            request.session['admin_email'] = admin.admin_email  # 세션에 admin_email 저장
+            request.session['admin_is_superuser'] = admin.admin_is_superuser  # 세션에 admin_is_superuser 저장
+            request.session['admin_id'] = admin.admin_id  # 세션에 admin_id 저장
+            # 로그인 성공
+            return redirect('livemanager:admin_dashboard')  # 로그인 후 리다이렉트할 URL 이름         
+        else:
+            # 로그인 실패
+            return render(request, 'livemanager/admin_login.html', {'messages': '로그인 정보가 올바르지 않습니다.'})
+    else:
+        return render(request, 'livemanager/admin_login.html')

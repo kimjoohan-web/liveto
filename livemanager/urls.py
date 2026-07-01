@@ -3,11 +3,12 @@ from django.urls import path
 from . import views
 app_name = 'livemanager'
 urlpatterns = [
+    path('admin_login/', views.admin_login, name='admin_login'),
     path('', views.admin_dashboard, name='admin_dashboard'), 
     path('admin_dashboard/', views.admin_dashboard, name='admin_dashboard'),
     path('event_list/', views.event_list, name='event_list'),
     path('event_detail/<int:event_id>/', views.event_detail, name='event_detail'),
-    path('member_list/', views.member_list, name='member_list'),
+    path('member_list/', views.member_list, name='member_list'),     
     path('member_detail/<int:member_id>/', views.member_detail, name='member_detail'),
     path('board_list/', views.board_list, name='board_list'),
     path('board_detail/<int:post_id>/', views.board_detail, name='board_detail'),
