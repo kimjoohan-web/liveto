@@ -10,6 +10,7 @@ from adminUser.models import AdminMember
 from board import admin, views
 from django.contrib.auth.hashers import make_password
 from django.core.paginator import Paginator
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def login_view(request):
@@ -74,6 +75,7 @@ def admin_dashboard(request):
 def index(request):
     return render(request, 'livemanager/index.html')    
 
+@login_required(login_url='adminUser:admin_login')  # 로그인하지 않은 경우 admin_login 페이지로 리다이렉트
 def admin_list(request):
     page = request.GET.get('page', 1)  # 페이지 번호를 가져옵니다. 기본값은 1입니다.
     search_field = request.GET.get('search_field', '')  # 검색 필드를 가져옵니다. search_field라는 이름으로 GET 요청에서 검색 필드를 가져옵니다.
