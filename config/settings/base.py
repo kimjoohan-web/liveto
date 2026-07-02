@@ -74,10 +74,11 @@ INSTALLED_APPS = [
     'works.apps.WorksConfig',
     'dbupload.apps.DbuploadConfig',
     'biz.apps.BizConfig',
-    'customer.apps.CustomerConfig',
-    'livemanager.admin_member.apps.AdminMemberConfig',
+    'customer.apps.CustomerConfig',    
+    # 'livemanager.admin_member.apps.AdminMemberConfig',    
     'livemanager.user_member.apps.UserMemberConfig',
     'livemanager.event_board.apps.EventBoardConfig',
+    'adminUser.apps.AdminuserConfig',
  
 ]
 
@@ -114,9 +115,12 @@ TEMPLATES = [
     },
 ]
 
+AUTH_USER_MODEL = 'adminUser.AdminMember'
 
-
-
+# AUTHENTICATION_BACKENDS = [
+#     'livemanager.admin_member.backends.AdminMemberBackend', # 커스텀 백엔드 추가
+#     'django.contrib.auth.backends.ModelBackend', # 기본 모델도 함께 사용하려면 추가
+# ]
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 

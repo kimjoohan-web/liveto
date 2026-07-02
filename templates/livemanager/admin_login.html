@@ -21,7 +21,7 @@
       </div>
     {% endif %}
 
-    <form method="post" class="login-form" novalidate action="{% url 'livemanager:admin_login' %}">
+    <form method="post" class="login-form" novalidate action="{% url 'adminUser:admin_login' %}">
       {% csrf_token %}
       <input type="hidden" name="next" value="{{ next|default:'' }}">
 

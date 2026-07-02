@@ -16,7 +16,7 @@
 
       <div class="admin-page-head">
         <h1 class="admin-page-title">관리자 목록</h1>
-        <a href="{% url 'admin_member:admin_create' %}" class="btn-primary">
+        <a href="{% url 'adminUser:admin_create' %}" class="btn-primary">
           <i class="ti ti-plus" aria-hidden="true"></i> 관리자 등록
         </a>
       </div>
@@ -31,7 +31,7 @@
         </select>
         <input type="text" name="kw" value="{{ kw|default:'' }}" placeholder="검색어를 입력하세요" class="search-input">
         <button type="submit" class="btn-search"><i class="ti ti-search" aria-hidden="true"></i> 검색</button>
-        {% if kw %}<a href="{% url 'admin_member:admin_list' %}" class="btn-reset">초기화</a>{% endif %}
+        {% if kw %}<a href="{% url 'adminUser:admin_list' %}" class="btn-reset">초기화</a>{% endif %}
       </form>
 
       <div class="result-meta">총 <strong>{{ admin_lists.paginator.count|default:"0" }}</strong>명</div>
@@ -53,12 +53,12 @@
             <tr>
               <td class="td-num">{{ admin.admin_idx }}</td>
               <td class="td-login">{{ admin.admin_id }}</td>
-              <td><a href="{% url 'admin_member:admin_detail' admin.admin_idx %}">{{ admin.admin_name }}</a></td>
+              <td><a href="{% url 'adminUser:admin_detail' admin.admin_idx %}">{{ admin.admin_name }}</a></td>
               <td class="td-muted">{{ admin.admin_email }}</td>
               <td class="td-muted">{{ admin.admin_phone|default:"-" }}</td>
               <td class="td-muted">{{ admin.admin_date_joined|date:"Y.m.d" }}</td>
               <td class="td-center">
-                <a href="{% url 'admin_member:admin_update' admin.admin_idx %}" class="row-action" title="수정" aria-label="수정"><i class="ti ti-edit" aria-hidden="true"></i>수정</a>
+                <a href="{% url 'adminUser:admin_update' admin.admin_idx %}" class="row-action" title="수정" aria-label="수정"><i class="ti ti-edit" aria-hidden="true"></i>수정</a>
               </td>
             </tr>
             {% empty %}

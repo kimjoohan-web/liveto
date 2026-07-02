@@ -17,7 +17,7 @@
 
       <div class="admin-page-head">
         <h1 class="admin-page-title">회원 상세정보</h1>
-        <a href="{% url 'admin_member:admin_list' %}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
+        <a href="{% url 'adminUser:admin_list' %}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
       </div>
 
       {% if messages %}
@@ -41,7 +41,7 @@
             {% endif %}
           </div>
           <div class="detail-card-actions">
-            <a href="{% url 'admin_member:admin_update' admin.admin_idx %}" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> 정보 수정</a>
+            <a href="{% url 'adminUser:admin_update' admin.admin_idx %}" class="btn-edit"><i class="ti ti-edit" aria-hidden="true"></i> 정보 수정</a>
             {% if admin.admin_status == 'pending' %}
               <button type="button" class="btn-approve"><i class="ti ti-check" aria-hidden="true"></i> 승인</button>
             {% elif admin.admin_status == 'inactive' %}
@@ -90,7 +90,7 @@
               {% for event in member_events %}
               <tr>
                 <td class="td-num">{{ event.id }}</td>
-                <td class="td-title"><a href="{% url 'admin_event_detail' event.pk %}">{{ event.title|truncatechars:20 }}</a></td>
+                <td class="td-title"><a href="{% url 'adminUser:admin_event_detail' event.pk %}">{{ event.title|truncatechars:20 }}</a></td>
                 <td class="td-muted">{{ event.client|default:"-" }}</td>
                 <td class="td-muted">{{ event.created_at|date:"Y.m.d" }}</td>
               </tr>
@@ -114,7 +114,7 @@
               {% for post in member_posts %}
               <tr>
                 <td class="td-num">{{ post.id }}</td>
-                <td class="td-title"><a href="{% url 'admin_board_detail' post.pk %}">{{ post.title|truncatechars:24 }}</a></td>
+                <td class="td-title"><a href="{% url 'adminUser:admin_board_detail' post.pk %}">{{ post.title|truncatechars:24 }}</a></td>
                 <td class="td-muted">{{ post.created_at|date:"Y.m.d" }}</td>
               </tr>
               {% empty %}
@@ -137,7 +137,7 @@
   <div class="modal-box">
     <p class="modal-title">회원을 삭제하시겠습니까?</p>
     <p class="modal-desc">삭제된 회원 정보는 복구할 수 없습니다.</p>
-    <form method="post" action="{% url 'admin_member:admin_delete' admin.admin_idx %}">
+    <form method="post" action="{% url 'adminUser:admin_delete' admin.admin_idx %}">
       {% csrf_token %}
       <div class="modal-actions">
         <button type="button" class="btn-cancel" id="modal-cancel">취소</button>

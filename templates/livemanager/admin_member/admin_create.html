@@ -17,7 +17,7 @@
 
       <div class="admin-page-head">
         <h1 class="admin-page-title">{% if object %}관리자 수정{% else %}관리자 등록{% endif %}</h1>
-        <a href="{% url 'admin_member:admin_list' %}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
+        <a href="{% url 'adminUser:admin_list' %}" class="back-link"><i class="ti ti-arrow-left" aria-hidden="true"></i> 목록으로</a>
       </div>
 
       {% if messages %}
@@ -112,7 +112,7 @@
         </div>
 
         <div class="form-actions">
-          <a href="{% url 'admin_member:admin_list' %}" class="btn-cancel">취소</a>
+          <a href="{% url 'adminUser:admin_list' %}" class="btn-cancel">취소</a>
           <button type="submit" class="btn-submit">
             <i class="ti ti-check" aria-hidden="true"></i> {% if object %}수정 완료{% else %}등록하기{% endif %}
           </button>

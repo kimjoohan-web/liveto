@@ -4,8 +4,9 @@ from django.shortcuts import redirect
 from member.models import event_member
 from django.core.paginator import Paginator
 from django.utils import timezone  
-
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+@login_required(login_url='adminUser:admin_login')  # 로그인하지 않은 경우 admin_login 페이지로 리다이렉트
 def user_list(request):
 
     page = request.GET.get('page', 1)  # 페이지 번호를 가져옵니다. 기본값은 1입니다.
@@ -25,7 +26,8 @@ def user_list(request):
     
 
     return render(request, 'livemanager/user_member/member_list.html', {'page_obj': page_obj, 'kw': kw, 'search_field': search_field})
-
+    
+@login_required(login_url='adminUser:admin_login')  # 로그인하지 않은 경우 admin_login 페이지로 리다이렉트      
 def user_create(request):
     if request.method == 'POST':
         mem_id = request.POST.get('mem_id')
@@ -56,7 +58,8 @@ def user_create(request):
 
         return redirect(reverse('user_member:user_list'))  # 회원 목록 페이지로 리디렉션합니다.
     return render(request, 'livemanager/user_member/member_create.html')
-
+    
+@login_required(login_url='adminUser:admin_login')  # 로그인하지 않은 경우 admin_login 페이지로 리다이렉트      
 def user_update(request, user_idx,kw='', page=1, search_field=''):
     kw = request.GET.get('kw', '')  # 검색어를 가져옵니다. kw라는 이름으로 GET 요청에서 검색어를 가져옵니다.
     page = request.GET.get('page', 1)  # 페이지 번호를 가져옵니다. 기본값은 1입니다.
@@ -86,6 +89,7 @@ def user_update(request, user_idx,kw='', page=1, search_field=''):
     else:
         return render(request, 'livemanager/user_member/member_update.html', {'user': user, 'kw': kw, 'page': page, 'search_field': search_field})  
 
+@login_required(login_url='adminUser:admin_login')  # 로그인하지 않은 경우 admin_login 페이지로 리다이렉트
 def user_detail(request, user_idx, kw='', page=1, search_field=''):
     kw = request.GET.get('kw', '')  # 검색어를 가져옵니다. kw라는 이름으로 GET 요청에서 검색어를 가져옵니다.
     page = request.GET.get('page', 1)  # 페이지 번호를 가져옵니다. 기본값은 1입니다.
@@ -94,10 +98,12 @@ def user_detail(request, user_idx, kw='', page=1, search_field=''):
     user = event_member.objects.get(mem_idx=user_idx)  # user_idx에 해당하는 event_member 객체를 가져옵니다.
     return render(request, 'livemanager/user_member/member_detail.html', {'user': user, 'user_idx': user_idx, 'kw': kw, 'page': page, 'search_field': search_field})
 
+@login_required(login_url='adminUser:admin_login')  # 로그인하지 않은 경우 admin_login 페이지로 리다이렉트
 def user_excel_create(request):
     return render(request, 'livemanager/user_member/member_excel_create.html')
 
 
+@login_required(login_url='adminUser:admin_login')  # 로그인하지 않은 경우 admin_login 페이지로 리다이렉트
 def user_delete(request, user_idx, kw='', page=1, search_field=''):
     user = event_member.objects.get(mem_idx=user_idx)  # user_idx에 해당하는 event_member 객체를 가져옵니다.
     user.delete()  # 해당 회원 객체를 삭제합니다.

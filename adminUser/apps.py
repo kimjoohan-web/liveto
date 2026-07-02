@@ -1,7 +1,6 @@
 from django.apps import AppConfig
 
 
-class AdminMemberConfig(AppConfig):
+class AdminuserConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'livemanager.admin_member'    
-    
+    name = 'adminUser'
