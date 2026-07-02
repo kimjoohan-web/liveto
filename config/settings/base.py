@@ -115,7 +115,7 @@ TEMPLATES = [
     },
 ]
 
-# AUTH_USER_MODEL = 'adminUser.AdminMember'
+AUTH_USER_MODEL = 'adminUser.AdminMember'
 
 # AUTHENTICATION_BACKENDS = [
 #     'livemanager.admin_member.backends.AdminMemberBackend', # 커스텀 백엔드 추가
