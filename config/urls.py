@@ -29,7 +29,7 @@ urlpatterns = [
     path('wait/', include('waitboard.urls')),
     path('member/', include('member.urls')),
     path('livemanager/', include('livemanager.urls')),
-    path('board/', include('board.urls')),
+    path('board/', include('board.urls')),    
     path('company/', include('company.urls')),
     path('works/', include('works.urls')),
     path('dbupload/', include('dbupload.urls')),

@@ -79,7 +79,7 @@ INSTALLED_APPS = [
     'livemanager.user_member.apps.UserMemberConfig',
     'livemanager.event_board.apps.EventBoardConfig',
     'adminUser.apps.AdminuserConfig',
- 
+    
 ]
 
 ROOT_URLCONF = 'config.urls'

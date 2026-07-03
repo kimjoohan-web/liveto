@@ -113,7 +113,7 @@
 
         <div class="form-actions">
           <a href="{% url 'adminUser:admin_list' %}" class="btn-cancel">취소</a>
-          <button type="submit" class="btn-submit">
+          <button type="button" class="btn-submit">
             <i class="ti ti-check" aria-hidden="true"></i> {% if object %}수정 완료{% else %}등록하기{% endif %}
           </button>
         </div>
@@ -194,6 +194,46 @@
 </style>
 
 <script>
+const btn_submit = document.querySelector('.btn-submit');
+btn_submit.addEventListener('click', function(){  
+  const form = document.querySelector('.admin-form');
+  const admin_id = document.querySelector('#admin_id');
+  const admin_pw = document.querySelector('#admin_pw');
+  const admin_pw_confirm = document.querySelector('#admin_pw_confirm');
+  const admin_name = document.querySelector('#admin_name');
+  const admin_email = document.querySelector('#admin_email');
+
+  if(!admin_id.value.trim()){
+    alert("아이디를 입력해주세요.");
+    admin_id.focus();
+    return;
+  }
+  if(!admin_name.value.trim()){
+    alert("이름을 입력해주세요.");
+    admin_name.focus();
+    return;
+  }
+  if(!admin_email.value.trim()){
+    alert("이메일을 입력해주세요.");
+    admin_email.focus();
+    return;
+  }
+  if(admin_pw.value || admin_pw_confirm.value){
+    if(admin_pw.value.length < 8){
+      alert("패스워드는 최소 8자 이상이어야 합니다.");
+      admin_pw.focus();
+      return;
+    }
+    if(admin_pw.value !== admin_pw_confirm.value){
+      alert("패스워드와 패스워드 확인이 일치하지 않습니다.");
+      admin_pw_confirm.focus();
+      return;
+    }
+  }
+
+  form.submit();
+});
+
 (function(){
   document.querySelectorAll('.admin-nav-group-toggle').forEach(function(btn){
     btn.addEventListener('click', function(){

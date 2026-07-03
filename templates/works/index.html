@@ -87,39 +87,64 @@
       </div>
 
       <!-- 페이지네이션 -->
+     
+       
+
+      {% if page_obj.has_other_pages %}
+      {% with cur=page_obj.number total=page_obj.paginator.num_pages %}
       <nav class="pagination" aria-label="페이지 탐색">
+
+        <!-- PREV -->
         {% if page_obj.has_previous %}
-          <a href="?page={{ page_obj.previous_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-prev">◂PREV</a>
+          <a href="?page={{ page_obj.previous_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pager-btn pager-prev">◂PREV</a>
         {% else %}
-          <span class="page-prev is-disabled">◂PREV</span>
+          <span class="pager-btn pager-prev is-disabled">◂PREV</span>
         {% endif %}
 
-        <span class="page-numbers">
-          [
+        <span class="pager-numbers">
+
+          <!-- 첫 페이지 -->
+          {% if cur > 4 %}
+            <a href="?page=1{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pnum">1</a>
+            {% if cur > 5 %}<span class="pnum-ellipsis">···</span>{% endif %}
+          {% endif %}
+
+          <!-- 현재 페이지 앞뒤 2개 -->
           {% for num in page_obj.paginator.page_range %}
-            {% if page_obj.number == num %}
-              <strong>{{ num }}</strong>
-            {% else %}
-              <a href="?page={{ num }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}">{{ num }}</a>
+            {% if num >= cur|add:"-2" and num <= cur|add:"2" %}
+              {% if num == cur %}
+                <span class="pnum is-active">{{ num }}</span>
+              {% else %}
+                <a href="?page={{ num }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pnum">{{ num }}</a>
+              {% endif %}
             {% endif %}
-          {% empty %}<strong>1</strong>{% endfor %}
-          ]
+          {% endfor %}
+
+          <!-- 마지막 페이지 -->
+          {% if cur < total|add:"-3" %}
+            {% if cur < total|add:"-4" %}<span class="pnum-ellipsis">···</span>{% endif %}
+            <a href="?page={{ total }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pnum">{{ total }}</a>
+          {% endif %}
+
         </span>
 
+        <!-- NEXT -->
         {% if page_obj.has_next %}
-          <a href="?page={{ page_obj.next_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="page-next">NEXT▸</a>
+          <a href="?page={{ page_obj.next_page_number }}{% if selected_year %}&year={{ selected_year }}{% endif %}{% if query %}&kw={{ query }}{% endif %}{% if category %}&category={{ category }}{% endif %}" class="pager-btn pager-next">NEXT▸</a>
         {% else %}
-          <span class="page-next is-disabled">NEXT▸</span>
+          <span class="pager-btn pager-next is-disabled">NEXT▸</span>
         {% endif %}
-      </nav>
 
+      </nav>
+      {% endwith %}
+      {% endif %}
     </main>
   </div>
 
 </div>
 
 <style>
-:root{--teal-50:#ecfeff;--teal-100:#cffafe;--teal-500:#14b8a6;--teal-600:#0d9488;--teal-700:#0f766e;--ink:#1e1b4b;--r:6px}
+:root{--teal-50:#ecfeff;--teal-100:#cffafe;--teal-500:#14b8a6;--teal-600:#0d9488;--teal-700:#0f766e;--ink:#1e1b4b;--r:6px;--amb-600: #0d9488; }
 *{box-sizing:border-box}
 .page-wrap{max-width:1180px;margin:0 auto;padding:0 1.25rem;font-size:13px;color:#374151}
 
@@ -219,6 +244,28 @@
 .page-numbers a{color:#6b7280;text-decoration:none;padding:0 4px}
 .page-numbers a:hover{color:var(--teal-600)}
 .page-numbers strong{color:#fff;background:var(--teal-600);padding:2px 7px;border-radius:3px;font-weight:700}
+
+
+
+/* ───── 스마트 페이지네이션 ───── */
+.pagination{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:1.5rem;flex-wrap:wrap}
+
+/* PREV / NEXT 버튼 */
+.pager-btn{display:inline-flex;align-items:center;padding:6px 14px;border:1px solid #d1d5db;border-radius:4px;font-size:12px;font-weight:700;color:#6b7280;text-decoration:none;background:#fff;white-space:nowrap;transition:all .15s}
+.pager-btn:hover:not(.is-disabled){border-color:var(--amb-500);color:var(--amb-700);background:var(--amb-50)}
+.pager-btn.is-disabled{color:#d1d5db;cursor:default;border-color:#e5e7eb}
+
+/* 번호 묶음 */
+.pager-numbers{display:flex;align-items:center;gap:3px}
+
+/* 개별 번호 */
+.pnum{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:30px;padding:0 5px;border:1px solid #e5e7eb;border-radius:4px;font-size:12.5px;color:#4b5563;text-decoration:none;background:#fff;transition:all .15s}
+.pnum:hover{border-color:var(--amb-500);color:var(--amb-700);background:var(--amb-50)}
+.pnum.is-active{background:var(--amb-600);border-color:var(--amb-600);color:#fff;font-weight:700;cursor:default}
+
+/* 말줄임표 */
+.pnum-ellipsis{display:inline-flex;align-items:flex-end;justify-content:center;min-width:24px;font-size:12px;color:#9ca3af;letter-spacing:.05em;padding-bottom:2px}
+
 
 /* 푸터 */
 .site-footer{border-top:1px solid #e5e7eb;padding:1.75rem 0;text-align:center;color:#9ca3af;font-size:11.5px;line-height:1.8}
