@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>라이브 스트리밍 & 실시간 투표</title>
+    <!-- Video.js CSS -->
+    <link href="https://zencdn.net" rel="stylesheet" />
+    <style>
+        /* 좌우 분할 레이아웃 */
+        .container {
+            display: flex;
+            width: 100vw;
+            height: 100vh;
+            margin: 0;
+        }
+        .left-frame {
+            flex: 7;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .right-frame {
+            flex: 3;
+            background: #f4f5f7;
+            padding: 20px;
+            box-sizing: border-box;
+            border-left: 2px solid #ccc;
+        }
+        /* Video.js 스타일 조정 */
+        .video-js {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        /* 투표 UI 스타일 */
+        .vote-item {
+            margin-bottom: 15px;
+            padding: 10px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .vote-btn {
+            width: 100%;
+            padding: 10px;
+            background: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .vote-btn:hover { background: #0056b3; }
+        .bar {
+            height: 15px;
+            background: #28a745;
+            width: 0%;
+            transition: width 0.5s;
+            border-radius: 3px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <!-- 좌측 프레임: 라이브 스트리밍 (Video.js) -->
+    <div class="left-frame">
+        <video id="live-stream" class="video-js vjs-default-skin vjs-big-play-centered" controls autoplay preload="auto">
+            <!-- HLS(.m3u8) 실시간 스트리밍 주소 예시 (테스트용 공공 스트림 주소나 본인의 스트림 주소 입력) -->
+            <source src="https://unified-streaming.com" type="application/x-mpegURL">
+            <p class="vjs-no-js">이 브라우저는 비디오 재생을 지원하지 않습니다.</p>
+        </video>
+    </div>
+
+    <!-- 우측 프레임: 실시간 투표 -->
+    <div class="right-frame">
+        <h2>📊 실시간 조사</h2>
+        <div id="vote-container">
+            <!-- 웹소켓 데이터를 받아 동적으로 버튼과 그래프가 생성됩니다 -->
+        </div>
+    </div>
+</div>
+
+<!-- Video.js 스크립트 -->
+<script src="https://zencdn.net"></script>
+<script>
+    // 1. Video.js 초기화
+    const player = videojs('live-stream');
+
+    // 2. Django Channels 웹소켓 연결
+    const voteSocket = new WebSocket(
+        'ws://' + window.location.host + '/ws/vote/'
+    );
+
+    // 3. 서버로부터 투표 데이터 수신 (실시간 화면 갱신)
+    voteSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data);
+        const votes = data.votes;
+        const container = document.getElementById('vote-container');
+        container.innerHTML = ''; // 기존 UI 초기화
+
+        // 전체 투표수 계산 (퍼센트 바 표시용)
+        const totalVotes = votes.reduce((sum, item) => sum + item.votes, 0);
+
+        votes.forEach(item => {
+            const pct = totalVotes > 0 ? math.round((item.votes / totalVotes) * 100) : 0;
+            
+            const voteHtml = `
+                <div class="vote-item">
+                    <strong>${item.name}</strong> (${item.votes}표 / ${pct}%)
+                    <div class="bar" style="width: ${pct}%"></div>
+                    <button class="vote-btn" onclick="sendVote(${item.id})" style="margin-top:8px;">투표하기</button>
+                </div>
+            `;
+            container.innerHTML += voteHtml;
+        });
+    };
+
+    // 4. 투표 데이터 전송 함수
+    function sendVote(candidateId) {
+        voteSocket.send(json.stringify({
+            'candidate_id': candidateId
+        }));
+    }
+
+    voteSocket.onclose = function(e) {
+        console.error('투표 웹소켓이 예기치 않게 닫혔습니다.');
+    };
+</script>
+</body>
+</html>

@@ -39,6 +39,6 @@ urlpatterns = [
     path('livemanager/admin_member/', include('livemanager.admin_member.urls', namespace='admin_member')),
     path('livemanager/user_member/', include('livemanager.user_member.urls', namespace='user_member')),
     path('livemanager/event_board/', include('livemanager.event_board.urls', namespace='event_board')),
-    
+    path('vote/', include('vote.urls', namespace='vote')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

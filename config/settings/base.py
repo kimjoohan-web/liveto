@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     'livemanager.user_member.apps.UserMemberConfig',
     'livemanager.event_board.apps.EventBoardConfig',
     'adminUser.apps.AdminuserConfig',
+    'vote.apps.VoteConfig',  # Add the vote app here
     
 ]
 
