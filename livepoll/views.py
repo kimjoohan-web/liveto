@@ -292,8 +292,9 @@ def submit_vote(request, question_id):
 
 def process_poll(question_id, selected_choices, answer_text, user):
     question = Question.objects.get(id=question_id)
+    user_instance = member.models.event_member.objects.get(pk=user) if user else None
     answer = Answer.objects.create(
-        user=member.models.event_member.objects.get(pk=user) if user else None,
+        user_id=user_instance,
         question=question,
         answer_text=answer_text if question.question_type == 'TEXT' else None
     )
