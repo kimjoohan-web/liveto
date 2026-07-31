@@ -178,7 +178,7 @@ def go_poll(request, question_id):
 
 #request.session['mem_name'] = member[1]  저장된 값 불러오기 seession  값 유무 확인 
     if 'mem_name' not in request.session:
-        return redirect('member:member_login')  # 로그인 페이지로 리디렉션
+        return redirect('member:mem_login')  # 로그인 페이지로 리디렉션
 
     question = get_object_or_404(Question, id=question_id)
 
@@ -251,7 +251,7 @@ def modify_livestream(request, stream_id):
 
 def submit_vote(request, question_id):
     if 'mem_name' not in request.session:
-        return redirect('member:member_login')  # 로그인 페이지로 리디렉션
+        return redirect('member:mem_login')  # 로그인 페이지로 리디렉션
     user_id=request.session.get('mem_name')  # 세션에서 사용자 ID 가져오기
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
