@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-from member.models import event_member
+import member
 # import 윗단계
 # 절대경로 
 
@@ -48,9 +48,8 @@ class Choice(models.Model):
 class Answer(models.Model):
     # 투표를 제출한 유저 (비회원 투표 허용 시 null=True, blank=True)
     # user 필드는 member.event_member 테이블과 연결되어야 합니다.
-
     user = models.ForeignKey(
-        event_member,
+        'member.event_member',
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True

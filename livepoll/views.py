@@ -3,6 +3,7 @@ import json
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
 from httpx import request
+import member
 from .models import Answer, Choice, LiveStream, Question
 from .forms import QuestionForm, ChoiceFormSet
 
@@ -292,7 +293,7 @@ def submit_vote(request, question_id):
 def process_poll(question_id, selected_choices, answer_text, user):
     question = Question.objects.get(id=question_id)
     answer = Answer.objects.create(
-        user=user,
+        user=member.models.event_member.objects.get(pk=user) if user else None,
         question=question,
         answer_text=answer_text if question.question_type == 'TEXT' else None
     )
