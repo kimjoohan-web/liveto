@@ -80,6 +80,7 @@ INSTALLED_APPS = [
     'livemanager.event_board.apps.EventBoardConfig',
     'adminUser.apps.AdminuserConfig',
     'vote.apps.VoteConfig',  # Add the vote app here
+    'livepoll.apps.LivepollConfig',  # Add the livepoll app here
     
 ]
 
@@ -205,7 +206,7 @@ STATIC_ROOT=os.path.join(BASE_DIR,'/static/')
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+LOGIN_URL = '/member/mem_login/'  # 로그인 페이지 URL
 # 로그인 성공후 이동하는 URL
 LOGIN_REDIRECT_URL = '/'
 

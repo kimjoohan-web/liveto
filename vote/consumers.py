@@ -39,14 +39,21 @@ class VoteConsumer(AsyncWebsocketConsumer):
     def increment_vote(self, candidate_id):
         try:
             candidate = Candidate.objects.get(id=candidate_id)
-            candidate.votes += 1
+            candidate.total_votes += 1
             candidate.save()
         except Candidate.DoesNotExist:
             pass
 
     @database_sync_to_async
     def get_current_votes(self):
-        return list(Candidate.objects.values('id','mem_id', 'mem_Event','name', 'total_votes'))
-    
+        candidates = Candidate.objects.all()  # Reset total_votes to 0 for all candidates   
+        # data =list(candidates.values('id', 'name', 'total_votes'))
+        return list(candidates.values('id', 'name', 'total_votes'))
+        # print(f"====================================")
+        # print(f"[DEBUG] 조회된 Candidate 개수: {candidates.count()}")
+        # print(f"[DEBUG] 반환 데이터: {data}")
+        # print(f"====================================")
+        
+        # return data
 
     

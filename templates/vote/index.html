@@ -1,10 +1,14 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
     <title>라이브 스트리밍 & 실시간 투표</title>
     <!-- Video.js CSS -->
-    <link href="https://zencdn.net" rel="stylesheet" />
+    <link href="https://vjs.zencdn.net/7.20.3/video-js.css" rel="stylesheet" />
+    <script src="{% static 'jquery-3.7.1.js' %}"></script>
+    <script src="{% static '/js/video.min.js' %}"></script>
+
     <style>
         /* 좌우 분할 레이아웃 */
         .container {
@@ -74,7 +78,15 @@
 
     <!-- 우측 프레임: 실시간 투표 -->
     <div class="right-frame">
-        <h2>📊 실시간 조사</h2>
+        <h2>📊 실시간 투표</h2>
+        <div id="vote-form">
+            <form id="vote-form" onsubmit="return false;">
+                
+
+                <!-- 투표 버튼은 웹소켓 데이터를 받아 동적으로 생성됩니다 -->
+            </form>
+        </div>
+        <div id="vote_title" style="margin-top: 20px; font-weight: bold;">투표 현황</div>
         <div id="vote-container">
             <!-- 웹소켓 데이터를 받아 동적으로 버튼과 그래프가 생성됩니다 -->
         </div>
@@ -82,14 +94,15 @@
 </div>
 
 <!-- Video.js 스크립트 -->
-<script src="https://zencdn.net"></script>
+
 <script>
     // 1. Video.js 초기화
     const player = videojs('live-stream');
 
     // 2. Django Channels 웹소켓 연결
+    const wsScheme = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
     const voteSocket = new WebSocket(
-        'ws://' + window.location.host + '/ws/vote/'
+        wsScheme + window.location.host + '/ws/vote/'
     );
 
     // 3. 서버로부터 투표 데이터 수신 (실시간 화면 갱신)
@@ -100,14 +113,14 @@
         container.innerHTML = ''; // 기존 UI 초기화
 
         // 전체 투표수 계산 (퍼센트 바 표시용)
-        const totalVotes = votes.reduce((sum, item) => sum + item.votes, 0);
+        const totalVotes = votes.reduce((sum, item) => sum + item.total_votes, 0);
 
         votes.forEach(item => {
-            const pct = totalVotes > 0 ? math.round((item.votes / totalVotes) * 100) : 0;
+            const pct = totalVotes > 0 ? Math.round((item.total_votes / totalVotes) * 100) : 0;
             
             const voteHtml = `
                 <div class="vote-item">
-                    <strong>${item.name}</strong> (${item.votes}표 / ${pct}%)
+                    <strong>${item.name}</strong> (${item.total_votes}표 / ${pct}%)
                     <div class="bar" style="width: ${pct}%"></div>
                     <button class="vote-btn" onclick="sendVote(${item.id})" style="margin-top:8px;">투표하기</button>
                 </div>
@@ -118,7 +131,7 @@
 
     // 4. 투표 데이터 전송 함수
     function sendVote(candidateId) {
-        voteSocket.send(json.stringify({
+        voteSocket.send(JSON.stringify({
             'candidate_id': candidateId
         }));
     }

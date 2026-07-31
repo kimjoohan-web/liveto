@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>라이브 스트림 목록</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .badge-live {
+            background-color: #dc3545;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+<div class="container py-5">
+    <!-- 헤더 영역 -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2 class="fw-bold mb-1">라이브 스트림 목록</h2>
+            <p class="text-muted mb-0">현재 등록된 스트리밍 방송 및 지난 방송 목록입니다.</p>
+        </div>
+        <!-- 방송 등록 페이지로 이동하는 버튼 -->
+        <a href="/livepoll/create_livestream/" class="btn btn-primary fw-semibold">
+            + 새 스트림 등록
+        </a>
+    </div>
+
+    <!-- 스트림 카드 목록 -->
+    <div class="row g-4">
+        {% for stream in streams %}
+        <div class="col-md-6 col-lg-4">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body d-flex flex-column">
+                    <!-- 상태 뱃지 및 상태 안내 -->
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        {% if stream.is_live %}
+                            <span class="badge badge-live text-white px-2 py-1">● LIVE</span>
+                        {% else %}
+                            <span class="badge bg-secondary px-2 py-1">대기 중</span>
+                        {% endif %}
+                        <small class="text-muted">{{ stream.created_at|date:"Y-m-d H:i" }}</small>
+                    </div>
+
+                    <!-- 방송 제목 -->
+                    <h5 class="card-title fw-bold text-dark mb-2">
+                        {{ stream.title }}
+                    </h5>
+
+                    <!-- 스트림 URL 경로 표시 -->
+                    <p class="card-text text-muted small text-truncate mb-4">
+                        <code>{{ stream.stream_url }}</code>
+                    </p>
+
+                    <!-- 시청/관리 버튼 (하단 고정) -->
+                    <div class="mt-auto d-flex gap-2">
+                         {% if stream.is_live %}
+                        <a href="/livepoll/stream_view/{{ stream.id }}/" class="btn btn-outline-primary w-100 fw-semibold">
+                            방송 보기
+                        </a>
+                        {% else %}
+                        <a href="/livepoll/modify/{{ stream.id }}/" class="btn btn-outline-secondary w-100 fw-semibold">
+                            수정하기
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <!-- 등록된 방송이 없을 때 -->
+        <div class="col-12 text-center py-5">
+            <p class="text-muted fs-5 mb-3">등록된 라이브 스트림이 없습니다.</p>
+            <a href="/livepoll/create_livestream/" class="btn btn-primary">첫 방송 등록하기</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Bootstrap 5 JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

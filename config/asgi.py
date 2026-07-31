@@ -1,6 +1,7 @@
 import os
 import django
 
+import livepoll
 import vote
 import waitboard
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "config.settings.prod")
@@ -13,6 +14,7 @@ from django.core.asgi import get_asgi_application
 import chat.routing
 import waitboard.routing
 import vote.routing
+import livepoll.routing
 # from mysite import chat
 
 
@@ -21,7 +23,7 @@ application = ProtocolTypeRouter({
   "http": get_asgi_application(),
   "websocket": AuthMiddlewareStack(
         URLRouter(
-            chat.routing.websocket_urlpatterns + waitboard.routing.websocket_urlpatterns + vote.routing.websocket_urlpatterns
+            chat.routing.websocket_urlpatterns + waitboard.routing.websocket_urlpatterns + vote.routing.websocket_urlpatterns + livepoll.routing.websocket_urlpatterns
         )
     ),
 })

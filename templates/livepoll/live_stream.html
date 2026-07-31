@@ -1,0 +1,66 @@
+
+<!-- live_stream.html -->
+<div style="display: flex; width: 100%; height: 100vh;">
+    <!-- 왼쪽 프레임: Video.js 라이브 스트리밍 -->
+    <div style="width: 70%; background: #000;">
+        <video id="my-video" class="video-js vjs-default-skin" controls autoplay preload="auto" width="100%" height="100%">
+            <source src="{{ stream.stream_url }}" type="application/x-mpegURL">
+        </video>
+    </div>
+
+    <!-- 오른쪽 프레임: 실시간 투표 섹션 -->
+    <div id="poll-section" style="width: 30%; padding: 20px; border-left: 1px solid #ccc; overflow-y: auto;">
+        <h3>실시간 투표 및 퀴즈</h3>
+        <div id="poll-container">
+            <p style="color: #666;">현재 진행 중인 투표가 없습니다. 관리자의 출제를 기다려주세요.</p>
+        </div>
+    </div>
+</div>
+
+<!-- Video.js 및 웹소켓 스크립트 -->
+<link href="https://zencdn.net" rel="stylesheet" />
+<script src="https://zencdn.net"></script>
+<script>
+    // Video.js 초기화
+    const player = videojs('my-video');
+
+    // 웹소켓 연결 (서버 주소 설정)
+    const streamId = "{{ stream.id }}";
+    const pollSocket = new WebSocket(`ws://${window.location.host}/ws/poll/${streamId}/`);
+
+    pollSocket.onmessage = function(e) {
+        const data = json.parse(e.data);
+        const container = document.getElementById('poll-container');
+
+        // 관리자가 새 문제를 냈을 때 UI 그리기
+        if (data.type === 'NEW_QUESTION') {
+            let html = `<h4>${data.text}</h4><form id="vote-form">`;
+            
+            if (data.q_type === 'SINGLE') {
+                data.choices.forEach(c => {
+                    html += `<label><input type="radio" name="choice" value="${c.id}"> ${c.text}</label><br>`;
+                });
+            } else if (data.q_type === 'MULTIPLE') {
+                data.choices.forEach(c => {
+                    html += `<label><input type="checkbox" name="choice" value="${c.id}"> ${c.text}</label><br>`;
+                });
+            } else if (data.q_type === 'TEXT') {
+                html += `<textarea id="text-answer" placeholder="답변을 입력하세요" rows="4" style="width:100%;"></textarea><br>`;
+            }
+            
+            html += `<button type="button" onclick="submitVote(${data.question_id}, '${data.q_type}')">제출하기</button></form>`;
+            container.innerHTML = html;
+        }
+        
+        // 투표 결과가 실시간으로 업데이트될 때 (차트 또는 백분율 갱신)
+        if (data.type === 'POLL_RESULT') {
+            // 여기에 실시간 결과 화면(예: 그래프 바 애니메이션 등)을 업데이트하는 돔(DOM) 조작 로직을 작성합니다.
+            console.log("실시간 결과 데이터:", data.results);
+        }
+    };
+
+    function submitVote(questionId, qType) {
+        // 유저가 선택하거나 작성한 값을 읽어와 웹소켓 또는 일반 AJAX POST로 백엔드에 제출합니다.
+        // 백엔드는 답변을 저장한 후 위의 `update_results` 전송 함수를 작동시킵니다.
+    }
+</script>

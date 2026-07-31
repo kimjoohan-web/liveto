@@ -11,11 +11,11 @@ class Candidate(models.Model):
     
 
 class VoteRecord(models.Model):
-    mem_id = models.ForeignKey('member.event_member', on_delete=models.CASCADE)
+    mem_idx = models.ForeignKey('member.event_member', on_delete=models.CASCADE , related_name='vote_records')
     name = models.CharField(max_length=100)
-    candidate_id = models.ForeignKey(Candidate, on_delete=models.CASCADE)
+    candidate = models.ForeignKey(Candidate, on_delete=models.CASCADE)
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"{self.mem_id} voted for {self.name} at {self.timestamp}"
+        return f"{self.mem_idx} voted for {self.name} at {self.timestamp}"
 
