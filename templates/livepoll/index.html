@@ -31,7 +31,7 @@
     const streamId = "{{ stream.id }}";
     const protocol = window.location.protocol === "https:" ? "wss" : "ws";
     const pollSocket = new WebSocket(`${protocol}://${window.location.host}/ws/live_poll_${streamId}/`);
-    
+    let hasVoted = false;
     pollSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
         const container = document.getElementById('poll-container');
@@ -40,6 +40,7 @@
         console.log("data.question_id:", data.question_id);
         // 관리자가 새 문제를 냈을 때 UI 그리기
         if (data.type === 'NEW_QUESTION') {
+            hasVoted = false;
             $("#poll-container").html('');
             let html = `<h4>${data.text}</h4><form id="vote-form">`;
             
@@ -62,33 +63,40 @@
         
         // 투표 결과가 실시간으로 업데이트될 때 (차트 또는 백분율 갱신)
         if (data.type === 'POLL_RESULT') {
-
-            const polls = data.results;
-             
-            console.log("주관식 답변:", data.results);
-            $("#poll-container").html('<p style="color: #666;">투표가 제출되었습니다. 결과를 기다려주세요.</p>');
-            // 주관시으로 답변이 제출되었을 때 결과를 표시
-            let resultHtml = '';
-            if (data.results && data.results.length > 0 && data.results[0].answer_text) {
-                resultHtml += `<h4>주관식 답변</h4>`;
-                polls.forEach(r => {
-                    resultHtml += `<p>${r.answer_text}</p>`;
-                });
-            } else {
-                resultHtml += `<h4>투표 결과</h4>`;
-                const totalPolls = polls.reduce((sum, r) => sum + r.votes_count, 0);
-                polls.forEach(r => {
-                    const pct = totalPolls > 0 ? Math.round((r.votes_count / totalPolls) * 100) : 0;
-                    resultHtml += `<p>${r.choice_text}: ${r.votes_count}표 (${pct}%)</p>`;
-                    resultHtml += `<div style="background: #eee; width: 100%; height: 20px; border-radius: 5px; margin-bottom: 10px;">
-                                    <div style="background: #007bff; width: ${pct}%; height: 100%; border-radius: 5px;"></div>
-                                   </div>`;
-                });
-            }
-            $("#poll-container").html(resultHtml);
+            if (hasVoted) {
+               const polls = data.results;
+            
+                console.log("주관식 답변:", data.results);
+                $("#poll-container").html('<p style="color: #666;">투표가 제출되었습니다. 결과를 기다려주세요.</p>');
+                // 주관시으로 답변이 제출되었을 때 결과를 표시
+                let resultHtml = '';
+                if (data.results && data.results.length > 0 && data.results[0].answer_text) {
+                    resultHtml += `<h4>주관식 답변</h4>`;
+                    polls.forEach(r => {
+                        resultHtml += `<p>${r.answer_text}</p>`;
+                    });
+                } else {
+                    resultHtml += `<h4>투표 결과</h4>`;
+                    const totalPolls = polls.reduce((sum, r) => sum + r.votes_count, 0);
+                    polls.forEach(r => {
+                        const pct = totalPolls > 0 ? Math.round((r.votes_count / totalPolls) * 100) : 0;
+                        resultHtml += `<p>${r.choice_text}: ${r.votes_count}표 (${pct}%)</p>`;
+                        resultHtml += `<div style="background: #eee; width: 100%; height: 20px; border-radius: 5px; margin-bottom: 10px;">
+                                        <div style="background: #007bff; width: ${pct}%; height: 100%; border-radius: 5px;"></div>
+                                    </div>`;
+                    });
+                }
+                
+                $("#poll-container").html(resultHtml);
 
             // 여기에 실시간 결과 화면(예: 그래프 바 애니메이션 등)을 업데이트하는 돔(DOM) 조작 로직을 작성합니다.
-            console.log("실시간 결과 데이터:", data.results);
+                console.log("실시간 결과 데이터:", data.results);
+            } else {
+                // 아직 투표를 제출하지 않은 경우 결과를 보여주지 않음
+                console.log("투표 결과 수신 (아직 투표하지 않음):", data.results);
+            }
+            
+            
         }
         if (data.type ==="NO_QUESTION"){
             $("#poll-container").html('<p style="color: #666;">현재 진행 중인 투표가 없습니다. 관리자의 출제를 기다려주세요.</p>');
@@ -124,6 +132,7 @@
                 'answer_text': answerText || ''              
             }),
             success: function(response) {
+                hasVoted = true;
                 alert('투표가 성공적으로 제출되었습니다!');
                 // 제출 후 UI 초기화 또는 다른 처리
                
