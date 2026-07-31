@@ -29,7 +29,8 @@
 
     // 웹소켓 연결 (서버 주소 설정)
     const streamId = "{{ stream.id }}";
-    const pollSocket = new WebSocket(`${window.location.protocol === 'https:' ? 'wss://' : 'ws://'}${window.location.host}/ws/live_poll_${streamId}/`);
+    const protocol = window.location.protocol === "https:" ? "wss" : "ws";
+    const pollSocket = new WebSocket(`${protocol}://${window.location.host}/live_poll_${streamId}/`);
 
     pollSocket.onmessage = function(e) {
         const data = JSON.parse(e.data);
