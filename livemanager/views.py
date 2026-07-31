@@ -124,7 +124,7 @@ def member_input(request):
         sql_str += f", '{mem_Event}'"
         sql_str += f", '{timezone.now()}'"
         sql_str += f", '{Country}')"
-        
+        print(f"SQL Insert Query: {sql_str}")  # 디버깅용
         try:
             with connection.cursor() as cursor:
                 cursor.execute(sql_str)
