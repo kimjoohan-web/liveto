@@ -50,7 +50,7 @@ class Answer(models.Model):
     # user 필드는 member.event_member 테이블과 연결되어야 합니다.
 
     user = models.ForeignKey(
-        'member.event_member.mem_idx',  # event_member 모델의 mem_idx 필드와 연결
+        'member.event_member',  # event_member 모델의 mem_idx 필드와 연결
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True
