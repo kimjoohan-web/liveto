@@ -39,7 +39,7 @@
           </ul>
         </div>
 
-      <div class="admin-nav-group {% if current_g == 'admin_member' %}is-open{% endif %}">
+       <div class="admin-nav-group {% if current_g == 'admin_member' %}is-open{% endif %}">
           <button type="button" class="admin-nav-group-toggle" data-target="grp-admin">
             <i class="ti ti-users admin-nav-icon" aria-hidden="true"></i>
             <span>관리자관리</span>
@@ -49,5 +49,17 @@
             <li><a href="{% url 'adminUser:admin_list' %}" {% if current_page == 'admin_list' %}class="is-active"{% endif %}>관리자 리스트</a></li>            
           </ul>
         </div>
+       <div class="admin-nav-group {% if current_g == 'community' %}is-open{% endif %}">
+          <button type="button" class="admin-nav-group-toggle" data-target="grp-community">
+            <i class="ti ti-message-2 admin-nav-icon" aria-hidden="true"></i>
+            <span>투표및퀴즈관리</span>
+            <i class="ti ti-chevron-down admin-nav-chevron" aria-hidden="true"></i>
+          </button>
+          <ul class="admin-nav-sub" id="grp-community">
+            <li><a href="{% url 'livepoll:livestream_list' %}" {% if current_page == 'livestream_list' %}class="is-active"{% endif %}>라이브스트림관리</a></li>
+            <li><a href="{% url 'livepoll:livepoll_list' %}" {% if current_page == 'livepoll_list' %}class="is-active"{% endif %}>질문관리</a></li>
+            
+          </ul>
+        </div> 
       </nav>
     </aside>
