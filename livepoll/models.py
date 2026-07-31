@@ -1,6 +1,6 @@
 from django.db import models
 from django.conf import settings
-
+from member.models import event_member
 # import 윗단계
 # 절대경로 
 
@@ -50,8 +50,7 @@ class Answer(models.Model):
     # user 필드는 member.event_member 테이블과 연결되어야 합니다.
 
     user = models.ForeignKey(
-        user_id='mem_idx',  # member.event_member 테이블의 기본 키를 참조
-        to='member.event_member',  # 참조할 모델 지정
+        event_member,
         on_delete=models.SET_NULL, 
         null=True, 
         blank=True
