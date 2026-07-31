@@ -37,7 +37,7 @@ def member_input(request):
         mem_Event = 0
             
 
-        strsql = "INSERT INTO event_member (mem_id, mem_name, mem_dept,  mem_email1, mem_email2,  Country, mem_HP, mem_hospital, mem_input_date, mem_Event) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
+        strsql = "INSERT INTO event_member (mem_id, mem_name, mem_dept,  mem_email1, mem_email2,  Country, \"mem_HP\", mem_hospital, mem_input_date, mem_Event) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)"
         params = (mem_HP, mem_name, mem_dept, mem_email1, mem_email2, mem_country, mem_HP, mem_hospital, timezone.now(), mem_Event)
         with connection.cursor() as cursor:
             cursor.execute(strsql, params)
