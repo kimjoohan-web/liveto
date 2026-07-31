@@ -66,13 +66,19 @@
             <div class="form-group">
                 <label>현재 투표 진행 여부</label>
                 {{ question_form.is_voting_now }}
+                
             </div>
             <button type="button" class="btn btn-secondary" id="add-choice-btn" style="margin-top:10px;">+ 보기 추가</button>
             <button type="button" class="btn btn-secondary" id="remove-choice-btn" style="margin-top:10px;">- 보기 삭제</button>
         </div>
 
         <div style="margin-top: 20px; text-align: right;">
-            <button type="buttnn" class="btn btn-primary btn_submit">질문 수정하기</button>
+            {% if answers.exists %}
+                <span style="color: red;">⚠️ 이미 투표가 진행된 질문은 수정할 수 없습니다.</span>
+            {% else %}
+                <button type="button" class="btn btn-primary btn_submit">질문 수정하기</button>
+            {% endif %}
+            <button type="button" class="btn btn-primary btn_list">목록가기</button>
         </div>       
         
     </form>
@@ -83,6 +89,12 @@
     const typeSelect = document.getElementById('id_question_type');
     const choiceSection = document.getElementById('choice-section');
     const submitButton = document.querySelector('.btn_submit');
+    const listButton = document.querySelector('.btn_list');
+
+
+    listButton.addEventListener('click', function() {
+        window.location.href = "{% url 'livepoll:livepoll_list' %}";
+    });
 
     submitButton.addEventListener('click', function(event) {
         event.preventDefault(); // 기본 제출 동작 방지

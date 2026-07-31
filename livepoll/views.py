@@ -2,6 +2,7 @@ import json
 
 from django.shortcuts import render, redirect,get_object_or_404
 from django.contrib.auth.decorators import login_required
+from httpx import request
 from .models import Answer, Choice, LiveStream, Question
 from .forms import QuestionForm, ChoiceFormSet
 
@@ -10,8 +11,10 @@ from channels.layers import get_channel_layer
 from django.db import connection
 
 # Create your views here.
-@login_required
+
 def index(request):
+    if 'mem_name' not in request.session:
+        return redirect('member:mem_login')  # 로그인 페이지로 리디렉션
     stream = LiveStream.objects.filter(is_live=True).first()
     return render(request, 'livepoll/index.html', {'stream': stream})
 
@@ -61,7 +64,7 @@ def create_poll(request):
         'formset': formset,
     })
 
-
+@login_required(login_url='adminUser:admin_login')
 def livepoll_list(request):
     questions = Question.objects.all().order_by('-created_at')
     choices = {question.id: question.choices.all() for question in questions}    
@@ -73,6 +76,7 @@ def modify_poll(request, question_id):
     print(f"Request method: {request.method}")  # 디버깅용 출력
 
     question = get_object_or_404(Question, id=question_id)     
+    
 
   
 
@@ -152,11 +156,15 @@ def modify_poll(request, question_id):
         
         question_form = QuestionForm(instance=question)
         formset = ChoiceFormSet(instance=question)
+        answers = Answer.objects.filter(question=question)
+        # 답변한 내역이 존재한다면 
+        
     
     return render(request, 'livepoll/modify_poll.html', {
         'question_form': question_form,
         'formset': formset,
         'question_id': question_id,
+        'answers': answers,
     })
 
 def delete_poll(request, question_id):
@@ -165,8 +173,13 @@ def delete_poll(request, question_id):
     return redirect('livepoll:livepoll_list')
 
 
-@login_required
+
 def go_poll(request, question_id):
+
+#request.session['mem_name'] = member[1]  저장된 값 불러오기 seession  값 유무 확인 
+    if 'mem_name' not in request.session:
+        return redirect('member:member_login')  # 로그인 페이지로 리디렉션
+
     question = get_object_or_404(Question, id=question_id)
 
     # 먼저 live_stream_id 의 is_voting_now 상태를 False로 초기화
@@ -235,8 +248,11 @@ def modify_livestream(request, stream_id):
 
 
 
-@login_required
+
 def submit_vote(request, question_id):
+    if 'mem_name' not in request.session:
+        return redirect('member:member_login')  # 로그인 페이지로 리디렉션
+    user_id=request.session.get('mem_name')  # 세션에서 사용자 ID 가져오기
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
         qType = question.question_type
@@ -253,7 +269,7 @@ def submit_vote(request, question_id):
             answer_text = data.get('answer_text', '').strip()
             print(f"Answer text: {answer_text}")  # 디버깅용 출력
         # 투표 처리 로직 호출
-        process_poll(question_id, selected_choices if qType in ['SINGLE', 'MULTIPLE'] else [], answer_text if qType == 'TEXT' else None, request.user)
+        process_poll(question_id, selected_choices if qType in ['SINGLE', 'MULTIPLE'] else [], answer_text if qType == 'TEXT' else None, user_id)
 
         # WebSocket을 통해 실시간으로 투표 결과를 알림
         channel_layer = get_channel_layer()

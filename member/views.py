@@ -110,7 +110,11 @@ def member_delete(request, mem_idx):
 
 
 def mem_login(request):
+    
     if request.method == 'POST':
+
+        next_url = request.GET.get('next') or request.POST.get('next')  # 로그인 후 이동할 URL을 가져옵니다. 없으면 None이 됩니다.
+
         mem_name = request.POST.get('mem_name')
         mem_HP = request.POST.get('mem_HP')
 
@@ -128,7 +132,10 @@ def mem_login(request):
             request.session['mem_HP'] = member[2]  # 예: 회원 전화번호
             request.session['mem_id'] = member[2]  # 예: 회원 ID
             # 필요한 다른 정보도 세션에 저장 가능
-
+            print(f"next_url: {next_url}")  # 디버깅용
+            print(f"Session data: {request.session.items()}")  # 디버깅용
+            if next_url:
+                return redirect(next_url)  # 로그인 후 이동할 URL이 있는 경우 해당 URL로 리디렉션
             return redirect('board:index')  # 로그인 성공 후 리디렉션할 URL
         else:
             # 로그인 실패 시 에러 메시지 전달

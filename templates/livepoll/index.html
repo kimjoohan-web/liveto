@@ -89,6 +89,9 @@
             // 여기에 실시간 결과 화면(예: 그래프 바 애니메이션 등)을 업데이트하는 돔(DOM) 조작 로직을 작성합니다.
             console.log("실시간 결과 데이터:", data.results);
         }
+        if (data.type ==="NO_QUESTION"){
+            $("#poll-container").html('<p style="color: #666;">현재 진행 중인 투표가 없습니다. 관리자의 출제를 기다려주세요.</p>');
+        }
     };
 
     function submitVote(questionId, qType) {
