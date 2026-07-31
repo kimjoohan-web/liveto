@@ -106,7 +106,7 @@ def member_input(request):
         sql_str = f"INSERT INTO event_member ("
         sql_str += f" mem_id"
         sql_str += f",mem_name"
-        sql_str += f",""mem_HP"""
+        sql_str += f",mem_hp"
         sql_str += f",mem_email1"
         sql_str += f",mem_email2"
         sql_str += f",mem_hospital"
@@ -205,7 +205,7 @@ def member_modify(request, mem_idx):
         
         sql_str = f"UPDATE event_member SET "
         sql_str += f" mem_name='{mem_name}'"
-        sql_str += f", mem_HP='{mem_HP}'"
+        sql_str += f", mem_hp='{mem_HP}'"
         sql_str += f", mem_email1='{mem_email1}'"
         sql_str += f", mem_email2='{mem_email2}'"
         sql_str += f", mem_hospital='{mem_hospital}'"
@@ -264,7 +264,7 @@ def member_excel_download(request):
     sql_str += " ,mem_event"
     sql_str += " ,mem_id"
     sql_str += " ,mem_name"
-    sql_str += " ,mem_HP"
+    sql_str += " ,mem_hp"
     sql_str += " ,mem_email1"
     sql_str += " ,mem_email2"
     sql_str += " ,mem_hospital"
@@ -331,7 +331,7 @@ def member_excel_upload(request):
                 Country =""
                
                 #엑셀 입력전에  중복체크
-                sql_str_exit = f"SELECT mem_idx FROM event_member WHERE mem_HP='{mem_HP}' and mem_event='{mem_Event}'"
+                sql_str_exit = f"SELECT mem_idx FROM event_member WHERE mem_hp='{mem_HP}' and mem_event='{mem_Event}'"
                 with connection.cursor() as cursor:
                     cursor.execute(sql_str_exit)  # 실제 테이블 이름으로 변경
                     row = cursor.fetchone()
@@ -341,7 +341,7 @@ def member_excel_upload(request):
                         sql_str = f"INSERT INTO event_member ("
                         sql_str += f" mem_id"
                         sql_str += f" ,mem_name"
-                        sql_str += f", mem_HP "
+                        sql_str += f", mem_hp "
                         sql_str += f", mem_email1"
                         sql_str += f", mem_email2"
                         sql_str += f", mem_hospital"
