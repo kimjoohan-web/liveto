@@ -14,7 +14,7 @@ from django.db import connection
 
 def index(request):
     if 'mem_name' not in request.session:
-        return redirect('member:mem_login')  # 로그인 페이지로 리디렉션
+        return redirect(f'member:mem_login?next={request.path}')  # 로그인 페이지로 리디렉션
     stream = LiveStream.objects.filter(is_live=True).first()
     return render(request, 'livepoll/index.html', {'stream': stream})
 
@@ -251,7 +251,7 @@ def modify_livestream(request, stream_id):
 
 def submit_vote(request, question_id):
     if 'mem_name' not in request.session:
-        return redirect('member:member_login')  # 로그인 페이지로 리디렉션
+        return redirect(f'/member/login/?next={request.path}')  # 로그인 페이지로 리디렉션
     user_id=request.session.get('mem_name')  # 세션에서 사용자 ID 가져오기
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
