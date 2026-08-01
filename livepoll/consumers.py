@@ -78,7 +78,8 @@ class PollConsumer(AsyncWebsocketConsumer):
     def get_current_question(self):
         from .models import Question
         try:
-            question = Question.objects.filter(live_stream_id=self.stream_id, is_voting_now=True).latest('id')
+            question = Question.objects.filter(live_stream_id=self.stream_id, is_voting_now=True).order_by('-id').first()
+            # order_by('-id')를 사용하여 가장 최근에 생성된 질문을 가져옵니다.
             print(f"Current question fetched: {question.question_text}")  # 디버깅용
             return {               
                 'question_id': question.id,
