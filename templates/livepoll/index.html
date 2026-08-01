@@ -109,6 +109,8 @@
         // 백엔드는 답변을 저장한 후 위의 `update_results` 전송 함수를 작동시킵니다.
         let selectedChoices = [];
         let answerText = '';
+        hasVoted = true; //먼저 true 로 설정
+         console.log("투표 제출 성공1:", hasVoted);
        if (qType === 'SINGLE') {
             selectedChoices = [document.querySelector('input[name="choice"]:checked')?.value];
         } else if (qType === 'MULTIPLE') {
@@ -133,9 +135,9 @@
                 'answer_text': answerText || ''              
             }),
             success: function(response) {
-                hasVoted = true;
+               
                 alert('투표가 성공적으로 제출되었습니다!');
-                console.log("투표 제출 성공1:", hasVoted);
+               
                 // 제출 후 UI 초기화 또는 다른 처리
                
                 // 필요시 추가 로직 (예: 결과 화면으로 전환)
